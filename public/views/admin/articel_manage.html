@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>废宝--环保文章管理</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="../../public/css/bootstrap.css" />
+    <link rel="stylesheet" href="../../public/css/style.css" />
+    <link rel="stylesheet" href="../../public/css/admin/style.css" />
+    <style type="text/css">
+        #article_content{
+            resize: none;
+            width: 700px;
+            height: 350px;
+        }
+    </style>
+</head>
+<body>
+<div class="jumbotron">
+    <h1>环保文章管理</h1>
+</div>
+
+<nav class="navbar navbar-default">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#indexNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse" id="indexNavbar">
+            <ul class="nav navbar-nav">
+                <li><a href="index.html"><span class="glyphicon glyphicon-subscript"></span> 首页</a></li>
+                <li><a href="recycle_waste_manage.html"><span class="glyphicon glyphicon-list"></span> 废品回收管理</a></li>
+                <li><a href="mall_manage.html"><span class="glyphicon glyphicon-fire"></span> 网上商场管理</a></li>
+                <li class="active"><a href="articel_manage.html"><span class="glyphicon glyphicon-fire"></span> 环保文章管理</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation"  class="active"><a href="#add_article" aria-controls="messages" role="tab" data-toggle="tab">添加文章</a></li>
+        <li role="presentation"><a href="#existing_article" aria-controls="home" role="tab" data-toggle="tab">已有文章</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <!--添加新文章-->
+        <div role="tabpanel" class="tab-pane active" id="add_article">
+            <div class="container">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="name" class="col-sm-2 col-md-2 control-label">文章标题:</label>
+                        <div class="col-sm-4 col-md-4">
+                            <input type="text" class="form-control" id="name" name="name" placeholder="文章标题">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="summary" class="col-sm-2 control-label">简介:</label>
+                        <div class="col-sm-4 col-md-4">
+                            <input type="text" class="form-control" name="summary" id="summary" placeholder="简介">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="author_name" class="col-sm-2 control-label">作者姓名:</label>
+                        <div class="col-sm-4 col-md-4">
+                            <input type="text" class="form-control" name="author_name" id="author_name" placeholder="作者姓名">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="date" class="col-sm-2 control-label">日期:</label>
+                        <div class="col-sm-4 col-md-4">
+                            <input type="text" class="form-control" name="date" id="date" placeholder="编辑时间">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="photo" class="col-sm-2 control-label">图片:</label>
+                        <div class="col-sm-4 col-md-4">
+                            <input type="file" name="article_photo" id="photo">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="content" class="col-sm-2 control-label">文章内容:</label>
+                        <div class="col-sm-4 col-md-4">
+                            <textarea name="article_content" id="content"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="state" class="col-sm-2 control-label">是否上架:</label>
+                        <div class="col-sm-4 col-md-4">
+                            <select class="form-control" id="state" name="state">
+                                <option value="">上架</option>
+                                <option value="">下架</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-4 col-md-4">
+                            <button type="reset" class="btn btn-default">重写</button>
+                            <button type="submit" class="btn btn-success">提交</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!--已有文章-->
+        <div role="tabpanel" class="tab-pane text-center" id="existing_article">
+            <div class="container">
+                <form class="form-inline">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="请输入文章日期">
+                        <button type="submit" class="btn btn-success">搜索</button>
+                    </div>
+                </form>
+                <table class="table table-hover">
+                    <caption>环保文章</caption>
+                    <tr>
+                        <td>标题</td>
+                        <td>简介</td>
+                        <td>作者</td>
+                        <td>时间</td>
+                        <td>操作</td>
+                    </tr>
+                    <tr>
+                        <td>巴西热带雨林奇迹</td>
+                        <td>揭开热带雨林神秘面纱,探索生命奥义</td>
+                        <td>庄叶</td>
+                        <td>2016-1-12</td>
+                        <td>
+                            <a class="btn btn-default" href="article_edit_article.html" target="_blank">文章详情</a>
+                            <a class="btn btn-default" href="article_edit_article.html" target="_blank">编辑</a>
+                            <button class="btn btn-default">下架</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>巴西热带雨林奇迹</td>
+                        <td>揭开热带雨林神秘面纱,探索生命奥义</td>
+                        <td>庄叶</td>
+                        <td>2016-1-12</td>
+                        <td>
+                            <a class="btn btn-default" href="article_edit_article.html" target="_blank">文章详情</a>
+                            <a class="btn btn-default" href="article_edit_article.html" target="_blank">编辑</a>
+                            <button class="btn btn-default">下架</button>
+                        </td>
+                    </tr><tr>
+                    <td>巴西热带雨林奇迹</td>
+                    <td>揭开热带雨林神秘面纱,探索生命奥义</td>
+                    <td>庄叶</td>
+                    <td>2016-1-12</td>
+                    <td>
+                        <a class="btn btn-default" href="article_edit_article.html" target="_blank">文章详情</a>
+                        <a class="btn btn-default" href="article_edit_article.html" target="_blank">编辑</a>
+                        <button class="btn btn-default">下架</button>
+                    </td>
+                </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="../../public/js/jquery-1.11.3.js"></script>
+<script src="../../public/js/bootstrap.js"></script>
+
+</body>
+</html>

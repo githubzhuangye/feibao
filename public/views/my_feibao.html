@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>废宝--我的废宝</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="../public/css/bootstrap.css" />
+    <link rel="stylesheet" href="../public/css/style.css" />
+    <style type="text/css">
+        .nav-tabs > li > a{
+            color: #5cb85c;
+        }
+        .nav-tabs > li.active > a,.nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus{
+            background-color: #5cb85c;
+            color: #fcfcfc;
+        }
+    </style>
+</head>
+<body>
+<div class="jumbotron">
+    <h1>我的废宝,注意。</h1>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <a href="index.html" ><img src="../public/imgs/logo_h50.png" alt="logo" class="logo"/></a>
+        </div>
+        <div class="col-md-7">
+            <form class="form-inline pull-left">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="请输入废品类别">
+                    <button type="submit" class="btn btn-success">搜索</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-2">
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#login_modal">登录</button>
+                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#register_modal">注册</button>
+            </div>
+        </div>
+    </div>
+</div>
+<nav class="navbar navbar-default">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#indexNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse" id="indexNavbar">
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">商品类别<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#"> 干果类</a></li>
+                        <li><a href="#"> 零食</a></li>
+                        <li><a href="#"> 纸巾</a></li>
+                        <li><a href="#"> 日常用品</a></li>
+                        <li><a href="#"> 生鲜</a></li>
+                    </ul>
+                </li>
+                <li><a href="index.html"><span class="glyphicon glyphicon-home"></span>  首页</a></li>
+                <li><a href="recycle_waste.html"><span class="glyphicon glyphicon-list"></span>  废品回收</a></li>
+                <li><a href="mall.html"><span class="glyphicon glyphicon-fire"></span>  日常百货</a></li>
+                <li><a href="article.html"><span class="glyphicon glyphicon-fire"></span>  环保知识</a></li>
+                <li class="active"><a href="my_feibao.html"><span class="glyphicon glyphicon-question-sign"></span>  我的废宝</a></li>
+            </ul>
+        </div>
+
+    </div>
+</nav>
+
+<div class="container">
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#bespeak_recycle" aria-controls="home" role="tab" data-toggle="tab">预约回收</a></li>
+        <li role="presentation"><a href="#cycle_recycle" aria-controls="home" role="tab" data-toggle="tab">周期回收</a></li>
+        <li role="presentation"><a href="#cycle_distribution" aria-controls="home" role="tab" data-toggle="tab">周期配送</a></li>
+        <li role="presentation"><a href="#my_order" aria-controls="profile" role="tab" data-toggle="tab">我的订单</a></li>
+        <li role="presentation"><a href="#cart" aria-controls="messages" role="tab" data-toggle="tab">购物车</a></li>
+        <li role="presentation"><a href="#change_password" aria-controls="messages" role="tab" data-toggle="tab">修改密码</a></li>
+        <li role="presentation"><a href="#personal_information" aria-controls="settings" role="tab" data-toggle="tab">个人信息</a></li>
+    </ul>
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="bespeak_recycle">
+            <div class="table-responsive text-center container">
+                <table class="table table-bordered table-hover">
+                    <caption>预约回收</caption>
+                    <thead>
+                    <td>日期</td>
+                    <td>时间</td>
+                    <td>类型</td>
+                    <td>大致重量</td>
+                    <td>是否有效</td>
+                    <td>取消预约回收</td>
+                    </thead>
+                    <tr>
+                        <td>2016-1-22</td>
+                        <td>10:00-11:00</td>
+                        <td>手机平板</td>
+                        <td>300g</td>
+                        <td>有</td>
+                        <td><button class="btn btn-success">取消</button></td>
+                    </tr>
+                    <tr>
+                        <td>2015-11-22</td>
+                        <td>8:00-10:00</td>
+                        <td>手机平板</td>
+                        <td>300g</td>
+                        <td>有</td>
+                        <td><button class="btn btn-success disabled">取消</button></td>
+                    </tr>
+                    <tr>
+                        <td>2015-1-22</td>
+                        <td>8:00-10:00</td>
+                        <td>纸箱纸盒</td>
+                        <td>3000g</td>
+                        <td>无</td>
+                        <td><button class="btn btn-default disabled">取消</button></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="cycle_recycle">
+            <div class="table-responsive text-center container">
+                <table class="table table-bordered table-hover">
+                    <caption>周期回收</caption>
+                    <thead>
+                    <td>起始日期</td>
+                    <td>间隔</td>
+                    <td>时间</td>
+                    <td>类型</td>
+                    <td>是否有效</td>
+                    <td>取消周期回收</td>
+                    </thead>
+                    <tr>
+                        <td>2016-1-22</td>
+                        <td>1周</td>
+                        <td>8:00-10:00</td>
+                        <td>纸箱纸盒</td>
+                        <td>有</td>
+                        <td><button class="btn btn-success">取消</button></td>
+                    </tr>
+                    <tr>
+                        <td>2015-1-22</td>
+                        <td>2周</td>
+                        <td>8:00-10:00</td>
+                        <td>塑料瓶罐</td>
+                        <td>无</td>
+                        <td><button class="btn btn-default disabled">取消</button></td>
+                    </tr>
+                    <tr>
+                        <td>2014-5-22</td>
+                        <td>3周</td>
+                        <td>8:00-10:00</td>
+                        <td>纸箱纸盒</td>
+                        <td>无</td>
+                        <td><button class="btn btn-default disabled">取消</button></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="cycle_distribution">
+            <div class="table-responsive text-center container">
+                <table class="table table-bordered table-hover">
+                    <caption>周期配送</caption>
+                    <thead>
+                    <td>起始日期</td>
+                    <td>间隔</td>
+                    <td>配送物品</td>
+                    <td>配送数量</td>
+                    <td>收货人</td>
+                    <td>手机</td>
+                    <td>收货地址</td>
+                    <td>是否有效</td>
+                    <td>取消周期回收</td>
+                    </thead>
+                    <tr>
+                        <td>2016-1-22</td>
+                        <td>1周</td>
+                        <td>伊利牛奶1L盒三盒装</td>
+                        <td>3盒</td>
+                        <td>庄叶</td>
+                        <td>15652922740</td>
+                        <td>北京市朝阳区北四环东路97号</td>
+                        <td>有</td>
+                        <td><button class="btn btn-success">取消</button></td>
+                    </tr>
+                    <tr>
+                        <td>2016-1-22</td>
+                        <td>4周</td>
+                        <td>中粮大米25kg装</td>
+                        <td>1袋</td>
+                        <td>庄叶</td>
+                        <td>15652922740</td>
+                        <td>北京市朝阳区北四环东路97号</td>
+                        <td>无</td>
+                        <td><button class="btn btn-default disabled">取消</button></td>
+                    </tr>
+                    <tr>
+                        <td>2016-1-22</td>
+                        <td>4周</td>
+                        <td>金龙鱼1L桶装油</td>
+                        <td>1桶</td>
+                        <td>庄叶</td>
+                        <td>15652922740</td>
+                        <td>北京市朝阳区北四环东路97号</td>
+                        <td>无</td>
+                        <td><button class="btn btn-default disabled">取消</button></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="my_order">
+            <div class="table-responsive text-center container">
+                <table class="table table-bordered table-hover">
+                    <caption>我的订单</caption>
+                    <thead>
+                        <td>时间</td>
+                        <td>订单号</td>
+                        <td>商品</td>
+                        <td>总数量</td>
+                        <td>总价格</td>
+                        <td>收货人</td>
+                        <td>手机</td>
+                        <td>地址</td>
+                        <td>订单状态</td>
+                        <td>物流信息</td>
+                        <td>操作</td>
+                    </thead>
+                    <tr>
+                        <td>2016-1-2</td>
+                        <td>2345876599</td>
+                        <td>巧克力盒装500g【1】<br>
+                            金典牛奶6盒装【1】</td>
+
+                        <td>2</td>
+                        <td>200元</td>
+                        <td>庄叶</td>
+                        <td>15652922740</td>
+                        <td>北京市朝阳区北四环东路97号</td>
+                        <td>未付款</td>
+                        <td><a href="#">物流详情</a></td>
+                        <td><button class="btn btn-default">去付款</button></td>
+                    </tr>
+                    <tr>
+                        <td>2016-1-2</td>
+                        <td>2345876599</td>
+                        <td>清风纸巾9包装200抽【1】</td>
+                        <td>1</td>
+                        <td>20元</td>
+                        <td>庄叶</td>
+                        <td>15652922740</td>
+                        <td>北京市朝阳区北四环东路97号</td>
+                        <td>已付款</td>
+                        <td><a href="#">物流详情</a></td>
+                        <td><button class="btn btn-default">收货</button></td>
+                    </tr>
+                    <tr>
+                        <td>2016-1-2</td>
+                        <td>2345876599</td>
+                        <td>中粮大米50kg【1】</td>
+                        <td>1</td>
+                        <td>300元</td>
+                        <td>庄叶</td>
+                        <td>15652922740</td>
+                        <td>北京市朝阳区北四环东路97号</td>
+                        <td>已完成</td>
+                        <td><a href="#">物流详情</a></td>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="cart">
+            <div class="table-responsive text-center container">
+                <table class="table table-bordered table-hover">
+                    <caption>购物车</caption>
+                    <thead>
+                    <td>商品</td>
+                    <td>单价</td>
+                    <td>数量</td>
+                    <td>小计</td>
+                    <td>操作</td>
+                    </thead>
+                    <tr>
+                        <td>清风纸巾9包装200抽</td>
+                        <td>20元</td>
+                        <td>1</td>
+                        <td>20元</td>
+                        <td><button class="btn btn-default">X</button></td>
+                    </tr>
+                    <tr>
+                        <td>清风纸巾9包装200抽</td>
+                        <td>20元</td>
+                        <td>1</td>
+                        <td>20元</td>
+                        <td><button class="btn btn-default">X</button></td>
+                    </tr>
+                    <tr>
+                        <td>清风纸巾9包装200抽</td>
+                        <td>20元</td>
+                        <td>1</td>
+                        <td>20元</td>
+                        <td><button class="btn btn-default">X</button></td>
+                    </tr>
+                    <tr>
+                        <td><button class="btn btn-success">继续购物</button></td>
+                        <td colspan="2">总计</td>
+                        <td>60</td>
+                        <td><button class="btn btn-success">去结算</button></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="change_password">
+            <div class="table-responsive text-center container">
+                <table class="table table-bordered table-hover">
+                    <caption>修改密码</caption>
+                    <tr>
+                        <td>原密码:</td>
+                        <td><input type="password" class="form-control"></td>
+                    </tr>
+                    <tr>
+                        <td>新密码:</td>
+                        <td><input type="password" class="form-control"></td>
+                    </tr>
+                    <tr>
+                        <td>确认密码:</td>
+                        <td><input type="password" class="form-control"></td>
+                    </tr>
+                    <tr>
+                        <td><button class="btn btn-default">取消</button></td>
+                        <td><button class="btn btn-success">确定</button></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="personal_information">
+            <div class="table-responsive text-center container">
+                <table class="table table-bordered table-hover">
+                    <caption>个人信息</caption>
+                    <tr>
+                        <td>用户名:</td>
+                        <td><span>庄叶</span></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>手机号:</td>
+                        <td><span>15652922740</span></td>
+                        <td><button class="btn btn-default">修改</button></td>
+                    </tr>
+                    <tr>
+                        <td>详细地址1:</td>
+                        <td><span>北京市朝阳区北四环东路97号</span></td>
+                        <td><button class="btn btn-default">修改</button></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!--<footer id="mall_footer">-->
+    <!--<div class="container">-->
+        <!--<p>废品回收 | 百货购买 | 版权投诉</p>-->
+        <!--<p> © 2009-2016 废宝网. Powered by Bootstrap.</p>-->
+    <!--</div>-->
+<!--</footer>-->
+<script src="../public/js/jquery-1.11.3.js"></script>
+<script src="../public/js/bootstrap.js"></script>
+</body>
+</html>

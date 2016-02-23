@@ -1,0 +1,10 @@
+.nav-tabs > li > a{
+    color: #5cb85c;
+}
+.nav-tabs > li.active > a,.nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus{
+    background-color: #5cb85c;
+    color: #fcfcfc;
+}
+.tab-content .tab-pane{
+    padding-top: 10px;
+}

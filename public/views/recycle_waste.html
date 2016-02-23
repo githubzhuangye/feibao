@@ -1,0 +1,600 @@
+<!DOCTYPE HTML>
+<html lang="zh-cn" ng-app="feibao">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no" />
+    <title>废宝--废品回收</title>
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
+    <style type="text/css">
+        .waste_sort_thumbnail{
+            margin-top: 20px;
+        }
+        .waste_sort_list td:hover{
+            cursor: pointer;
+            color: #5cb85c;
+        }
+    </style>
+</head>
+<body>
+<div class="jumbotron">
+    <h1>废宝——废品回收</h1>
+</div>
+<div class="container logo_search_btn">
+    <div class="row">
+        <div class="col-md-3">
+            <a href="index.html" ><img src="../imgs/logo_h50.png" alt="logo" class="logo"/></a>
+        </div>
+        <div class="col-md-6 search_btn">
+            <form class="form-inline pull-left">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="请输入废品类别">
+                    <button type="submit" class="btn btn-success">搜索</button>
+                </div>
+            </form>
+            <div class="btn-group pull-right" role="group">
+                <a class="btn btn-default" href="recycle_waste_my_recycle.html">我的回收</a>
+                <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="23">我的余额</button>
+            </div>
+        </div>
+        <div class="col-md-3 search_btn">
+            <div class="btn-group" role="group" ng-hide="activeUser">
+                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#login_modal">登录</button>
+                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#register_modal">注册</button>
+            </div>
+            <div style="line-height: 30px;" ng-show="activeUser">
+                <span>你好:</span>
+                <span class="text-success">{{activeUser.name}}</span>
+            </div>
+        </div>
+    </div>
+</div>
+<nav class="navbar navbar-default">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#indexNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse" id="indexNavbar">
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> 回收类别<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#"> 手机平板</a></li>
+                        <li><a href="#"> 电脑家电</a></li>
+                        <li><a href="#"> 电子产品</a></li>
+                        <li><a href="#"> 饮料瓶</a></li>
+                        <li><a href="#"> 纸张报纸</a></li>
+                        <li><a href="#"> 衣服鞋子</a></li>
+                    </ul>
+                </li>
+                <li><a href="index.html"><span class="glyphicon glyphicon-home"></span>  首页</a></li>
+                <li class="active"><a href="recycle_waste.html"><span class="glyphicon glyphicon-refresh"></span>  废品回收</a></li>
+                <li><a href="mall.html"><span class="glyphicon glyphicon-shopping-cart"></span>  日常百货</a></li>
+                <li><a href="article.html"><span class="glyphicon glyphicon-book"></span>  环保知识</a></li>
+                <li><a href="my_feibao.html"><span class="glyphicon glyphicon-user"></span>  我的废宝</a></li>
+            </ul>
+        </div>
+
+    </div>
+</nav>
+
+<div class="table-responsive container">
+    <table class="table waste_sort_list">
+        <tr>
+            <td>回收废品分类:</td>
+            <td>手机平板</td>
+            <td>电脑家电</td>
+            <td>电子产品</td>
+            <td>饮料瓶罐</td>
+            <td>纸张报纸</td>
+            <td>衣服鞋子</td>
+        </tr>
+    </table>
+</div>
+
+<div id="recycle_waste_carousel" class="carousel slide text-center" data-ride="carousel" style="width: 1200px;height:220px;margin:0 auto;">
+    <ol class="carousel-indicators">
+        <li data-target="#recycle_waste_carousel" data-slide-to="0"></li>
+        <li data-target="#recycle_waste_carousel" data-slide-to="1"></li>
+        <li data-target="#recycle_waste_carousel" data-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner" role="listbox">
+        <div class="item active">
+            <img src="../imgs/waste_carousel_1.png" alt="轮播第一张" style="margin:0 auto;">
+        </div>
+        <div class="item">
+            <img src="../imgs/waste_carousel_2.png" alt="轮播第二张" style="margin:0 auto;">
+        </div>
+        <div class="item">
+            <img src="../imgs/waste_carousel_3.png" alt="轮播第三张" style="margin:0 auto;">
+        </div>
+    </div>
+    <a href="#recycle_waste_carousel" data-slide="prev" class="carousel-control left"><span class="glyphicon glyphicon-chevron-left"></span></a>
+    <a href="#recycle_waste_carousel" data-slide="next" class="carousel-control right"><span class="glyphicon glyphicon-chevron-right"></span></a>
+</div>
+
+<div>
+    <div class="container waste_sort_thumbnail">
+        <div class="row" ng-view>
+            <div class="col-md-3 compares">
+                <div class="thumbnail">
+                    <a href="recycle_waste_sort_detail.html"><img src="../imgs/recycle_waste_category1.jpg" alt="手机平板"></a>
+                    <div class="caption text-center">
+                        <h3>手机平板</h3>
+                        <p>200-6000元</p>
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#bespeak_recycle_modal">预约回收</button>
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#cycle_recycle_modal">周期回收</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 compares">
+                <div class="thumbnail">
+                    <a href="recycle_waste_sort_detail.html"><img src="../imgs/recycle_waste_category2.jpg" alt="电脑家电"></a>
+                    <div class="caption text-center">
+                        <h3>电脑家电</h3>
+                        <p>1000-7000元</p>
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#bespeak_recycle_modal">预约回收</button>
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#cycle_recycle_modal">周期回收</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 compares">
+                <div class="thumbnail">
+                    <a href="recycle_waste_sort_detail.html"><img src="../imgs/recycle_waste_category3.jpg" alt="纸张报纸"></a>
+                    <div class="caption text-center">
+                        <h3>纸张报纸</h3>
+                        <p>2000-4000</p>
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#bespeak_recycle_modal">预约回收</button>
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#cycle_recycle_modal">周期回收</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 compares">
+                <div class="thumbnail">
+                    <a href="recycle_waste_sort_detail.html"><img src="../imgs/recycle_waste_category1.jpg" alt="手机平板"></a>
+                    <div class="caption text-center">
+                        <h3>手机平板</h3>
+                        <p>200-6000元</p>
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#bespeak_recycle_modal">预约回收</button>
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#cycle_recycle_modal">周期回收</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 compares">
+                <div class="thumbnail">
+                    <a href="recycle_waste_sort_detail.html"><img src="../imgs/recycle_waste_category2.jpg" alt="电脑家电"></a>
+                    <div class="caption text-center">
+                        <h3>电脑家电</h3>
+                        <p>1000-7000元</p>
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#bespeak_recycle_modal">预约回收</button>
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#cycle_recycle_modal">周期回收</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 compares">
+                <div class="thumbnail">
+                    <a href="recycle_waste_sort_detail.html"><img src="../imgs/recycle_waste_category3.jpg" alt="纸张报纸"></a>
+                    <div class="caption text-center">
+                        <h3>纸张报纸</h3>
+                        <p>2000-4000</p>
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#bespeak_recycle_modal">预约回收</button>
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#cycle_recycle_modal">周期回收</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 compares">
+                <div class="thumbnail">
+                    <a href="recycle_waste_sort_detail.html"><img src="../imgs/recycle_waste_category1.jpg" alt="手机平板"></a>
+                    <div class="caption text-center">
+                        <h3>手机平板</h3>
+                        <p>200-6000元</p>
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#bespeak_recycle_modal">预约回收</button>
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#cycle_recycle_modal">周期回收</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 compares">
+                <div class="thumbnail">
+                    <a href="recycle_waste_sort_detail.html"><img src="../imgs/recycle_waste_category2.jpg" alt="电脑家电"></a>
+                    <div class="caption text-center">
+                        <h3>电脑家电</h3>
+                        <p>1000-7000元</p>
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#bespeak_recycle_modal">预约回收</button>
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#cycle_recycle_modal">周期回收</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 compares">
+                <div class="thumbnail">
+                    <a href="recycle_waste_sort_detail.html"><img src="../imgs/recycle_waste_category3.jpg" alt="纸张报纸"></a>
+                    <div class="caption text-center">
+                        <h3>纸张报纸</h3>
+                        <p>2000-4000</p>
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#bespeak_recycle_modal">预约回收</button>
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#cycle_recycle_modal">周期回收</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 compares">
+                <div class="thumbnail">
+                    <a href="recycle_waste_sort_detail.html"><img src="../imgs/recycle_waste_category2.jpg" alt="电脑家电"></a>
+                    <div class="caption text-center">
+                        <h3>电脑家电</h3>
+                        <p>1000-7000元</p>
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#bespeak_recycle_modal">预约回收</button>
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#cycle_recycle_modal">周期回收</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 compares">
+                <div class="thumbnail">
+                    <a href="recycle_waste_sort_detail.html"><img src="../imgs/recycle_waste_category3.jpg" alt="纸张报纸"></a>
+                    <div class="caption text-center">
+                        <h3>纸张报纸</h3>
+                        <p>2000-4000</p>
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#bespeak_recycle_modal">预约回收</button>
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#cycle_recycle_modal">周期回收</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 compares">
+                <div class="thumbnail">
+                    <a href="recycle_waste_sort_detail.html"><img src="../imgs/recycle_waste_category3.jpg" alt="纸张报纸"></a>
+                    <div class="caption text-center">
+                        <h3>纸张报纸</h3>
+                        <p>2000-4000</p>
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#bespeak_recycle_modal">预约回收</button>
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#cycle_recycle_modal">周期回收</button>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+
+    <div class="modal fade" id="bespeak_recycle_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">预约回收废品</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label for="bespeak_recycle_date" class="col-sm-4 col-md-4 control-label">请选择日期:</label>
+                            <div class="col-sm-6 col-md-6">
+                                <input type="text" class="form-control" id="bespeak_recycle_date" name="bespeak_recycle_date" placeholder="请输入上门回收日期">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 col-md-4 control-label">请选择时间:</label>
+                            <div class="col-sm-6 col-md-6">
+                                <select class="form-control">
+                                    <option>8:00-10:00</option>
+                                    <option>10:00-12:00</option>
+                                    <option>12:00-14:00</option>
+                                    <option>14:00-16:00</option>
+                                    <option>16:00-18:00</option>
+                                    <option>18:00-20:00</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="bespeak_recycle_sort" class="col-sm-4 col-md-4 control-label">废品类型:</label>
+                            <div class="col-sm-6 col-md-6">
+                                <input type="text" class="form-control" name="bespeak_recycle_sort" id="bespeak_recycle_sort" value="手机平板">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 col-md-4 control-label">大致重量:</label>
+                            <div class="col-sm-6 col-md-6">
+                                <select class="form-control">
+                                    <option>1kg</option>
+                                    <option>2kg</option>
+                                    <option>3kg</option>
+                                    <option>4kg</option>
+                                    <option>5kg</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="contacts_name" class="col-sm-4 col-md-4 control-label">联系人:</label>
+                            <div class="col-sm-6 col-md-6">
+                                <input type="text" class="form-control" placeholder="收货人姓名" name="contact_name" id="contacts_name" value="庄叶">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="contact_number" class="col-sm-4 col-md-4 control-label">手机（联系方式）:</label>
+                            <div class="col-sm-6 col-md-6">
+                                <input type="text" class="form-control" name="contact_number" id="contact_number" value="15652922740">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="contact_address" class="col-sm-4 col-md-4 control-label">详细地址:</label>
+                            <div class="col-sm-6 col-md-6">
+                                <input type="text" class="form-control" name="contact_address" id="contact_address" value="北京市朝阳区北四环东路97号">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-offset-4 col-sm-6 col-md-6">
+                                <button type="reset" class="btn btn-default">重写</button>
+                                <button type="submit" class="btn btn-success">提交</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="cycle_recycle_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">周期回收</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label for="cycle_recycle_begin_date" class="col-sm-4 col-md-4 control-label">起始日期:</label>
+                            <div class="col-sm-6 col-md-6">
+                                <input type="text" class="form-control" id="cycle_recycle_begin_date" name="cycle_recycle_begin_date" value="2016-2-1">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 col-md-4 control-label">间隔:</label>
+                            <div class="col-sm-6 col-md-6">
+                                <select class="form-control">
+                                    <option>一周</option>
+                                    <option>二周</option>
+                                    <option>三周</option>
+                                    <option>四周</option>
+                                    <option>两个月</option>
+                                    <option>两个半月</option>
+                                    <option>三个月</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 col-md-4 control-label">上门时间:</label>
+                            <div class="col-sm-6 col-md-6">
+                                <select class="form-control">
+                                    <option>8:00-10:00</option>
+                                    <option>10:00-12:00</option>
+                                    <option>12:00-14:00</option>
+                                    <option>14:00-16:00</option>
+                                    <option>16:00-18:00</option>
+                                    <option>18:00-20:00</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="cycle_recycle_sort" class="col-sm-4 col-md-4 control-label">废品类型:</label>
+                            <div class="col-sm-6 col-md-6">
+                                <input type="text" class="form-control" name="cycle_recycle_sort" id="cycle_recycle_sort" value="手机平板">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 col-md-4 control-label">大致重量:</label>
+                            <div class="col-sm-6 col-md-6">
+                                <select class="form-control">
+                                    <option>1kg</option>
+                                    <option>2kg</option>
+                                    <option>3kg</option>
+                                    <option>4kg</option>
+                                    <option>5kg</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 col-md-4 control-label">联系人:</label>
+                            <div class="col-sm-6 col-md-6">
+                                <input type="text" class="form-control" placeholder="收货人姓名" name="contact_name"  value="庄叶">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label  class="col-sm-4 col-md-4 control-label">手机（联系方式）:</label>
+                            <div class="col-sm-6 col-md-6">
+                                <input type="text" class="form-control" name="contact_number" value="15652922740">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 col-md-4 control-label">详细地址:</label>
+                            <div class="col-sm-6 col-md-6">
+                                <input type="text" class="form-control" name="contact_address" value="北京市朝阳区北四环东路97号">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-offset-4 col-sm-6 col-md-6">
+                                <button type="reset" class="btn btn-default">重写</button>
+                                <button type="submit" class="btn btn-success">提交</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--登录模态框-->
+    <div class="modal fade" id="login_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" ng-controller="loginCtrl">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">登录</h4>
+            </div>
+            <form class="form-horizontal" role="form" novalidate name="login_form" ng-submit="login()" >
+                <div class="modal-body">
+                    <div class="form-group row" ng-class="{'has-error':login_form.name.$dirty && login_form.name.$invalid}">
+                        <label class="col-sm-3 col-md-3 control-label">用户名:</label>
+                        <div class="col-sm-6 col-md-6">
+                            <input type="text" class="form-control" placeholder="包含中英文且大于4位" name="name" ng-model="user.name" ng-pattern="/^[A-Za-z\u4e00-\u9fa5]{4,}$/" ng-required>
+                        </div>
+                        <div class="help-block col-sm-3 col-md-3" ng-show="login_form.name.$dirty && login_form.name.$invalid">
+                            <span class="text-danger" ng-show="login_form.name.$error.required">用户名不能为空</span>
+                            <span class="text-danger" ng-show="login_form.name.$error.pattern">中英文且大于4位</span>
+                        </div>
+                    </div>
+                    <div class="form-group row"  ng-class="{'has-error':login_form.password.$dirty && login_form.password.$invalid}">
+                        <label  class="col-sm-3 col-md-3 control-label">密码:</label>
+                        <div class="col-sm-6 col-md-6">
+                            <input type="text" class="form-control" name="password" placeholder="6-20位数字字母" ng-model="user.password" ng-pattern="/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/" ng-required>
+                        </div>
+                        <div class="help-block col-sm-3 col-md-3" ng-show="login_form.password.$dirty && login_form.password.$invalid">
+                            <span class="text-danger" ng-show="login_form.password.$error.required">密码不能为空</span>
+                            <span class="text-danger" ng-show="login_form.password.$error.pattern">6-20位数字字母</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-sm-offset-4 col-sm-6 col-md-6">
+                        <button type="submit" class="btn btn-success" ng-disabled="login_form.$invalid">登录</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+    <!--注册模态框-->
+    <div class="modal fade" id="register_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" ng-controller="registerCtrl">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">用户注册</h4>
+            </div>
+            <form class="form-horizontal" role="form" novalidate name="register_form" ng-submit="register()">
+                <div class="modal-body">
+                    <div class="modal-body">
+                        <div class="form-group row" ng-class="{'has-error':register_form.name.$dirty && register_form.name.$invalid}">
+                            <label class="col-sm-3 col-md-3 control-label">用户名:</label>
+                            <div class="col-sm-6 col-md-6">
+                                <input type="text" class="form-control" placeholder="包含中英文且大于4位" name="name" ng-model="user.name" ng-pattern="/^[A-Za-z\u4e00-\u9fa5]{4,}$/" ng-required>
+                            </div>
+                            <div class="help-block col-sm-3 col-md-3" ng-show="register_form.name.$dirty && register_form.name.$invalid">
+                                <span class="text-danger" ng-show="register_form.name.$error.required">用户名不能为空</span>
+                                <span class="text-danger" ng-show="register_form.name.$error.pattern">中英文且大于4位</span>
+                            </div>
+                        </div>
+                        <div class="form-group row"  ng-class="{'has-error':register_form.password.$dirty && register_form.password.$invalid}">
+                            <label  class="col-sm-3 col-md-3 control-label">密码:</label>
+                            <div class="col-sm-6 col-md-6">
+                                <input type="text" class="form-control" name="password" placeholder="6-20位数字字母" ng-model="user.password" ng-pattern="/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/" ng-required>
+                            </div>
+                            <div class="help-block col-sm-3 col-md-3" ng-show="register_form.password.$dirty && register_form.password.$invalid">
+                                <span class="text-danger" ng-show="register_form.password.$error.required">密码不能为空</span>
+                                <span class="text-danger" ng-show="register_form.password.$error.pattern">6-20位数字字母</span>
+                            </div>
+                        </div>
+                        <div class="form-group row" ng-class="{'has-error':register_form.repassword.$dirty && register_form.repassword.$invalid}">
+                            <label  class="col-sm-3 col-md-3 control-label">确认密码:</label>
+                            <div class="col-sm-6 col-md-6">
+                                <input type="text" class="form-control" name="repassword" placeholder="请再输入一次密码" ng-model="user.repassword" ng-pattern="/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/" ng-required>
+                            </div>
+                            <div class="help-block col-sm-3 col-md-3" ng-show="register_form.repassword.$dirty && register_form.repassword.$invalid">
+                                <span class="text-danger" ng-show="register_form.repassword.$error.required">确认密码不能为空</span>
+                                <span class="text-danger" ng-show="register_form.repassword.$error.pattern">6-20位数字字母</span>
+                            </div>
+                        </div>
+                        <div class="form-group row" ng-class="{'has-error':register_form.phone.$dirty && register_form.phone.$invalid}">
+                            <label  class="col-sm-3 col-md-3 control-label">手机号:</label>
+                            <div class="col-sm-6 col-md-6">
+                                <input type="text" class="form-control" name="phone" placeholder="手机号" ng-model="user.phone" ng-pattern="/^(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/" ng-required>
+                            </div>
+                            <div class="help-block col-sm-3 col-md-3" ng-show="register_form.phone.$dirty && register_form.phone.$invalid">
+                                <span class="text-danger" ng-show="register_form.phone.$error.required">手机号不能为空</span>
+                                <span class="text-danger" ng-show="register_form.phone.$error.pattern">请填写正确手机号</span>
+                            </div>
+                        </div>
+                        <div class="form-group row" ng-class="{'has-error':register_form.address.$dirty && register_form.address.$invalid}">
+                            <label  class="col-sm-3 col-md-3 control-label">详细地址:</label>
+                            <div class="col-sm-6 col-md-6">
+                                <input type="text" class="form-control" name="address" placeholder="详细地址(请具体到门牌号)" ng-model="user.address" ng-required>
+                            </div>
+                            <div class="help-block col-sm-3 col-md-3" ng-show="register_form.phone.$dirty && register_form.phone.$invalid">
+                                <span class="text-danger" ng-show="register_form.phone.$error.required">详细地址不能为空</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="col-sm-offset-3 col-sm-6 col-md-6">
+                            <button type="submit" class="btn btn-success btn-block" style="font-size: 20px;" ng-disabled="register_form.$invalid || user.password != user.repassword" >提交</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+<script src="../js/jquery-1.11.3.js"></script>
+<script src="../js/bootstrap.js"></script>
+<script src="../js/angular.js"></script>
+<script src="../js/angular-route.js"></script>
+<script type="text/javascript">
+    var app =angular.module('feibao',['ngRoute']);
+    //应用刷新检查是否登录
+    app.run(function($rootScope,$http){
+        $http({
+            url:'/users/is_login',
+            method:"POST",
+        }).success(function (user) {
+            $('#login_modal').modal('hide');
+            $rootScope.activeUser =user;
+        }).error(function(data){
+            alert(data);
+//            $('#login_modal').modal('show');
+        });
+    });
+
+    //注册控制器
+    app.controller('registerCtrl',function($scope,$http){
+        $scope.register =function(){
+            $http({
+                url:'/users/register',
+                method:"POST",
+                data:$scope.user
+            }).success(function (user) {
+                $('#register_modal').modal('hide');
+                alert('注册成功');
+            }).error(function(data){
+                alert('注册失败:'+data);
+            });
+        }
+    });
+    //登录控制器
+    app.controller('loginCtrl',function($rootScope,$scope,$http){
+        $scope.login =function(){
+            $http({
+                url:'/users/login',
+                method:"POST",
+                data:$scope.user
+            }).success(function (user) {
+                $('#login_modal').modal('hide');
+                $rootScope.activeUser =user;
+                alert('登录成功');
+            }).error(function(data){
+                alert('登录失败:'+data);
+            });
+        }
+    });
+
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip({
+            trigger:"click"
+        })
+    })
+
+
+</script>
+</html>
