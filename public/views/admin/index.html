@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="feibao_admin">
+<head>
+    <meta charset="UTF-8">
+    <title>废宝--后台管理</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="../../css/bootstrap.css" />
+    <link rel="stylesheet" href="../../css/index.css" />
+    <link rel="stylesheet" href="../../css/style.css" />
+    <link rel="stylesheet" href="../../css/admin/style.css" />
+
+</head>
+<body>
+<div class="jumbotron">
+    <h1>废宝后台管理</h1>
+</div>
+
+<nav class="navbar navbar-default">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#indexNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse" id="indexNavbar">
+            <ul class="nav navbar-nav">
+                <li  class="active"><a href="index.html"><span class="glyphicon glyphicon-subscript"></span> 首页</a></li>
+                <li><a href="recycle_waste_manage.html"><span class="glyphicon glyphicon-list"></span> 废品回收管理</a></li>
+                <li><a href="mall_manage.html"><span class="glyphicon glyphicon-fire"></span> 网上商场管理</a></li>
+                <li><a href="articel_manage.html"><span class="glyphicon glyphicon-fire"></span> 环保文章管理</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<div class="container">
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation"  class="active"><a href="#bespeak_recycle_waste" aria-controls="bespeak_recycle_waste" role="tab" data-toggle="tab">今日预约回收</a></li>
+        <li role="presentation"><a href="#cycle_recycle_waste" aria-controls="cycle_recycle_waste" role="tab" data-toggle="tab">今日周期回收</a></li>
+        <li role="presentation"><a href="#mall_order" aria-controls="mall_order" role="tab" data-toggle="tab">未处理订单</a></li>
+        <li role="presentation"><a href="#mall_distribution" aria-controls="mall_distribution" role="tab" data-toggle="tab">今日周期配送</a></li>
+        <li role="presentation"><a href="#add_article" aria-controls="add_article" role="tab" data-toggle="tab">添加美文</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <!--处理预约回收-->
+        <div role="tabpanel" class="tab-pane active" id="bespeak_recycle_waste">
+            <table class="table table-bordered table-hover text-center">
+                <caption>今日需上门回收的预约</caption>
+                <thead>
+                <td>日期</td>
+                <td>时间</td>
+                <td>废品类型</td>
+                <td>大致重量</td>
+                <td>联系人</td>
+                <td>手机</td>
+                <td>详细地址</td>
+                <td>预约状态</td>
+                <td>回收者</td>
+                <td>操作</td>
+                </thead>
+                <tr>
+                    <td>2016-1-26</td>
+                    <td>8:00-10:00</td>
+                    <td>手机平板,电脑家电</td>
+                    <td>20kg</td>
+                    <td>庄叶</td>
+                    <td>15652922740</td>
+                    <td>北京市朝阳区北四环东路97号</td>
+                    <td>未回收</td>
+                    <td><input class="form-control form-inline" placeholder="上门回收人姓名"></td>
+                    <td><button class="btn btn-default">派人上门</button></td>
+                </tr>
+                <tr>
+                    <td>2016-1-26</td>
+                    <td>10:00-12:00</td>
+                    <td>手机平板,电脑家电</td>
+                    <td>20kg</td>
+                    <td>庄叶</td>
+                    <td>15652922740</td>
+                    <td>北京市朝阳区北四环东路97号</td>
+                    <td>未回收</td>
+                    <td><input class="form-control form-inline" placeholder="上门回收人姓名"></td>
+                    <td><button class="btn btn-default">派人上门</button></td>
+                </tr>
+                <tr>
+                    <td>2016-1-26</td>
+                    <td>11:00-13:00</td>
+                    <td>手机平板,电脑家电</td>
+                    <td>20kg</td>
+                    <td>庄叶</td>
+                    <td>15652922740</td>
+                    <td>北京市朝阳区北四环东路97号</td>
+                    <td>未回收</td>
+                    <td><input class="form-control form-inline" placeholder="上门回收人姓名"></td>
+                    <td><button class="btn btn-default">派人上门</button></td>
+                </tr>
+            </table>
+        </div>
+
+
+        <!--处理周期回收-->
+        <div role="tabpanel" class="tab-pane text-center" id="cycle_recycle_waste">
+            <table class="table table-bordered table-hover text-center">
+                <caption>今日需上门的周期回收</caption>
+                <thead>
+                <td>日期</td>
+                <td>时间</td>
+                <td>废品类型</td>
+                <td>大致重量</td>
+                <td>联系人</td>
+                <td>手机</td>
+                <td>详细地址</td>
+                <td>间隔时间</td>
+                <td>回收状态</td>
+                <td>回收者</td>
+                <td>操作</td>
+                </thead>
+                <tr>
+                    <td>2016-1-26</td>
+                    <td>8:00-10:00</td>
+                    <td>手机平板,电脑家电</td>
+                    <td>20kg</td>
+                    <td>庄叶</td>
+                    <td>15652922740</td>
+                    <td>北京市朝阳区北四环东路97号</td>
+                    <td>4周</td>
+                    <td>未回收</td>
+                    <td><input class="form-control form-inline" placeholder="上门回收人姓名"></td>
+                    <td><button class="btn btn-default">派人上门</button></td>
+                </tr>
+                <tr>
+                    <td>2016-1-26</td>
+                    <td>10:00-12:00</td>
+                    <td>纸箱报纸</td>
+                    <td>10kg</td>
+                    <td>庄叶</td>
+                    <td>15652922740</td>
+                    <td>北京市朝阳区北四环东路97号</td>
+                    <td>4周</td>
+                    <td>未回收</td>
+                    <td><input class="form-control form-inline" placeholder="上门回收人姓名"></td>
+                    <td><button class="btn btn-default">派人上门</button></td>
+                </tr>
+                <tr>
+                    <td>2016-1-26</td>
+                    <td>11:00-13:00</td>
+                    <td>手机平板,电脑家电</td>
+                    <td>20kg</td>
+                    <td>庄叶</td>
+                    <td>15652922740</td>
+                    <td>北京市朝阳区北四环东路97号</td>
+                    <td>8周</td>
+                    <td>未回收</td>
+                    <td><input class="form-control form-inline" placeholder="上门回收人姓名"></td>
+                    <td><button class="btn btn-default">派人上门</button></td>
+                </tr>
+            </table>
+        </div>
+        <!--未发货订单-->
+        <div role="tabpanel" class="tab-pane text-center" id="mall_order">
+            <table class="table table-bordered table-hover">
+                <caption>未发货订单</caption>
+                <thead>
+                <td>时间</td>
+                <td>订单号</td>
+                <td>商品</td>
+                <td>数量</td>
+                <td>总价格</td>
+                <td>收货人</td>
+                <td>手机</td>
+                <td>地址</td>
+                <td>订单状态</td>
+                <td>操作</td>
+                </thead>
+                <tr>
+                    <td>2016-1-2</td>
+                    <td>2345876599</td>
+                    <td>巧克力盒装500g</td>
+                    <td>2</td>
+                    <td>200元</td>
+                    <td>庄叶</td>
+                    <td>15652922740</td>
+                    <td>北京市朝阳区北四环东路97号</td>
+                    <td>未发货已付款</td>
+                    <td><button class="btn btn-default">发货</button></td>
+                </tr>
+                <tr>
+                    <td>2016-1-2</td>
+                    <td>2345876599</td>
+                    <td>清风纸巾9包装200抽</td>
+                    <td>1</td>
+                    <td>20元</td>
+                    <td>庄叶</td>
+                    <td>15652922740</td>
+                    <td>北京市朝阳区北四环东路97号</td>
+                    <td>未发货已付款</td>
+                    <td><button class="btn btn-default">发货</button></td>
+                </tr>
+                <tr>
+                    <td>2016-1-2</td>
+                    <td>2345876599</td>
+                    <td>中粮大米50kg</td>
+                    <td>1</td>
+                    <td>300元</td>
+                    <td>庄叶</td>
+                    <td>15652922740</td>
+                    <td>北京市朝阳区北四环东路97号</td>
+                    <td>未发货已付款</td>
+                    <td><button class="btn btn-default">发货</button></td>
+                </tr>
+            </table>
+        </div>
+
+        <!--未处理周期配送-->
+        <div role="tabpanel" class="tab-pane text-center" id="mall_distribution">
+            <table class="table table-bordered table-hover">
+                <caption>今日周期配送</caption>
+                <thead>
+                <td>时间</td>
+                <td>配送单号</td>
+                <td>商品</td>
+                <td>总数量</td>
+                <td>总价格</td>
+                <td>收货人</td>
+                <td>手机</td>
+                <td>地址</td>
+                <td>配送状态</td>
+                <td>操作</td>
+                </thead>
+                <tr>
+                    <td>2016-1-26</td>
+                    <td>2345876599</td>
+                    <td>巧克力盒装500g【1】<br>
+                        金典牛奶6盒装【1】</td>
+
+                    <td>2</td>
+                    <td>200元</td>
+                    <td>庄叶</td>
+                    <td>15652922740</td>
+                    <td>北京市朝阳区北四环东路97号</td>
+                    <td>未配送</td>
+                    <td><button class="btn btn-default">配送</button></td>
+                </tr>
+                <tr>
+                    <td>2016-1-26</td>
+                    <td>2345876599</td>
+                    <td>清风纸巾9包装200抽【1】</td>
+                    <td>1</td>
+                    <td>20元</td>
+                    <td>庄叶</td>
+                    <td>15652922740</td>
+                    <td>北京市朝阳区北四环东路97号</td>
+                    <td>未配送</td>
+                    <td><button class="btn btn-default">配送</button></td>
+                </tr>
+                <tr>
+                    <td>2016-1-26</td>
+                    <td>2345876599</td>
+                    <td>中粮大米50kg【1】</td>
+                    <td>1</td>
+                    <td>300元</td>
+                    <td>庄叶</td>
+                    <td>15652922740</td>
+                    <td>北京市朝阳区北四环东路97号</td>
+                    <td>未配送</td>
+                    <td><button class="btn btn-default">配送</button></td>
+                </tr>
+            </table>
+        </div>
+        <!--添加美文-->
+        <div role="tabpanel" class="tab-pane text-center" id="add_article">
+            <div>添加美文</div>
+        </div>
+    </div>
+</div>
+
+
+
+</body>
+<script src="../../js/jquery-1.11.3.js"></script>
+<script src="../../js/bootstrap.js"></script>
+<script src="../../js/angular.js"></script>
+<script src="../../js/angular-route.js"></script>
+<script type="text/javascript">
+    var app =angular.module('feibao_admin',['ngRoute']);
+    app.run(function($rootScope,$http,$location){
+        $http({
+            url:'/admins/is_login',
+            method:"POST",
+        }).success(function (admin) {
+            $rootScope.activeAdmin =admin;
+        }).error(function(data){
+            alert('no login,'+data.msg);
+            window.location="login.html";
+        });
+    });
+</script>
+</html>

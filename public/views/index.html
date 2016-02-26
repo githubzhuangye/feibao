@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="feibao">
+<head>
+    <meta charset="UTF-8">
+    <title>废宝--首页</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="../css/bootstrap.css" />
+    <link rel="stylesheet" href="../css/index.css" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <style type="text/css" rel="stylesheet">
+        body {
+            font-family: "Helvetica Neue", Helvetica, Arial, "Microsoft Yahei UI", "Microsoft YaHei", SimHei, "\5B8B\4F53", simsun, sans-serif;
+        }
+    </style>
+</head>
+<body>
+<div class="jumbotron">
+    <h1>废宝——废品变元宝，环境更友好</h1>
+</div>
+<!--导航栏-->
+<nav class="navbar navbar-default" id="index_navbar">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="navbar-header">
+                    <a href="index.html"><img src="../imgs/logo.png" alt="废宝网"></a>
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+            </div>
+            <div class="col-md-7">
+                <div class="collapse navbar-collapse" id="index_navbar_collapse">
+                    <ul class="nav navbar-nav navbar-center">
+                        <li class="active"><a href="index.html"><span class="glyphicon glyphicon-home"></span> 首页</a></li>
+                        <li><a href="recycle_waste.html"><span class="glyphicon glyphicon-refresh"></span> 废品回收</a></li>
+                        <li><a href="mall.html"><span class="glyphicon glyphicon-shopping-cart"></span> 日常百货</a></li>
+                        <li><a href="article.html"><span class="glyphicon glyphicon-book"></span> 环保美文</a></li>
+                        <li><a href="my_feibao.html"><span class="glyphicon glyphicon-user"></span> 我的废宝</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="btn-group" role="group" style="margin-top:7px; " ng-hide="activeUser">
+                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#login_modal">登录</button>
+                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#register_modal">注册</button>
+                </div>
+                <div style="line-height: 50px;" ng-show="activeUser">
+                    <span>你好:</span>
+                    <span class="text-success">{{activeUser.name}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <div id="index_carousel" class="carousel slide text-center" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-target="#index_carousel" data-slide-to="0"></li>
+            <li data-target="#index_carousel" data-slide-to="1"></li>
+            <li data-target="#index_carousel" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner" role="listbox">
+            <div class="item active">
+                <img src="../imgs/index_carousel1.jpg" alt="轮播第一张" style="margin:0 auto;">
+            </div>
+            <div class="item">
+                <img src="../imgs/index_carousel2.jpg" alt="轮播第二张" style="margin:0 auto;">
+            </div>
+            <div class="item">
+                <img src="../imgs/index_carousel3.jpg" alt="轮播第三张" style="margin:0 auto;">
+            </div>
+        </div>
+        <a href="#index_carousel" data-slide="prev" class="carousel-control left"><span class="glyphicon glyphicon-chevron-left"></span></a>
+        <a href="#index_carousel" data-slide="next" class="carousel-control right"><span class="glyphicon glyphicon-chevron-right"></span></a>
+    </div>
+</div>
+<div class="container">
+    <P>废宝是一个集废品回收，反正就是简介废宝是一个集废品回收，反正就是简介废宝是一个集废品回收，反正就是简介
+        废宝是一个集废品回收，反正就是简介废宝是一个集废品回收，反正就是简介
+        废宝是一个集废品回收，反正就是简介废宝是一个集废品回收，反正就是简介
+        废宝是一个集废品回收，反正就是简介废宝是一个集废品回收，反正就是简介废宝是一个集废品回收，反正就是简介。</P>
+</div>
+<footer id="index_footer">
+    <div class="container">
+        <p>废品回收 | 百货购买 | 版权投诉</p>
+        <p> © 2009-2016 废宝网. Powered by Bootstrap.</p>
+    </div>
+</footer>
+
+<div class="modal fade" id="login_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" ng-controller="loginCtrl">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">登录</h4>
+            </div>
+            <form class="form-horizontal" role="form" novalidate name="login_form" ng-submit="login()" >
+                <div class="modal-body">
+                    <div class="form-group row" ng-class="{'has-error':login_form.name.$dirty && login_form.name.$invalid}">
+                        <label class="col-sm-3 col-md-3 control-label">用户名:</label>
+                        <div class="col-sm-6 col-md-6">
+                            <input type="text" class="form-control" placeholder="包含中英文且大于4位" name="name" ng-model="user.name" ng-pattern="/^[A-Za-z\u4e00-\u9fa5]{4,}$/" ng-required>
+                        </div>
+                        <div class="help-block col-sm-3 col-md-3" ng-show="login_form.name.$dirty && login_form.name.$invalid">
+                            <span class="text-danger" ng-show="login_form.name.$error.required">用户名不能为空</span>
+                            <span class="text-danger" ng-show="login_form.name.$error.pattern">中英文且大于4位</span>
+                        </div>
+                    </div>
+                    <div class="form-group row"  ng-class="{'has-error':login_form.password.$dirty && login_form.password.$invalid}">
+                        <label  class="col-sm-3 col-md-3 control-label">密码:</label>
+                        <div class="col-sm-6 col-md-6">
+                            <input type="text" class="form-control" name="password" placeholder="6-20位数字字母" ng-model="user.password" ng-pattern="/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/" ng-required>
+                        </div>
+                        <div class="help-block col-sm-3 col-md-3" ng-show="login_form.password.$dirty && login_form.password.$invalid">
+                            <span class="text-danger" ng-show="login_form.password.$error.required">密码不能为空</span>
+                            <span class="text-danger" ng-show="login_form.password.$error.pattern">6-20位数字字母</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-sm-offset-4 col-sm-6 col-md-6">
+                        <button type="submit" class="btn btn-success" ng-disabled="login_form.$invalid">登录</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="register_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" ng-controller="registerCtrl">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">用户注册</h4>
+            </div>
+            <form class="form-horizontal" role="form" novalidate name="register_form" ng-submit="register()">
+                <div class="modal-body">
+                    <div class="modal-body">
+                        <div class="form-group row" ng-class="{'has-error':register_form.name.$dirty && register_form.name.$invalid}">
+                            <label class="col-sm-3 col-md-3 control-label">用户名:</label>
+                            <div class="col-sm-6 col-md-6">
+                                <input type="text" class="form-control" placeholder="包含中英文且大于4位" name="name" ng-model="user.name" ng-pattern="/^[A-Za-z\u4e00-\u9fa5]{4,}$/" ng-required>
+                            </div>
+                            <div class="help-block col-sm-3 col-md-3" ng-show="register_form.name.$dirty && register_form.name.$invalid">
+                                <span class="text-danger" ng-show="register_form.name.$error.required">用户名不能为空</span>
+                                <span class="text-danger" ng-show="register_form.name.$error.pattern">中英文且大于4位</span>
+                            </div>
+                        </div>
+                        <div class="form-group row"  ng-class="{'has-error':register_form.password.$dirty && register_form.password.$invalid}">
+                            <label  class="col-sm-3 col-md-3 control-label">密码:</label>
+                            <div class="col-sm-6 col-md-6">
+                                <input type="text" class="form-control" name="password" placeholder="6-20位数字字母" ng-model="user.password" ng-pattern="/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/" ng-required>
+                            </div>
+                            <div class="help-block col-sm-3 col-md-3" ng-show="register_form.password.$dirty && register_form.password.$invalid">
+                                <span class="text-danger" ng-show="register_form.password.$error.required">密码不能为空</span>
+                                <span class="text-danger" ng-show="register_form.password.$error.pattern">6-20位数字字母</span>
+                            </div>
+                        </div>
+                        <div class="form-group row" ng-class="{'has-error':register_form.repassword.$dirty && register_form.repassword.$invalid}">
+                            <label  class="col-sm-3 col-md-3 control-label">确认密码:</label>
+                            <div class="col-sm-6 col-md-6">
+                                <input type="text" class="form-control" name="repassword" placeholder="请再输入一次密码" ng-model="user.repassword" ng-pattern="/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/" ng-required>
+                            </div>
+                            <div class="help-block col-sm-3 col-md-3" ng-show="register_form.repassword.$dirty && register_form.repassword.$invalid">
+                                <span class="text-danger" ng-show="register_form.repassword.$error.required">确认密码不能为空</span>
+                                <span class="text-danger" ng-show="register_form.repassword.$error.pattern">6-20位数字字母</span>
+                            </div>
+                        </div>
+                        <div class="form-group row" ng-class="{'has-error':register_form.phone.$dirty && register_form.phone.$invalid}">
+                            <label  class="col-sm-3 col-md-3 control-label">手机号:</label>
+                            <div class="col-sm-6 col-md-6">
+                                <input type="text" class="form-control" name="phone" placeholder="手机号" ng-model="user.phone" ng-pattern="/^(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/" ng-required>
+                            </div>
+                            <div class="help-block col-sm-3 col-md-3" ng-show="register_form.phone.$dirty && register_form.phone.$invalid">
+                                <span class="text-danger" ng-show="register_form.phone.$error.required">手机号不能为空</span>
+                                <span class="text-danger" ng-show="register_form.phone.$error.pattern">请填写正确手机号</span>
+                            </div>
+                        </div>
+                        <div class="form-group row" ng-class="{'has-error':register_form.address.$dirty && register_form.address.$invalid}">
+                            <label  class="col-sm-3 col-md-3 control-label">详细地址:</label>
+                            <div class="col-sm-6 col-md-6">
+                                <input type="text" class="form-control" name="address" placeholder="详细地址(请具体到门牌号)" ng-model="user.address" ng-required>
+                            </div>
+                            <div class="help-block col-sm-3 col-md-3" ng-show="register_form.phone.$dirty && register_form.phone.$invalid">
+                                <span class="text-danger" ng-show="register_form.phone.$error.required">详细地址不能为空</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="col-sm-offset-3 col-sm-6 col-md-6">
+                            <button type="submit" class="btn btn-success btn-block" style="font-size: 20px;" ng-disabled="register_form.$invalid || user.password != user.repassword" >提交</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+<script src="../js/jquery-1.11.3.js"></script>
+<script src="../js/bootstrap.js"></script>
+<script src="../js/angular.js"></script>
+<script src="../js/angular-route.js"></script>
+<script type="text/javascript">
+    var app =angular.module('feibao',['ngRoute']);
+    //应用刷新检查是否登录
+    app.run(function($rootScope,$http){
+        $http({
+            url:'/users/is_login',
+            method:"POST",
+        }).success(function (user) {
+            $('#login_modal').modal('hide');
+            $rootScope.activeUser =user;
+        }).error(function(data){
+            alert(data);
+//            $('#login_modal').modal('show');
+        });
+    });
+    //注册控制器
+    app.controller('registerCtrl',function($scope,$http){
+        $scope.register =function(){
+            $http({
+                url:'/users/register',
+                method:"POST",
+                data:$scope.user
+            }).success(function (user) {
+                $('#register_modal').modal('hide');
+                alert('注册成功');
+            }).error(function(data){
+                alert('注册失败:'+data);
+            });
+        }
+    });
+    //登录控制器
+    app.controller('loginCtrl',function($rootScope,$scope,$http){
+        $scope.login =function(){
+            $http({
+                url:'/users/login',
+                method:"POST",
+                data:$scope.user
+            }).success(function (user) {
+                $('#login_modal').modal('hide');
+                $rootScope.activeUser =user;
+                alert('登录成功');
+            }).error(function(data){
+                alert('登录失败:'+data);
+            });
+        }
+    });
+</script>
+</html>

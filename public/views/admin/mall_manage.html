@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>废宝--网上商场管理</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="../../public/css/bootstrap.css" />
+    <link rel="stylesheet" href="../../public/css/style.css" />
+    <link rel="stylesheet" href="../../public/css/admin/style.css" />
+    <style type="text/css">
+        .search{
+            padding-bottom: 10px;
+        }
+        .introduce{
+            width: 500px;
+            height: 150px;
+            resize: none;
+        }
+
+    </style>
+</head>
+<body>
+<div class="jumbotron">
+    <h1>网上商场管理</h1>
+</div>
+
+<nav class="navbar navbar-default">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#indexNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse" id="indexNavbar">
+            <ul class="nav navbar-nav">
+                <li><a href="index.html"><span class="glyphicon glyphicon-subscript"></span> 首页</a></li>
+                <li><a href="recycle_waste_manage.html"><span class="glyphicon glyphicon-list"></span> 废品回收管理</a></li>
+                <li class="active"><a href="mall_manage.html"><span class="glyphicon glyphicon-fire"></span> 网上商场管理</a></li>
+                <li><a href="articel_manage.html"><span class="glyphicon glyphicon-fire"></span> 环保美文管理</a></li>
+            </ul>
+        </div>
+
+    </div>
+</nav>
+
+<div class="container">
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation"  class="active"><a href="#user_order" aria-controls="messages" role="tab" data-toggle="tab">用户订单</a></li>
+        <li role="presentation"><a href="#cycle_distribution" aria-controls="settings" role="tab" data-toggle="tab">周期配送</a></li>
+        <li role="presentation"><a href="#add_goods" aria-controls="profile" role="tab" data-toggle="tab">添加商品</a></li>
+        <li role="presentation"><a href="#existing_goods" aria-controls="home" role="tab" data-toggle="tab">已有商品</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="user_order">
+            <div class="container text-center">
+                <form class="form-inline search">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="请输入订单日期">
+                        <button type="submit" class="btn btn-success">搜索</button>
+                    </div>
+                </form>
+                <table class="table">
+                    <tr>
+                        <td><button class="btn btn-default">未支付订单</button></td>
+                        <td><button class="btn btn-default">未发货订单</button></td>
+                        <td><button class="btn btn-default">已发货订单</button></td>
+                        <td><button class="btn btn-success">已完成订单</button></td>
+                    </tr>
+                </table>
+                <!--未支付订单-->
+                <table class="table table-bordered table-hover sr-only">
+                    <caption>未支付订单</caption>
+                    <thead>
+                        <td>时间</td>
+                        <td>订单号</td>
+                        <td>商品</td>
+                        <td>数量</td>
+                        <td>总价格</td>
+                        <td>收货人</td>
+                        <td>手机</td>
+                        <td>地址</td>
+                        <td>用户名</td>
+                        <td>订单状态</td>
+                    </thead>
+                    <tr>
+                        <td>2016-1-2</td>
+                        <td>2345876599</td>
+                        <td>巧克力盒装500g</td>
+                        <td>2</td>
+                        <td>200元</td>
+                        <td>庄叶</td>
+                        <td>15652922740</td>
+                        <td>北京市朝阳区北四环东路97号</td>
+                        <td>庄叶</td>
+                        <td>未付款</td>
+                    </tr>
+                    <tr>
+                        <td>2016-1-2</td>
+                        <td>2345876599</td>
+                        <td>清风纸巾9包装200抽</td>
+                        <td>1</td>
+                        <td>20元</td>
+                        <td>庄叶</td>
+                        <td>15652922740</td>
+                        <td>北京市朝阳区北四环东路97号</td>
+                        <td>未付款</td>
+                    </tr>
+                    <tr>
+                        <td>2016-1-2</td>
+                        <td>2345876599</td>
+                        <td>中粮大米50kg</td>
+                        <td>1</td>
+                        <td>300元</td>
+                        <td>庄叶</td>
+                        <td>15652922740</td>
+                        <td>北京市朝阳区北四环东路97号</td>
+                        <td>庄叶</td>
+                        <td>未付款</td>
+                    </tr>
+                </table>
+
+                <!--未发货订单-->
+                <table class="table table-bordered table-hover sr-only">
+                    <caption>未发货订单</caption>
+                    <thead>
+                    <td>时间</td>
+                    <td>订单号</td>
+                    <td>商品</td>
+                    <td>数量</td>
+                    <td>总价格</td>
+                    <td>收货人</td>
+                    <td>手机</td>
+                    <td>地址</td>
+                    <td>用户名</td>
+                    <td>订单状态</td>
+                    <td>操作</td>
+                    </thead>
+                    <tr>
+                        <td>2016-1-2</td>
+                        <td>2345876599</td>
+                        <td>巧克力盒装500g</td>
+                        <td>2</td>
+                        <td>200元</td>
+                        <td>庄叶</td>
+                        <td>15652922740</td>
+                        <td>北京市朝阳区北四环东路97号</td>
+                        <td>庄叶</td>
+                        <td>未发货已付款</td>
+                        <td><button class="btn btn-default">发货</button></td>
+                    </tr>
+                    <tr>
+                        <td>2016-1-2</td>
+                        <td>2345876599</td>
+                        <td>清风纸巾9包装200抽</td>
+                        <td>1</td>
+                        <td>20元</td>
+                        <td>庄叶</td>
+                        <td>15652922740</td>
+                        <td>北京市朝阳区北四环东路97号</td>
+                        <td>庄叶</td>
+                        <td>未发货已付款</td>
+                        <td><button class="btn btn-default">发货</button></td>
+                    </tr>
+                    <tr>
+                        <td>2016-1-2</td>
+                        <td>2345876599</td>
+                        <td>中粮大米50kg</td>
+                        <td>1</td>
+                        <td>300元</td>
+                        <td>庄叶</td>
+                        <td>15652922740</td>
+                        <td>北京市朝阳区北四环东路97号</td>
+                        <td>庄叶</td>
+                        <td>未发货已付款</td>
+                        <td><button class="btn btn-default">发货</button></td>
+                    </tr>
+                </table>
+
+                <!--已发货订单-->
+                <table class="table table-bordered table-hover sr-only">
+                    <caption>已发货订单</caption>
+                    <thead>
+                        <td>时间</td>
+                        <td>订单号</td>
+                        <td>商品</td>
+                        <td>数量</td>
+                        <td>总价格</td>
+                        <td>收货人</td>
+                        <td>手机</td>
+                        <td>地址</td>
+                        <td>用户名</td>
+                        <td>订单状态</td>
+                        <td>物流信息</td>
+                    </thead>
+                    <tr>
+                        <td>2016-1-2</td>
+                        <td>2345876599</td>
+                        <td>巧克力盒装500g</td>
+                        <td>2</td>
+                        <td>200元</td>
+                        <td>庄叶</td>
+                        <td>15652922740</td>
+                        <td>北京市朝阳区北四环东路97号</td>
+                        <td>庄叶</td>
+                        <td>已发货未收货</td>
+                        <td><button class="btn btn-default">物流详情</button></td>
+                    </tr>
+                    <tr>
+                        <td>2016-1-2</td>
+                        <td>2345876599</td>
+                        <td>清风纸巾9包装200抽</td>
+                        <td>1</td>
+                        <td>20元</td>
+                        <td>庄叶</td>
+                        <td>15652922740</td>
+                        <td>北京市朝阳区北四环东路97号</td>
+                        <td>庄叶</td>
+                        <td>已发货未收货</td>
+                        <td><button class="btn btn-default">物流详情</button></td>
+                    </tr>
+                    <tr>
+                        <td>2016-1-2</td>
+                        <td>2345876599</td>
+                        <td>中粮大米50kg</td>
+                        <td>1</td>
+                        <td>300元</td>
+                        <td>庄叶</td>
+                        <td>15652922740</td>
+                        <td>北京市朝阳区北四环东路97号</td>
+                        <td>庄叶</td>
+                        <td>已发货未收货</td>
+                        <td><button class="btn btn-default">物流详情</button></td>
+                    </tr>
+                </table>
+
+                <!--已完成订单-->
+                <table class="table table-bordered table-hover">
+                    <caption>已发货订单</caption>
+                    <thead>
+                    <td>时间</td>
+                    <td>订单号</td>
+                    <td>商品</td>
+                    <td>数量</td>
+                    <td>总价格</td>
+                    <td>收货人</td>
+                    <td>手机</td>
+                    <td>地址</td>
+                    <td>用户名</td>
+                    <td>订单状态</td>
+                    <td>物流信息</td>
+                    </thead>
+                    <tr>
+                        <td>2016-1-2</td>
+                        <td>2345876599</td>
+                        <td>巧克力盒装500g</td>
+                        <td>2</td>
+                        <td>200元</td>
+                        <td>庄叶</td>
+                        <td>15652922740</td>
+                        <td>北京市朝阳区北四环东路97号</td>
+                        <td>庄叶</td>
+                        <td>已完成</td>
+                        <td><button class="btn btn-default">物流详情</button></td>
+                    </tr>
+                    <tr>
+                        <td>2016-1-2</td>
+                        <td>2345876599</td>
+                        <td>清风纸巾9包装200抽</td>
+                        <td>1</td>
+                        <td>20元</td>
+                        <td>庄叶</td>
+                        <td>15652922740</td>
+                        <td>北京市朝阳区北四环东路97号</td>
+                        <td>庄叶</td>
+                        <td>已完成</td>
+                        <td><button class="btn btn-default">物流详情</button></td>
+                    </tr>
+                    <tr>
+                        <td>2016-1-2</td>
+                        <td>2345876599</td>
+                        <td>中粮大米50kg</td>
+                        <td>1</td>
+                        <td>300元</td>
+                        <td>庄叶</td>
+                        <td>15652922740</td>
+                        <td>北京市朝阳区北四环东路97号</td>
+                        <td>庄叶</td>
+                        <td>已完成</td>
+                        <td><button class="btn btn-default">物流详情</button></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+
+
+        <div role="tabpanel" class="tab-pane" id="cycle_distribution">
+            <div class="container text-center">
+                <form class="form-inline search">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="请输入周期配送日期">
+                        <button type="submit" class="btn btn-success">搜索</button>
+                    </div>
+                </form>
+                <table class="table">
+                    <tr>
+                        <td><button class="btn btn-default">今日需配送</button></td>
+                        <td><button class="btn btn-default">已配送未收款</button></td>
+                        <td><button class="btn btn-success">已完成</button></td>
+                    </tr>
+                </table>
+
+                <!--今日需配送-->
+                <table class="table table-bordered table-hover sr-only">
+                    <caption>今日需配送</caption>
+                    <thead>
+                        <td>时间</td>
+                        <td>配送单号</td>
+                        <td>商品</td>
+                        <td>总数量</td>
+                        <td>总价格</td>
+                        <td>收货人</td>
+                        <td>手机</td>
+                        <td>地址</td>
+                        <td>用户名</td>
+                        <td>配送状态</td>
+                        <td>操作</td>
+                    </thead>
+                    <tr>
+                        <td>2016-1-26</td>
+                        <td>2345876599</td>
+                        <td>巧克力盒装500g【1】<br>
+                            金典牛奶6盒装【1】</td>
+
+                        <td>2</td>
+                        <td>200元</td>
+                        <td>庄叶</td>
+                        <td>15652922740</td>
+                        <td>北京市朝阳区北四环东路97号</td>
+                        <td>庄叶</td>
+                        <td>未配送</td>
+                        <td><button class="btn btn-default">配送</button></td>
+                    </tr>
+                    <tr>
+                        <td>2016-1-26</td>
+                        <td>2345876599</td>
+                        <td>清风纸巾9包装200抽【1】</td>
+                        <td>1</td>
+                        <td>20元</td>
+                        <td>庄叶</td>
+                        <td>15652922740</td>
+                        <td>北京市朝阳区北四环东路97号</td>
+                        <td>庄叶</td>
+                        <td>未配送</td>
+                        <td><button class="btn btn-default">配送</button></td>
+                    </tr>
+                    <tr>
+                        <td>2016-1-26</td>
+                        <td>2345876599</td>
+                        <td>中粮大米50kg【1】</td>
+                        <td>1</td>
+                        <td>300元</td>
+                        <td>庄叶</td>
+                        <td>15652922740</td>
+                        <td>北京市朝阳区北四环东路97号</td>
+                        <td>庄叶</td>
+                        <td>未配送</td>
+                        <td><button class="btn btn-default">配送</button></td>
+                    </tr>
+                </table>
+
+                <!--已配送未收款-->
+                <table class="table table-bordered table-hover sr-only">
+                    <caption>已配送未收款</caption>
+                    <thead>
+                    <td>时间</td>
+                    <td>配送单号</td>
+                    <td>商品</td>
+                    <td>总数量</td>
+                    <td>总价格</td>
+                    <td>收货人</td>
+                    <td>手机</td>
+                    <td>地址</td>
+                    <td>配送状态</td>
+                    <td>用户名</td>
+                    <td>操作</td>
+                    </thead>
+                    <tr>
+                        <td>2016-1-26</td>
+                        <td>2345876599</td>
+                        <td>巧克力盒装500g【1】<br>
+                            金典牛奶6盒装【1】</td>
+
+                        <td>2</td>
+                        <td>200元</td>
+                        <td>庄叶</td>
+                        <td>15652922740</td>
+                        <td>北京市朝阳区北四环东路97号</td>
+                        <td>庄叶</td>
+                        <td>未收款</td>
+                        <td><button class="btn btn-success">收款</button></td>
+                    </tr>
+                    <tr>
+                        <td>2016-1-26</td>
+                        <td>2345876599</td>
+                        <td>清风纸巾9包装200抽【1】</td>
+                        <td>1</td>
+                        <td>20元</td>
+                        <td>庄叶</td>
+                        <td>15652922740</td>
+                        <td>北京市朝阳区北四环东路97号</td>
+                        <td>庄叶</td>
+                        <td>未收款</td>
+                        <td><button class="btn btn-success">收款</button></td>
+                    </tr>
+                    <tr>
+                        <td>2016-1-26</td>
+                        <td>2345876599</td>
+                        <td>中粮大米50kg【1】</td>
+                        <td>1</td>
+                        <td>300元</td>
+                        <td>庄叶</td>
+                        <td>15652922740</td>
+                        <td>北京市朝阳区北四环东路97号</td>
+                        <td>庄叶</td>
+                        <td>未收款</td>
+                        <td><button class="btn btn-success">收款</button></td>
+                    </tr>
+                </table>
+
+                <!--已完成-->
+                <table class="table table-bordered table-hover">
+                    <caption>已完成</caption>
+                    <thead>
+                        <td>时间</td>
+                        <td>配送单号</td>
+                        <td>商品</td>
+                        <td>总数量</td>
+                        <td>总价格</td>
+                        <td>收货人</td>
+                        <td>手机</td>
+                        <td>地址</td>
+                        <td>用户名</td>
+                        <td>配送状态</td>
+                    </thead>
+                    <tr>
+                        <td>2016-1-26</td>
+                        <td>2345876599</td>
+                        <td>巧克力盒装500g【1】<br>
+                            金典牛奶6盒装【1】</td>
+
+                        <td>2</td>
+                        <td>200元</td>
+                        <td>庄叶</td>
+                        <td>15652922740</td>
+                        <td>北京市朝阳区北四环东路97号</td>
+                        <td>庄叶</td>
+                        <td>已完成</td>
+                    </tr>
+                    <tr>
+                        <td>2016-1-26</td>
+                        <td>2345876599</td>
+                        <td>清风纸巾9包装200抽【1】</td>
+                        <td>1</td>
+                        <td>20元</td>
+                        <td>庄叶</td>
+                        <td>15652922740</td>
+                        <td>北京市朝阳区北四环东路97号</td>
+                        <td>庄叶</td>
+                        <td>已完成</td>
+                    </tr>
+                    <tr>
+                        <td>2016-1-26</td>
+                        <td>2345876599</td>
+                        <td>中粮大米50kg【1】</td>
+                        <td>1</td>
+                        <td>300元</td>
+                        <td>庄叶</td>
+                        <td>15652922740</td>
+                        <td>北京市朝阳区北四环东路97号</td>
+                        <td>庄叶</td>
+                        <td>已完成</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div role="tabpanel" class="tab-pane" id="add_goods">
+            <div class="container">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="name" class="col-sm-2 col-md-2 control-label">商品名称:</label>
+                        <div class="col-sm-4 col-md-4">
+                            <input type="text" class="form-control" id="name" name="name" placeholder="商品名称">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="original_price" class="col-sm-2 control-label">原价:</label>
+                        <div class="col-sm-4 col-md-4">
+                            <input type="text" class="form-control" name="original_price" id="original_price">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="present_price" class="col-sm-2 control-label">现价:</label>
+                        <div class="col-sm-4 col-md-4">
+                            <input type="text" class="form-control" name="present_price" id="present_price">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="photo" class="col-sm-2 control-label">图片:</label>
+                        <div class="col-sm-4 col-md-4">
+                            <input type="file" name="goods_small_photo" id="photo">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="introduce" class="col-sm-2 control-label">商品介绍:</label>
+                        <div class="col-sm-4 col-md-4">
+                            <textarea class="introduce" id="introduce"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="sort" class="col-sm-2 control-label">所属分类:</label>
+                        <div class="col-sm-4 col-md-4">
+                            <select class="form-control" id="sort">
+                                <option value="">干果</option>
+                                <option value="">纸巾</option>
+                                <option value="">零食</option>
+                                <option value="">洗护用品</option>
+                                <option value="">饮料</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="state" class="col-sm-2 control-label">是否上架:</label>
+                        <div class="col-sm-4 col-md-4">
+                            <select class="form-control" id="state" name="state">
+                                <option value="">上架</option>
+                                <option value="">下架</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-4 col-md-4">
+                            <button type="reset" class="btn btn-default">重写</button>
+                            <button type="submit" class="btn btn-success">提交</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+
+        <div role="tabpanel" class="tab-pane" id="existing_goods">
+            <div class="container text-center">
+                <form class="form-inline search">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="请输入商品名称">
+                        <button type="submit" class="btn btn-success">搜索</button>
+                    </div>
+                </form>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-4 col-md-3">
+                        <div class="thumbnail">
+                            <img src="../../public/imgs/food1.jpg" alt="食品1">
+                            <div class="caption text-center">
+                                <h3>巧克力桶装</h3>
+                                <p>意大利进口</p>
+                                <p>
+                                    <a class="btn btn-default" href="mall_edit_ware.html" target="_blank">编辑</a>
+                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#revoke_goods_modal">下架</button>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 col-md-3">
+                        <div class="thumbnail">
+                            <img src="../../public/imgs/food2.jpg" alt="食品2">
+                            <div class="caption text-center">
+                                <h3>巧克力桶装</h3>
+                                <p>意大利进口</p>
+                                <p>
+                                    <a class="btn btn-default" href="mall_edit_ware.html" target="_blank">编辑</a>
+                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#revoke_goods_modal">下架</button>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 col-md-3">
+                        <div class="thumbnail">
+                            <img src="../../public/imgs/food1.jpg" alt="食品1">
+                            <div class="caption text-center">
+                                <h3>巧克力桶装</h3>
+                                <p>意大利进口</p>
+                                <p>
+                                    <a class="btn btn-default" href="mall_edit_ware.html" target="_blank">编辑</a>
+                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#revoke_goods_modal">下架</button>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 col-md-3">
+                        <div class="thumbnail">
+                            <img src="../../public/imgs/food1.jpg" alt="食品1">
+                            <div class="caption text-center">
+                                <h3>巧克力桶装</h3>
+                                <p>意大利进口</p>
+                                <p>
+                                    <a class="btn btn-default" href="mall_edit_ware.html" target="_blank">编辑</a>
+                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#revoke_goods_modal">下架</button>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 col-md-3">
+                        <div class="thumbnail">
+                            <img src="../../public/imgs/food1.jpg" alt="食品1">
+                            <div class="caption text-center">
+                                <h3>巧克力桶装</h3>
+                                <p>意大利进口</p>
+                                <p>
+                                    <a class="btn btn-default" href="mall_edit_ware.html" target="_blank">编辑</a>
+                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#revoke_goods_modal">下架</button>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 col-md-3">
+                        <div class="thumbnail">
+                            <img src="../../public/imgs/food1.jpg" alt="食品1">
+                            <div class="caption text-center">
+                                <h3>巧克力桶装</h3>
+                                <p>意大利进口</p>
+                                <p>
+                                    <a class="btn btn-default" href="mall_edit_ware.html" target="_blank">编辑</a>
+                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#revoke_goods_modal">下架</button>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 col-md-3">
+                        <div class="thumbnail">
+                            <img src="../../public/imgs/food1.jpg" alt="食品1">
+                            <div class="caption text-center">
+                                <h3>巧克力桶装</h3>
+                                <p>意大利进口</p>
+                                <p>
+                                    <a class="btn btn-default" href="mall_edit_ware.html" target="_blank">编辑</a>
+                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#revoke_goods_modal">下架</button>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 col-md-3">
+                        <div class="thumbnail">
+                            <img src="../../public/imgs/food1.jpg" alt="食品1">
+                            <div class="caption text-center">
+                                <h3>巧克力桶装</h3>
+                                <p>意大利进口</p>
+                                <p>
+                                    <a class="btn btn-default" href="mall_edit_ware.html" target="_blank">编辑</a>
+                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#revoke_goods_modal">下架</button>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="revoke_goods_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">操作提示</h4>
+            </div>
+            <div class="modal-body">
+                <p>商品下架意味着前端用户将不能再购买此商品</p>
+                <p>您确定继续商品下架操作吗？</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-success">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="../../public/js/jquery-1.11.3.js"></script>
+<script src="../../public/js/bootstrap.js"></script>
+</body>
+</html>

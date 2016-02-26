@@ -1,0 +1,25 @@
+.jumbotron{
+    background: #5CB85C;
+    padding: 10px 100px;
+    margin-top: -20px;
+    height: 120px;
+    color: #fff;
+}
+.navbar .navbar-collapse .active a{
+    background-color: #5CB85C;
+    color: #f0f0f0;
+}
+.navbar .navbar-collapse .active a:hover{
+    background-color: #5CB85C;
+    color: #fff;
+}
+.btn-default:hover{
+    background-color: #5CB85C;
+    color:#fff;
+}
+.logo_search_btn{
+    margin-top: -20px;
+}
+.search_btn{
+    padding: 10px 15px 15px;
+}

@@ -1,0 +1,99 @@
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>废宝--商品编辑</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="../../public/css/bootstrap.css" />
+    <link rel="stylesheet" href="../../public/css/style.css" />
+    <link rel="stylesheet" href="../../public/css/admin/style.css" />
+    <style type="text/css">
+        #goods_introduce{
+            width: 360px;
+            height: 150px;
+        }
+    </style>
+</head>
+<body>
+<div class="jumbotron">
+    <h1>网上商场管理</h1>
+</div>
+
+<nav class="navbar navbar-default">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#indexNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse" id="indexNavbar">
+            <ul class="nav navbar-nav">
+                <li><a href="index.html"><span class="glyphicon glyphicon-subscript"></span> 首页</a></li>
+                <li><a href="recycle_waste_manage.html"><span class="glyphicon glyphicon-list"></span> 废品回收管理</a></li>
+                <li class="active"><a href="mall_manage.html"><span class="glyphicon glyphicon-fire"></span> 网上商场管理</a></li>
+                <li><a href="articel_manage.html"><span class="glyphicon glyphicon-fire"></span> 环保美文管理</a></li>
+            </ul>
+        </div>
+
+    </div>
+</nav>
+
+    <div class="container">
+        <h4 class="text-center">编辑商品信息</h4>
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label for="goods_name" class="col-sm-2 col-md-2 control-label">商品名称:</label>
+                <div class="col-sm-4 col-md-4">
+                    <input type="text" class="form-control" id="goods_name" name="goods_name" placeholder="商品名称" value="巧克力桶装">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="original_price" class="col-sm-2 control-label">原价:</label>
+                <div class="col-sm-4 col-md-4">
+                    <input type="text" class="form-control" name="original_price" id="original_price" value="400">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="present_price" class="col-sm-2 control-label">现价:</label>
+                <div class="col-sm-4 col-md-4">
+                    <input type="text" class="form-control" name="present_price" id="present_price" value="300">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">商品图片:</label>
+                <div class="col-sm-4 col-md-4">
+                    <img src="../../public/imgs/goods_big_photo.jpg">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="goods_introduce" class="col-sm-2 control-label">商品介绍:</label>
+                <div class="col-sm-4 col-md-4">
+                    <textarea id="goods_introduce">巧克力桶装，意大利进口，做最好吃的巧克力</textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="state" class="col-sm-2 control-label">是否上架:</label>
+                <div class="col-sm-4 col-md-4">
+                    <select class="form-control" id="state" name="state">
+                        <option value="">上架</option>
+                        <option value="">下架</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-4 col-md-4">
+                    <button type="reset" class="btn btn-default">重写</button>
+                    <button type="submit" class="btn btn-success">修改</button>
+                </div>
+            </div>
+        </form>
+    </div>
+<script src="../../public/js/jquery-1.11.3.js"></script>
+<script src="../../public/js/bootstrap.js"></script>
+</body>
+</html>

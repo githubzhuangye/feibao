@@ -1,0 +1,170 @@
+<!DOCTYPE HTML>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no" />
+    <title>废宝--废品回收</title>
+    <link rel="stylesheet" type="text/css" href="../public/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../public/css/style.css">
+    <style type="text/css">
+        .waste_sort_thumbnail{
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="jumbotron">
+    <h1>废宝--废品回收</h1>
+</div>
+<div class="container logo_search_btn">
+    <div class="row">
+        <div class="col-md-3">
+            <a href="index.html" ><img src="../public/imgs/logo_h50.png" alt="logo" class="logo"/></a>
+        </div>
+        <div class="col-md-6 search_btn">
+            <form class="form-inline pull-left">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="请输入废品类别" value="手机">
+                    <button type="submit" class="btn btn-success">搜索</button>
+                </div>
+            </form>
+            <div class="btn-group pull-right" role="group">
+                <a class="btn btn-default" href="recycle_waste_my_recycle.html">我的回收</a>
+                <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="23">我的余额</button>
+            </div>
+        </div>
+        <div class="col-md-3 search_btn">
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#login_modal">登录</button>
+                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#register_modal">注册</button>
+            </div>
+        </div>
+    </div>
+</div>
+<nav class="navbar navbar-default">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#indexNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse" id="indexNavbar">
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> 回收类别<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#"> 手机平板</a></li>
+                        <li><a href="#"> 电脑家电</a></li>
+                        <li><a href="#"> 电子产品</a></li>
+                        <li><a href="#"> 饮料瓶</a></li>
+                        <li><a href="#"> 纸张报纸</a></li>
+                        <li><a href="#"> 衣服鞋子</a></li>
+                    </ul>
+                </li>
+                <li><a href="index.html"><span class="glyphicon glyphicon-home"></span>  首页</a></li>
+                <li class="active"><a href="recycle_waste.html"><span class="glyphicon glyphicon-list"></span>  废品回收</a></li>
+                <li><a href="mall.html"><span class="glyphicon glyphicon-fire"></span>  日常百货</a></li>
+                <li><a href="article.html"><span class="glyphicon glyphicon-fire"></span>  环保知识</a></li>
+                <li><a href="my_feibao.html"><span class="glyphicon glyphicon-question-sign"></span>  我的废宝</a></li>
+            </ul>
+        </div>
+
+    </div>
+</nav>
+
+<div class="table-responsive container">
+    <table class="table">
+        <tr>
+            <td>回收废品分类:</td>
+            <td>手机平板</td>
+            <td>电脑家电</td>
+            <td>电子产品</td>
+            <td>饮料瓶罐</td>
+            <td>纸张报纸</td>
+            <td>衣服鞋子</td>
+            <td><button class="btn btn-default">更多</button></td>
+        </tr>
+    </table>
+</div>
+
+<div id="recycle_waste_carousel" class="carousel slide text-center" data-ride="carousel" style="width: 1200px;height:220px;margin:0 auto;">
+    <ol class="carousel-indicators">
+        <li data-target="#recycle_waste_carousel" data-slide-to="0"></li>
+        <li data-target="#recycle_waste_carousel" data-slide-to="1"></li>
+        <li data-target="#recycle_waste_carousel" data-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner" role="listbox">
+        <div class="item active">
+            <img src="../public/imgs/waste_carousel_1.png" alt="轮播第一张" style="margin:0 auto;">
+        </div>
+        <div class="item">
+            <img src="../public/imgs/waste_carousel_2.png" alt="轮播第二张" style="margin:0 auto;">
+        </div>
+        <div class="item">
+            <img src="../public/imgs/waste_carousel_3.png" alt="轮播第三张" style="margin:0 auto;">
+        </div>
+    </div>
+    <a href="#recycle_waste_carousel" data-slide="prev" class="carousel-control left"><span class="glyphicon glyphicon-chevron-left"></span></a>
+    <a href="#recycle_waste_carousel" data-slide="next" class="carousel-control right"><span class="glyphicon glyphicon-chevron-right"></span></a>
+</div>
+
+<div class="container waste_sort_thumbnail">
+    <div class="row">
+        <div class="col-md-3 compares">
+            <div class="thumbnail">
+                <a href="#"><img src="../public/imgs/recycle_waste_category1.jpg" alt="手机平板"></a>
+                <div class="caption text-center">
+                    <h3>手机平板</h3>
+                    <p>200-6000元</p>
+                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#bespeak_recycle_modal">预约回收</button>
+                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#cycle_recycle_modal">周期回收</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<!--<div id="introduceOne" class="introduces">-->
+    <!--<div class="container">-->
+        <!--<div class="row">-->
+            <!--<div class="col-md-6 col-md-push-6 introduceImg">-->
+                <!--<img class="img-responsive center-block auto" src="img/introduce1.png" alt="企业介绍图片1">-->
+            <!--</div>-->
+            <!--<div class="col-md-6 col-md-pull-6 introducesText">-->
+                <!--<h3>强大的学习体系</h3>-->
+                <!--<p>经过管理学大师层层把关、让您的企业突飞猛进。</p>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
+<!--<div id="introduceTwo" class="introduces">-->
+    <!--<div class="container">-->
+        <!--<div class="row">-->
+            <!--<div class="col-md-6 introduceImg">-->
+                <!--<img class="img-responsive center-block auto" src="img/introduce2.png" alt="企业介绍图片1">-->
+            <!--</div>-->
+            <!--<div class="col-md-6 introducesText">-->
+                <!--<h3>强大的学习体系</h3>-->
+                <!--<p>经过管理学大师层层把关、让您的企业突飞猛进。</p>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
+
+<!--<div id="footer">-->
+    <!--<div class="container">-->
+        <!--<p>企业培训 | 合作事宜 | 版权投诉</p>-->
+        <!--<p>苏ICP 备12345678. © 2009-2016 瓢城企训网. Powered by Bootstrap.</p>-->
+    <!--</div>-->
+<!--</div>-->
+</body>
+<script src="js/jquery.js"></script>
+<script src="js/bootstrap.js"></script>
+<script type="text/javascript">
+
+
+</script>
+</html>
