@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-cn">
+<html lang="zh-cn" ng-app="feibao_waste_sort">
 <head>
     <meta charset="UTF-8">
     <title>废宝--废品回收管理</title>
@@ -559,68 +559,70 @@
         </div>
 
         <!--添加废品分类-->
-        <div role="tabpanel" class="tab-pane" id="add_waste_sort">
+
+        <div role="tabpanel" class="tab-pane" id="add_waste_sort" ng-controller="add_waste_sort">
             <div class="container">
                 <form class="form-horizontal">
                     <div class="form-group">
                         <label for="name" class="col-sm-2 col-md-2 control-label">分类名称:</label>
                         <div class="col-sm-4 col-md-4">
-                            <input type="text" class="form-control" id="name" placeholder="分类名称">
+                            <input type="text" class="form-control" id="name" placeholder="分类名称" ng-model="waste_sort.name">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="lowest_price" class="col-sm-2 control-label">最低价:</label>
                         <div class="col-sm-4 col-md-4">
-                            <input type="text" class="form-control" id="lowest_price" placeholder="最低价格">
+                            <input type="text" class="form-control" id="lowest_price" placeholder="最低价格" ng-model="waste_sort.lowest_price">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="highest_price" class="col-sm-2 control-label">最高价:</label>
                         <div class="col-sm-4 col-md-4">
-                            <input type="text" class="form-control" id="highest_price" placeholder="最高价格">
+                            <input type="text" class="form-control" id="highest_price" placeholder="最高价格" ng-model="waste_sort.highest_price">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="highest_price" class="col-sm-2 control-label">物品包括:</label>
                         <div class="col-sm-4 col-md-4">
-                            <input type="text" class="form-control" id="include" placeholder="回收物品包括">
+                            <input type="text" class="form-control" id="include" placeholder="回收物品包括" ng-model="waste_sort.include">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="highest_price" class="col-sm-2 control-label">回收用途:</label>
                         <div class="col-sm-4 col-md-4">
-                            <input type="text" class="form-control" id="use" placeholder="回收用途">
+                            <input type="text" class="form-control" id="use" placeholder="回收用途" ng-model="waste_sort.use_for">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="state" class="col-sm-2 control-label">是否上架:</label>
                         <div class="col-sm-4 col-md-4">
-                            <select class="form-control" name="state" id="state">
-                                <option value="true">上架</option>
-                                <option value="false">下架</option>
+                            <select class="form-control" name="state" id="state" ng-model="waste_sort.state">
+                                <option value="1">上架</option>
+                                <option value="0">下架</option>
                             </select>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="photo" class="col-sm-2 control-label">分类图片:</label>
                         <div class="col-sm-4 col-md-4">
-                            <input type="file" name="small_photo" id="photo">
+                            <input type="file" name="photo" id="photo" showimg-model>
+                            <img src="{{waste_sort.photo}}"  alt="图片预览" style="width:200px;height:200px;display:block;"/>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-4 col-md-4">
                             <button type="reset" class="btn btn-default">重写</button>
-                            <button type="submit" class="btn btn-success">提交</button>
+                            <button class="btn btn-success" ng-click="add_waste_sort()">保存</button>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
         <!--展示废品分类-->
-        <div role="tabpanel" class="tab-pane" id="waste_sort">
+        <div role="tabpanel" class="tab-pane" id="waste_sort" ng-controller="show_waste_sort">
             <div role="tabpanel" class="tab-pane" id="existing_goods">
                 <div class="container text-center waste_sort_search">
                         <div class="form-group">
@@ -944,7 +946,78 @@
 <script src="../../js/angular.js"></script>
 <script src="../../js/angular-route.js"></script>
 <script type="text/javascript">
+    var app =angular.module('feibao_waste_sort',['ngRoute']);
+    app.controller('add_waste_sort',function($scope,$location,$http,fileReader){
+        $scope.waste_sort ={};
+        $scope.getFile = function(){
+            var s = fileReader.readAsDataUrl($scope.file,$scope);
+            s.then(function(result){
+                $scope.waste_sort.photo = result;
+            })
+        };
+        $scope.add_waste_sort =function(){
+            $http({
+                url:'/waste_sorts/add',
+                method:"POST",
+                data:$scope.waste_sort,
+            }).success(function (waste_sort) {
+                $scope.waste_sorts.push(waste_sort);
+                alert('添加成功');
+            }).error(function(data){
+                alert('添加失败:'+data);
+            });
+        }
+    });
+    app.controller('show_waste_sort',function($rootScope,$scope){
+        $scope.waste_sorts =[{name:'手机平板',lowest_price:200,highest_price:6000,include:'智能手机，平板电脑', use_for:'贵金属回收，电池回收', state:0, photo:''}];
+    });
 
+    app.directive('showimgModel',function(){
+        return {
+            link:function(scope,element,attrs){
+                element.bind('change',function(event){
+                    scope.file = element[0].files[0];
+                    scope.getFile();
+                });
+            }
+        }
+    });
+
+    app.factory('fileReader',function($q){
+        //读取文件成功后触发
+        var onLoad = function(reader,deferred,scope){
+            return function(){
+                scope.$apply(function(){
+                    deferred.resolve(reader.result);
+                });
+            }
+        }
+        //读取失败后触发
+        var onError = function(reader,deferred,scope){
+            return function(){
+                scope.$apply(function(){
+                    deferred.reject(reader.result);
+                });
+            }
+        }
+        //获取文件读取器
+        var getReader = function(deferred,scope){
+            var reader = new FileReader();
+            reader.onload = onLoad(reader,deferred,scope);
+            reader.onerror = onError(reader,deferred,scope);
+            return reader;
+        }
+        //读取为dataurl
+        var readAsDataURL = function(file,scope){
+            var deferred = $q.defer();
+            var reader = getReader(deferred,scope);
+            reader.readAsDataURL(file);
+            return deferred.promise;
+        }
+        return {
+            readAsDataUrl:readAsDataURL
+        }
+    })
 </script>
 </body>
 </html>

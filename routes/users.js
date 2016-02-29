@@ -20,7 +20,6 @@ router.post('/register', function(req, res) {
 //µÇÂ¼
 router.post('/login', function(req, res) {
   var user =req.body;
-  console.log(user.name);
   User.findOne({name:user.name,password:encrypto(user.password)},function(err,user){
     if(err){
       res.status(500).json({msg:err});

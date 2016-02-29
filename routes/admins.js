@@ -11,6 +11,7 @@ router.post('/login', function(req, res) {
       res.status(500).json({msg:err});
     }else{
       req.session.admin = admin;
+      console.log(admin);
       res.json(admin);
     }
   });
