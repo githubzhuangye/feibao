@@ -10,7 +10,9 @@ router.post('/login', function(req, res) {
     if(err){
       res.status(500).json({msg:err});
     }else{
+      console.log(admin);
       req.session.admin = admin;
+      console.log(req.session.admin);
       res.json(admin);
     }
   });
