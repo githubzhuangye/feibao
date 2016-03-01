@@ -625,15 +625,16 @@
         <div role="tabpanel" class="tab-pane" id="waste_sort" ng-controller="show_waste_sort">
             <div role="tabpanel" class="tab-pane" id="existing_goods">
                 <div class="container text-center waste_sort_search">
+                    <form class="form-inline search">
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="请输入分类名称" name="sort_name" ng-model="sort_name" ng-change="filter()">
-                            <button type="submit" class="btn btn-success">搜索</button>
+                            <input type="text" class="form-control" placeholder="请输入分类名称" name="sort_name" ng-model="search" >
                         </div>
+                    </form>
                 </div>
                 <div class="container">
                     <div class="row">
 
-                        <div class="col-sm-4 col-md-3" ng-repeat="waste_sort in waste_sorts">
+                        <div class="col-sm-4 col-md-3" ng-repeat="waste_sort in waste_sorts |filter:search">
                             <div class="thumbnail">
                                 <img ng-src="{{waste_sort.photo}}" style="width: 200px;height: 200px;" alt="{{waste_sort.name}}">
                                 <div class="caption text-center">
@@ -947,7 +948,7 @@
 <script src="../../js/angular-route.js"></script>
 <script type="text/javascript">
     var app =angular.module('feibao_waste_sort',['ngRoute']);
-    app.controller('add_waste_sort',function($scope,$location,$http,fileReader){
+    app.controller('add_waste_sort',function($rootScope,$scope,$location,$http,fileReader){
         $scope.waste_sort ={};
         $scope.getFile = function(){
             var s = fileReader.readAsDataUrl($scope.file,$scope);
@@ -962,14 +963,20 @@
                 data:$scope.waste_sort,
             }).success(function (waste_sort) {
                 $scope.waste_sorts.push(waste_sort);
+                $scope.waste_sort ={};
                 alert('添加成功');
             }).error(function(data){
                 alert('添加失败:'+data);
             });
         }
     });
-    app.controller('show_waste_sort',function($rootScope,$scope){
-        $scope.waste_sorts =[{name:'手机平板',lowest_price:200,highest_price:6000,include:'智能手机，平板电脑', use_for:'贵金属回收，电池回收', state:0, photo:''}];
+    app.controller('show_waste_sort',function($rootScope,$http){
+        $http({
+            url:'/waste_sorts/find',
+            method:'GET'
+        }).success(function(waste_sorts){
+            $rootScope.waste_sorts =waste_sorts;
+        });
     });
 
     app.directive('showimgModel',function(){

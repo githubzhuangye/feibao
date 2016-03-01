@@ -6,8 +6,6 @@ var router = express.Router();
 var mime = require('mime');
 var fs = require('fs');
 
-
-
 /*添加废品分类 */
 router.post('/add',parser,function(req, res) {
   var waste_sort =req.body;
@@ -26,6 +24,16 @@ router.post('/add',parser,function(req, res) {
           }
     });
   });
+});
+
+router.get('/find', function (req, res) {
+    Waste_sort.find({},function(err,waste_sorts){
+        if (err) {
+            res.status(500).json({msg: err});
+        } else {
+            res.json(waste_sorts);
+        }
+    });
 });
 
 module.exports = router;
