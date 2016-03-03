@@ -641,14 +641,13 @@
                                     <h3>{{waste_sort.name}}</h3>
                                     <p>{{waste_sort.lowest_price}}-{{waste_sort.highest_price}}元</p>
                                     <p>
-                                        <a class="btn btn-default" href="recycle_waste_edit_sort.html" target="_blank">编辑</a>
-                                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#revoke_waste_sort_modal">下架</button>
+                                        <button class="btn btn-default" data-toggle="modal" data-target="#edit_waste_sort_modal" ng-click="edit(waste_sort._id)">编辑</button>
+                                        <button type="button" class="btn btn-default"  ng-click="pull(waste_sort._id)" ng-show="waste_sort.state ==1">下架</button>
+                                        <button type="button" class="btn btn-default"  ng-click="put(waste_sort._id)" ng-show="waste_sort.state ==0">上架</button>
                                     </p>
                                 </div>
                             </div>
                         </div>
-
-
                     </div>
                 </div>
             </div>
@@ -658,6 +657,81 @@
     </div>
 </div>
 
+<div class="modal fade" id="edit_waste_sort_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" ng-controller="edit_waste_wort">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">废品分类编辑</h4>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label  class="col-sm-1 col-md-1 control-label">分类名称:</label>
+                            <div class="col-sm-4 col-md-4">
+                                <input type="text" class="form-control" placeholder="分类名称" ng-model="waste_sort.name">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-1 col-md-1 control-label">最低价:</label>
+                            <div class="col-sm-4 col-md-4">
+                                <input type="text" class="form-control" placeholder="最低价格" ng-model="waste_sort.lowest_price">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-1 col-md-1 control-label">最高价:</label>
+                            <div class="col-sm-4 col-md-4">
+                                <input type="text" class="form-control" placeholder="最高价格" ng-model="waste_sort.highest_price">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 col-md-1 control-label">物品包括:</label>
+                            <div class="col-sm-4 col-md-4">
+                                <input type="text" class="form-control" placeholder="回收物品包括" ng-model="waste_sort.include">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 col-md-1 control-label">回收用途:</label>
+                            <div class="col-sm-4 col-md-4">
+                                <input type="text" class="form-control" placeholder="回收用途" ng-model="waste_sort.use_for">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 col-md-1 control-label">是否上架:</label>
+                            <div class="col-sm-4 col-md-4">
+                                <select class="form-control" name="state" ng-model="waste_sort.state">
+                                    <option value="1">上架</option>
+                                    <option value="0">下架</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 col-md-1 control-label">分类图片:</label>
+                            <div class="col-sm-4 col-md-4">
+                                <input type="file" name="photo" showimg-model>
+                                <img src="{{waste_sort.photo}}"  alt="图片预览" style="width:150px;height:150px;display:block;"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-4 col-md-4">
+                                <button type="reset" class="btn btn-default">重写</button>
+                                <button class="btn btn-success" ng-click="add_waste_sort()">保存</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-success">支付</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="modal fade" id="cash_pay_bespeak_recycle_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
@@ -728,7 +802,6 @@
         </div>
     </div>
 </div>
-
 
 <div class="modal fade" id="electronic_pay_bespeak_recycle_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
@@ -923,24 +996,6 @@
     </div>
 </div>
 
-<div class="modal fade" id="revoke_waste_sort_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">操作提示</h4>
-            </div>
-            <div class="modal-body">
-                <p>废品分类下架意味着前端用户将不能看到此分类</p>
-                <p>您确定继续废品分类下架操作吗？</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-success">确定</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 <script src="../../js/jquery-1.11.3.js"></script>
 <script src="../../js/bootstrap.js"></script>
@@ -970,14 +1025,50 @@
             });
         }
     });
-    app.controller('show_waste_sort',function($rootScope,$http){
+    app.controller('show_waste_sort',function($rootScope,$scope,$http){
         $http({
             url:'/waste_sorts/find',
             method:'GET'
         }).success(function(waste_sorts){
             $rootScope.waste_sorts =waste_sorts;
         });
+        //编辑分类
+        $scope.edit =function(id){
+            alert(id);
+        };
+        //分类下架
+        $scope.pull =function(id){
+            if(confirm('是否确定下架')){
+                $http({
+                    url:'/waste_sorts/pull',
+                    method:'POST',
+                    data:{
+                        id:id
+                    }
+                }).success(function(waste_sorts){
+                    $rootScope.waste_sorts =waste_sorts;
+                });
+            }
+        }
+        //分类上架
+        $scope.put =function(id){
+            if(confirm('是否确定上架')){
+                $http({
+                    url:'/waste_sorts/put',
+                    method:'POST',
+                    data:{
+                        id:id
+                    }
+                }).success(function(waste_sorts){
+                    $rootScope.waste_sorts =waste_sorts;
+                });
+            }
+        }
     });
+    app.controller('edit_waste_wort',function(){
+
+    });
+
 
     app.directive('showimgModel',function(){
         return {

@@ -15,7 +15,6 @@ router.post('/add',parser,function(req, res) {
   var photoName =uuid.v4() + '.' + photoType;
   waste_sort.photo ='/upload/' + photoName;
   fs.writeFile('./public/upload/' + photoName, photoSplits[1], 'base64', function (err, result) {
-      console.log(waste_sort);
     new Waste_sort(waste_sort).save(function (err, waste_sort) {
           if (err) {
             res.status(500).json({msg: err});
@@ -25,13 +24,47 @@ router.post('/add',parser,function(req, res) {
     });
   });
 });
-
+//查找所有分类
 router.get('/find', function (req, res) {
     Waste_sort.find({},function(err,waste_sorts){
         if (err) {
             res.status(500).json({msg: err});
         } else {
             res.json(waste_sorts);
+        }
+    });
+});
+//分类下架
+router.post('/pull', function (req, res) {
+    var id =req.body.id;
+    Waste_sort.update({_id:id},{$set:{state:0}},function(err,waste_sort){
+        if (err) {
+            res.status(500).json({msg: err});
+        } else {
+            Waste_sort.find({},function(err,waste_sorts){
+                if (err) {
+                    res.status(500).json({msg: err});
+                } else {
+                    res.json(waste_sorts);
+                }
+            });
+        }
+    });
+});
+//分类上架
+router.post('/put', function (req, res) {
+    var id =req.body.id;
+    Waste_sort.update({_id:id},{$set:{state:1}},function(err,waste_sort){
+        if (err) {
+            res.status(500).json({msg: err});
+        } else {
+            Waste_sort.find({},function(err,waste_sorts){
+                if (err) {
+                    res.status(500).json({msg: err});
+                } else {
+                    res.json(waste_sorts);
+                }
+            });
         }
     });
 });
