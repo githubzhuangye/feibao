@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="zh-cn">
+<html lang="zh-cn" ng-app="feibao_mall">
 <head>
     <meta charset="UTF-8">
     <title>废宝--网上商场管理</title>
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1, user-scalable=no">
-    <link rel="stylesheet" href="../../public/css/bootstrap.css" />
-    <link rel="stylesheet" href="../../public/css/style.css" />
-    <link rel="stylesheet" href="../../public/css/admin/style.css" />
+    <link rel="stylesheet" href="../../css/bootstrap.css" />
+    <link rel="stylesheet" href="../../css/style.css" />
+    <link rel="stylesheet" href="../../css/admin/style.css" />
     <style type="text/css">
         .search{
             padding-bottom: 10px;
@@ -35,10 +35,10 @@
         </div>
         <div class="collapse navbar-collapse" id="indexNavbar">
             <ul class="nav navbar-nav">
-                <li><a href="index.html"><span class="glyphicon glyphicon-subscript"></span> 首页</a></li>
-                <li><a href="recycle_waste_manage.html"><span class="glyphicon glyphicon-list"></span> 废品回收管理</a></li>
-                <li class="active"><a href="mall_manage.html"><span class="glyphicon glyphicon-fire"></span> 网上商场管理</a></li>
-                <li><a href="articel_manage.html"><span class="glyphicon glyphicon-fire"></span> 环保美文管理</a></li>
+                <li><a href="index.html"><span class="glyphicon glyphicon-home"></span> 首页</a></li>
+                <li><a href="recycle_waste_manage.html"><span class="glyphicon glyphicon-refresh"></span> 废品回收管理</a></li>
+                <li class="active"><a href="mall_manage.html"><span class="glyphicon glyphicon-shopping-cart"></span> 网上商场管理</a></li>
+                <li><a href="articel_manage.html"><span class="glyphicon glyphicon-book"></span> 环保美文管理</a></li>
             </ul>
         </div>
 
@@ -47,13 +47,14 @@
 
 <div class="container">
     <ul class="nav nav-tabs" role="tablist">
-        <li role="presentation"  class="active"><a href="#user_order" aria-controls="messages" role="tab" data-toggle="tab">用户订单</a></li>
-        <li role="presentation"><a href="#cycle_distribution" aria-controls="settings" role="tab" data-toggle="tab">周期配送</a></li>
-        <li role="presentation"><a href="#add_goods" aria-controls="profile" role="tab" data-toggle="tab">添加商品</a></li>
-        <li role="presentation"><a href="#existing_goods" aria-controls="home" role="tab" data-toggle="tab">已有商品</a></li>
+        <li role="presentation"  class="active"><a href="#user_order" aria-controls="user_order" role="tab" data-toggle="tab">用户订单</a></li>
+        <li role="presentation"><a href="#cycle_distribution" aria-controls="cycle_distribution" role="tab" data-toggle="tab">周期配送</a></li>
+        <li role="presentation"><a href="#add_ware" aria-controls="add_ware" role="tab" data-toggle="tab">添加商品</a></li>
+        <li role="presentation"><a href="#show_wares" aria-controls="show_wares" role="tab" data-toggle="tab">已有商品</a></li>
     </ul>
 
     <div class="tab-content">
+        <!--用户订单-->
         <div role="tabpanel" class="tab-pane active" id="user_order">
             <div class="container text-center">
                 <form class="form-inline search">
@@ -295,8 +296,7 @@
             </div>
         </div>
 
-
-
+        <!--周期配送-->
         <div role="tabpanel" class="tab-pane" id="cycle_distribution">
             <div class="container text-center">
                 <form class="form-inline search">
@@ -488,59 +488,61 @@
             </div>
         </div>
 
-        <div role="tabpanel" class="tab-pane" id="add_goods">
+        <!--添加商品-->
+        <div role="tabpanel" class="tab-pane" id="add_ware" ng-controller="add_ware">
             <div class="container">
                 <form class="form-horizontal">
                     <div class="form-group">
-                        <label for="name" class="col-sm-2 col-md-2 control-label">商品名称:</label>
+                        <label class="col-sm-2 col-md-2 control-label">商品名称:</label>
                         <div class="col-sm-4 col-md-4">
-                            <input type="text" class="form-control" id="name" name="name" placeholder="商品名称">
+                            <input type="text" class="form-control" name="name" placeholder="商品名称" ng-model="ware.name">
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="original_price" class="col-sm-2 control-label">原价:</label>
+                        <label class="col-sm-2 control-label">原价:</label>
                         <div class="col-sm-4 col-md-4">
-                            <input type="text" class="form-control" name="original_price" id="original_price">
+                            <input type="text" class="form-control" name="original_price" placeholder="原价" ng-model="ware.original_price">
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="present_price" class="col-sm-2 control-label">现价:</label>
+                        <label  class="col-sm-2 control-label">现价:</label>
                         <div class="col-sm-4 col-md-4">
-                            <input type="text" class="form-control" name="present_price" id="present_price">
+                            <input type="text" class="form-control" name="present_price" placeholder="现价" ng-model="ware.present_price">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="photo" class="col-sm-2 control-label">图片:</label>
+                        <label class="col-sm-2 control-label">图片:</label>
                         <div class="col-sm-4 col-md-4">
-                            <input type="file" name="goods_small_photo" id="photo">
+                            <input type="file" name="photo" showimg-model>
+                            <img src="{{ware.photo}}"  alt="图片预览" style="width:150px;height:150px;display:block;"/>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="introduce" class="col-sm-2 control-label">商品介绍:</label>
+                        <label class="col-sm-2 control-label">商品介绍:</label>
                         <div class="col-sm-4 col-md-4">
-                            <textarea class="introduce" id="introduce"></textarea>
+                            <textarea class="introduce" ng-model="ware.introduce"></textarea>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="sort" class="col-sm-2 control-label">所属分类:</label>
+                        <label class="col-sm-2 control-label">所属分类:</label>
                         <div class="col-sm-4 col-md-4">
-                            <select class="form-control" id="sort">
-                                <option value="">干果</option>
-                                <option value="">纸巾</option>
-                                <option value="">零食</option>
-                                <option value="">洗护用品</option>
-                                <option value="">饮料</option>
+                            <select class="form-control" name="sort" ng-model="ware.sort">
+                                <option value="1" selected>干果</option>
+                                <option value="2">纸巾</option>
+                                <option value="3">零食</option>
+                                <option value="4">洗护用品</option>
+                                <option value="5">饮料</option>
                             </select>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="state" class="col-sm-2 control-label">是否上架:</label>
                         <div class="col-sm-4 col-md-4">
-                            <select class="form-control" id="state" name="state">
-                                <option value="">上架</option>
-                                <option value="">下架</option>
+                            <select class="form-control" id="state" name="state" ng-model="ware.state">
+                                <option value="1">上架</option>
+                                <option value="0">下架</option>
                             </select>
                         </div>
                     </div>
@@ -548,126 +550,35 @@
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-4 col-md-4">
                             <button type="reset" class="btn btn-default">重写</button>
-                            <button type="submit" class="btn btn-success">提交</button>
+                            <button type="submit" class="btn btn-success" ng-click="add_ware()">保存</button>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
 
-
-
-        <div role="tabpanel" class="tab-pane" id="existing_goods">
+        <!--商品分类-->
+        <div role="tabpanel" class="tab-pane" id="show_wares" ng-controller="show_wares">
             <div class="container text-center">
                 <form class="form-inline search">
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="请输入商品名称">
-                        <button type="submit" class="btn btn-success">搜索</button>
+                        <input type="text" class="form-control" placeholder="请输入商品名称" ng-model="search">
                     </div>
                 </form>
             </div>
             <div class="container">
                 <div class="row">
-                    <div class="col-sm-4 col-md-3">
+                    <div class="col-sm-4 col-md-3" ng-repeat="ware in wares |filter:search">
                         <div class="thumbnail">
-                            <img src="../../public/imgs/food1.jpg" alt="食品1">
+                            <img ng-src="{{ware.photo}}" style="width: 150px;height: 150px;" alt="{{ware.name}}">
                             <div class="caption text-center">
-                                <h3>巧克力桶装</h3>
-                                <p>意大利进口</p>
+                                <h4>{{ware.name}}</h4>
+                                <p>当前价（元）：{{ware.present_price}}￥</p>
+                                <del>原价（元）：{{ware.original_price}}￥</del>
                                 <p>
-                                    <a class="btn btn-default" href="mall_edit_ware.html" target="_blank">编辑</a>
-                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#revoke_goods_modal">下架</button>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-4 col-md-3">
-                        <div class="thumbnail">
-                            <img src="../../public/imgs/food2.jpg" alt="食品2">
-                            <div class="caption text-center">
-                                <h3>巧克力桶装</h3>
-                                <p>意大利进口</p>
-                                <p>
-                                    <a class="btn btn-default" href="mall_edit_ware.html" target="_blank">编辑</a>
-                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#revoke_goods_modal">下架</button>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-4 col-md-3">
-                        <div class="thumbnail">
-                            <img src="../../public/imgs/food1.jpg" alt="食品1">
-                            <div class="caption text-center">
-                                <h3>巧克力桶装</h3>
-                                <p>意大利进口</p>
-                                <p>
-                                    <a class="btn btn-default" href="mall_edit_ware.html" target="_blank">编辑</a>
-                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#revoke_goods_modal">下架</button>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-4 col-md-3">
-                        <div class="thumbnail">
-                            <img src="../../public/imgs/food1.jpg" alt="食品1">
-                            <div class="caption text-center">
-                                <h3>巧克力桶装</h3>
-                                <p>意大利进口</p>
-                                <p>
-                                    <a class="btn btn-default" href="mall_edit_ware.html" target="_blank">编辑</a>
-                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#revoke_goods_modal">下架</button>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-4 col-md-3">
-                        <div class="thumbnail">
-                            <img src="../../public/imgs/food1.jpg" alt="食品1">
-                            <div class="caption text-center">
-                                <h3>巧克力桶装</h3>
-                                <p>意大利进口</p>
-                                <p>
-                                    <a class="btn btn-default" href="mall_edit_ware.html" target="_blank">编辑</a>
-                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#revoke_goods_modal">下架</button>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-4 col-md-3">
-                        <div class="thumbnail">
-                            <img src="../../public/imgs/food1.jpg" alt="食品1">
-                            <div class="caption text-center">
-                                <h3>巧克力桶装</h3>
-                                <p>意大利进口</p>
-                                <p>
-                                    <a class="btn btn-default" href="mall_edit_ware.html" target="_blank">编辑</a>
-                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#revoke_goods_modal">下架</button>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-4 col-md-3">
-                        <div class="thumbnail">
-                            <img src="../../public/imgs/food1.jpg" alt="食品1">
-                            <div class="caption text-center">
-                                <h3>巧克力桶装</h3>
-                                <p>意大利进口</p>
-                                <p>
-                                    <a class="btn btn-default" href="mall_edit_ware.html" target="_blank">编辑</a>
-                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#revoke_goods_modal">下架</button>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-4 col-md-3">
-                        <div class="thumbnail">
-                            <img src="../../public/imgs/food1.jpg" alt="食品1">
-                            <div class="caption text-center">
-                                <h3>巧克力桶装</h3>
-                                <p>意大利进口</p>
-                                <p>
-                                    <a class="btn btn-default" href="mall_edit_ware.html" target="_blank">编辑</a>
-                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#revoke_goods_modal">下架</button>
+                                    <button class="btn btn-default" data-toggle="modal" data-target="#edit_ware_modal" ng-click="edit(ware._id)">编辑</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <button type="button" class="btn btn-default"  ng-click="pull(ware._id)" ng-show="ware.state ==1">下架</button>
+                                    <button type="button" class="btn btn-success"  ng-click="put(ware._id)" ng-show="ware.state ==0">上架</button>
                                 </p>
                             </div>
                         </div>
@@ -678,27 +589,149 @@
     </div>
 </div>
 
-<div class="modal fade" id="revoke_goods_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">操作提示</h4>
-            </div>
-            <div class="modal-body">
-                <p>商品下架意味着前端用户将不能再购买此商品</p>
-                <p>您确定继续商品下架操作吗？</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-success">确定</button>
-            </div>
-        </div>
-    </div>
-</div>
+
+<script src="../../js/jquery-1.11.3.js"></script>
+<script src="../../js/bootstrap.js"></script>
+<script src="../../js/angular.js"></script>
+<script src="../../js/angular-route.js"></script>
+<script type="text/javascript">
+    var app =angular.module('feibao_mall',['ngRoute']);
+    //添加商品
+    app.controller('add_ware',function($rootScope,$scope,$location,$http,fileReader){
+        $scope.ware ={};
+        $rootScope.wares =[];
+        $scope.getFile = function(){
+            var s = fileReader.readAsDataUrl($scope.file,$scope);
+            s.then(function(result){
+                $scope.ware.photo = result;
+            })
+        };
+        $scope.add_ware =function(){
+            $http({
+                url:'/wares/add',
+                method:"POST",
+                data:$scope.ware,
+            }).success(function (ware) {
+                $rootScope.wares.push(ware);
+                $scope.ware ={};
+                alert('添加成功');
+            }).error(function(data){
+                alert('添加失败:'+data);
+            });
+        }
+    });
+    //查看编辑商品
+    app.controller('show_wares',function($rootScope,$scope,$http){
+        $http({
+            url:'/wares/find',
+            method:'GET'
+        }).success(function(wares){
+            $rootScope.wares =wares;
+        });
+//        //编辑分类
+//        $scope.edit =function(id){
+//            //显示模态框之前查询出数据
+//            $http({
+//                url:'/waste_sorts/edit',
+//                method:'POST',
+//                data:{
+//                    id:id
+//                }
+//            }).success(function(edit_waste_sort){
+//                $scope.edit_waste_sort =edit_waste_sort;
+//            });
+//        };
+//        //保存编辑
+//        $scope.save_edit =function(){
+//            //显示模态框之前查询出数据
+//            $http({
+//                url:'/waste_sorts/save_edit',
+//                method:'POST',
+//                data:$scope.edit_waste_sort
+//            }).success(function(waste_sorts){
+//                $('#edit_waste_sort_modal').modal('hide');
+//                $rootScope.waste_sorts =waste_sorts;
+//                alert('修改成功');
+//            });
+//        };
+//        //分类下架
+//        $scope.pull =function(id){
+//            if(confirm('是否确定下架')){
+//                $http({
+//                    url:'/waste_sorts/pull',
+//                    method:'POST',
+//                    data:{
+//                        id:id
+//                    }
+//                }).success(function(waste_sorts){
+//                    $rootScope.waste_sorts =waste_sorts;
+//                });
+//            }
+//        }
+//        //分类上架
+//        $scope.put =function(id){
+//            if(confirm('是否确定上架')){
+//                $http({
+//                    url:'/waste_sorts/put',
+//                    method:'POST',
+//                    data:{
+//                        id:id
+//                    }
+//                }).success(function(waste_sorts){
+//                    $rootScope.waste_sorts =waste_sorts;
+//                });
+//            }
+//        }
+    });
 
 
-<script src="../../public/js/jquery-1.11.3.js"></script>
-<script src="../../public/js/bootstrap.js"></script>
+    //指令
+    app.directive('showimgModel',function(){
+        return {
+            link:function(scope,element,attrs){
+                element.bind('change',function(event){
+                    scope.file = element[0].files[0];
+                    scope.getFile();
+                });
+            }
+        }
+    });
+
+    app.factory('fileReader',function($q){
+        //读取文件成功后触发
+        var onLoad = function(reader,deferred,scope){
+            return function(){
+                scope.$apply(function(){
+                    deferred.resolve(reader.result);
+                });
+            }
+        }
+        //读取失败后触发
+        var onError = function(reader,deferred,scope){
+            return function(){
+                scope.$apply(function(){
+                    deferred.reject(reader.result);
+                });
+            }
+        }
+        //获取文件读取器
+        var getReader = function(deferred,scope){
+            var reader = new FileReader();
+            reader.onload = onLoad(reader,deferred,scope);
+            reader.onerror = onError(reader,deferred,scope);
+            return reader;
+        }
+        //读取为dataurl
+        var readAsDataURL = function(file,scope){
+            var deferred = $q.defer();
+            var reader = getReader(deferred,scope);
+            reader.readAsDataURL(file);
+            return deferred.promise;
+        }
+        return {
+            readAsDataUrl:readAsDataURL
+        }
+    })
+</script>
 </body>
 </html>
