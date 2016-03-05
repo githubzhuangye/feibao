@@ -623,29 +623,27 @@
 
         <!--展示废品分类-->
         <div role="tabpanel" class="tab-pane" id="waste_sort" ng-controller="show_waste_sort">
-            <div role="tabpanel" class="tab-pane" id="existing_goods">
-                <div class="container text-center waste_sort_search">
-                    <form class="form-inline search">
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="请输入分类名称" name="sort_name" ng-model="search" >
-                        </div>
-                    </form>
-                </div>
-                <div class="container">
-                    <div class="row">
+            <div class="container text-center waste_sort_search">
+                <form class="form-inline search">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="请输入分类名称" name="sort_name" ng-model="search" >
+                    </div>
+                </form>
+            </div>
+            <div class="container">
+                <div class="row">
 
-                        <div class="col-sm-4 col-md-3" ng-repeat="waste_sort in waste_sorts |filter:search">
-                            <div class="thumbnail">
-                                <img ng-src="{{waste_sort.photo}}" style="width: 200px;height: 200px;" alt="{{waste_sort.name}}">
-                                <div class="caption text-center">
-                                    <h3>{{waste_sort.name}}</h3>
-                                    <p>{{waste_sort.lowest_price}}-{{waste_sort.highest_price}}元</p>
-                                    <p>
-                                        <button class="btn btn-default" data-toggle="modal" data-target="#edit_waste_sort_modal" ng-click="edit(waste_sort._id)">编辑</button>
-                                        <button type="button" class="btn btn-default"  ng-click="pull(waste_sort._id)" ng-show="waste_sort.state ==1">下架</button>
-                                        <button type="button" class="btn btn-success"  ng-click="put(waste_sort._id)" ng-show="waste_sort.state ==0">上架</button>
-                                    </p>
-                                </div>
+                    <div class="col-sm-4 col-md-3" ng-repeat="waste_sort in waste_sorts |filter:search">
+                        <div class="thumbnail">
+                            <img ng-src="{{waste_sort.photo}}" style="width: 200px;height: 200px;" alt="{{waste_sort.name}}">
+                            <div class="caption text-center">
+                                <h3>{{waste_sort.name}}</h3>
+                                <p>{{waste_sort.lowest_price}}-{{waste_sort.highest_price}}元</p>
+                                <p>
+                                    <button class="btn btn-default" data-toggle="modal" data-target="#edit_waste_sort_modal" ng-click="edit(waste_sort._id)">编辑</button>
+                                    <button type="button" class="btn btn-default"  ng-click="pull(waste_sort._id)" ng-show="waste_sort.state ==1">下架</button>
+                                    <button type="button" class="btn btn-success"  ng-click="put(waste_sort._id)" ng-show="waste_sort.state ==0">上架</button>
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -1015,7 +1013,7 @@
                 $scope.waste_sort ={};
                 alert('添加成功');
             }).error(function(data){
-                alert('添加失败:'+data);
+                alert('添加失败:请选择较小的图片上传');
             });
         }
     });

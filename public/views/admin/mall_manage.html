@@ -495,7 +495,7 @@
                     <div class="form-group">
                         <label class="col-sm-2 col-md-2 control-label">商品名称:</label>
                         <div class="col-sm-4 col-md-4">
-                            <input type="text" class="form-control" name="name" placeholder="商品名称" ng-model="ware.name">
+                            <input type="text" class="form-control" name="name" placeholder="商品名称" ng-model="ware.name" maxlength="12">
                         </div>
                     </div>
 
@@ -585,6 +585,82 @@
                     </div>
                 </div>
             </div>
+            <!--编辑商品模态框-->
+            <div class="modal fade" id="edit_ware_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">商品分类编辑</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label class="col-sm-1 col-md-1 control-label">商品名称:</label>
+                                        <div class="col-sm-4 col-md-4">
+                                            <input type="text" class="form-control" name="name" placeholder="商品名称" ng-model="edit_ware.name" maxlength="14">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-1 col-md-1 control-label">原价:</label>
+                                        <div class="col-sm-4 col-md-4">
+                                            <input type="text" class="form-control" name="original_price" placeholder="原价" ng-model="edit_ware.original_price">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label  class="col-sm-1 col-md-1 control-label">现价:</label>
+                                        <div class="col-sm-4 col-md-4">
+                                            <input type="text" class="form-control" name="present_price" placeholder="现价" ng-model="edit_ware.present_price">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-1 col-md-1 control-label">图片:</label>
+                                        <div class="col-sm-4 col-md-4">
+                                            <input type="file" name="photo" showimg-model>
+                                            <img src="{{edit_ware.photo}}"  alt="图片预览" style="width:150px;height:150px;display:block;"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-1 col-md-1 control-label">商品介绍:</label>
+                                        <div class="col-sm-4 col-md-4">
+                                            <textarea class="introduce" ng-model="edit_ware.introduce" style="width:440px;"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-1 col-md-1 control-label">所属分类:</label>
+                                        <div class="col-sm-4 col-md-4">
+                                            <select class="form-control" name="sort" ng-model="edit_ware.sort">
+                                                <option value="1" selected>干果</option>
+                                                <option value="2">水果生鲜</option>
+                                                <option value="3">零食</option>
+                                                <option value="4">洗护用品</option>
+                                                <option value="5">饮料</option>
+                                                <option value="6">厨房用品</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="state" class="col-sm-1 col-md-1 control-label">是否上架:</label>
+                                        <div class="col-sm-4 col-md-4">
+                                            <select class="form-control" name="state" ng-model="edit_ware.state">
+                                                <option value="1">上架</option>
+                                                <option value="0">下架</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-success" ng-click="save_edit()">保存</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -621,67 +697,74 @@
         }
     });
     //查看编辑商品
-    app.controller('show_wares',function($rootScope,$scope,$http){
+    app.controller('show_wares',function($rootScope,$scope,$http,fileReader){
+        $scope.getFile = function(){
+            var s = fileReader.readAsDataUrl($scope.file,$scope);
+            s.then(function(result){
+                $scope.edit_ware.photo = result;
+            })
+        };
         $http({
             url:'/wares/find',
             method:'GET'
         }).success(function(wares){
             $rootScope.wares =wares;
         });
-//        //编辑分类
-//        $scope.edit =function(id){
-//            //显示模态框之前查询出数据
-//            $http({
-//                url:'/waste_sorts/edit',
-//                method:'POST',
-//                data:{
-//                    id:id
-//                }
-//            }).success(function(edit_waste_sort){
-//                $scope.edit_waste_sort =edit_waste_sort;
-//            });
-//        };
-//        //保存编辑
-//        $scope.save_edit =function(){
-//            //显示模态框之前查询出数据
-//            $http({
-//                url:'/waste_sorts/save_edit',
-//                method:'POST',
-//                data:$scope.edit_waste_sort
-//            }).success(function(waste_sorts){
-//                $('#edit_waste_sort_modal').modal('hide');
-//                $rootScope.waste_sorts =waste_sorts;
-//                alert('修改成功');
-//            });
-//        };
-//        //分类下架
-//        $scope.pull =function(id){
-//            if(confirm('是否确定下架')){
-//                $http({
-//                    url:'/waste_sorts/pull',
-//                    method:'POST',
-//                    data:{
-//                        id:id
-//                    }
-//                }).success(function(waste_sorts){
-//                    $rootScope.waste_sorts =waste_sorts;
-//                });
-//            }
-//        }
-//        //分类上架
-//        $scope.put =function(id){
-//            if(confirm('是否确定上架')){
-//                $http({
-//                    url:'/waste_sorts/put',
-//                    method:'POST',
-//                    data:{
-//                        id:id
-//                    }
-//                }).success(function(waste_sorts){
-//                    $rootScope.waste_sorts =waste_sorts;
-//                });
-//            }
-//        }
+        //编辑分类
+        $scope.edit =function(id){
+            //显示模态框之前查询出数据
+            $http({
+                url:'/wares/edit',
+                method:'POST',
+                data:{
+                    id:id
+                }
+            }).success(function(edit_ware){
+                $scope.edit_ware =edit_ware;
+            });
+        };
+        //保存编辑
+        $scope.save_edit =function(){
+            //显示模态框之前查询出数据
+            $http({
+                url:'/wares/save_edit',
+                method:'POST',
+                data:$scope.edit_ware
+            }).success(function(wares){
+                $('#edit_ware_modal').modal('hide');
+                $rootScope.wares =wares;
+                alert('修改成功');
+            });
+        };
+
+        //商品下架
+        $scope.pull =function(id){
+            if(confirm('是否确定下架')){
+                $http({
+                    url:'/wares/pull',
+                    method:'POST',
+                    data:{
+                        id:id
+                    }
+                }).success(function(wares){
+                    $rootScope.wares =wares;
+                });
+            }
+        };
+        //商品上架
+        $scope.put =function(id){
+            if(confirm('是否确定上架')){
+                $http({
+                    url:'/wares/put',
+                    method:'POST',
+                    data:{
+                        id:id
+                    }
+                }).success(function(wares){
+                    $rootScope.wares =wares;
+                });
+            }
+        }
     });
 
 

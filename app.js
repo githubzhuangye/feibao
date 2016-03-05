@@ -13,6 +13,7 @@ var admins = require('./routes/admins');
 var users = require('./routes/users');
 var waste_sorts = require('./routes/waste_sorts');
 var wares = require('./routes/wares');
+var articles = require('./routes/articles');
 
 var app = express();
 
@@ -46,6 +47,7 @@ app.use('/admins', admins);
 app.use('/users', users);
 app.use('/waste_sorts', waste_sorts);
 app.use('/wares', wares);
+app.use('/articles', articles);
 
 app.listen(3000);
 //

@@ -35,70 +35,70 @@ router.get('/find', function (req, res) {
         }
     });
 });
-////分类下架
-//router.post('/pull', function (req, res) {
-//    var id =req.body.id;
-//    Waste_sort.update({_id:id},{$set:{state:0}},function(err){
-//        if (err) {
-//            res.status(500).json({msg: err});
-//        } else {
-//            Waste_sort.find({},function(err,waste_sorts){
-//                if (err) {
-//                    res.status(500).json({msg: err});
-//                } else {
-//                    res.json(waste_sorts);
-//                }
-//            });
-//        }
-//    });
-//});
-////分类上架
-//router.post('/put', function (req, res) {
-//    var id =req.body.id;
-//    Waste_sort.update({_id:id},{$set:{state:1}},function(err){
-//        if (err) {
-//            res.status(500).json({msg: err});
-//        } else {
-//            Waste_sort.find({},function(err,waste_sorts){
-//                if (err) {
-//                    res.status(500).json({msg: err});
-//                } else {
-//                    res.json(waste_sorts);
-//                }
-//            });
-//        }
-//    });
-//});
-//
-////分类编辑
-//router.post('/edit', function (req, res) {
-//    var id =req.body.id;
-//    Waste_sort.findOne({_id:id},function(err,waste_sort){
-//        if (err) {
-//            res.status(500).json({msg: err});
-//        } else {
-//            res.json(waste_sort);
-//        }
-//    });
-//});
-//
-////保存分类编辑
-//router.post('/save_edit', function (req, res) {
-//    var waste_sort =req.body;
-//    var _id = waste_sort._id; //需要取出主键_id
-//    delete waste_sort._id;    //再将其删除
-//    Waste_sort.update({_id:_id},waste_sort,function(err){
-//        if (err) {
-//            res.status(500).json({msg: err});
-//        } else {
-//            Waste_sort.find({},function(err,waste_sorts){
-//                if (err) {
-//                    res.status(500).json({msg: err});
-//                } else {
-//                    res.json(waste_sorts);
-//                }
-//            });
-//        }
-//    });
-//});
+//分类下架
+router.post('/pull', function (req, res) {
+    var id =req.body.id;
+    Ware.update({_id:id},{$set:{state:0}},function(err){
+        if (err) {
+            res.status(500).json({msg: err});
+        } else {
+            Ware.find({},function(err,wares){
+                if (err) {
+                    res.status(500).json({msg: err});
+                } else {
+                    res.json(wares);
+                }
+            });
+        }
+    });
+});
+//分类上架
+router.post('/put', function (req, res) {
+    var id =req.body.id;
+    Ware.update({_id:id},{$set:{state:1}},function(err){
+        if (err) {
+            res.status(500).json({msg: err});
+        } else {
+            Ware.find({},function(err,wares){
+                if (err) {
+                    res.status(500).json({msg: err});
+                } else {
+                    res.json(wares);
+                }
+            });
+        }
+    });
+});
+
+//分类编辑
+router.post('/edit', function (req, res) {
+    var id =req.body.id;
+    Ware.findOne({_id:id},function(err,ware){
+        if (err) {
+            res.status(500).json({msg: err});
+        } else {
+            res.json(ware);
+        }
+    });
+});
+
+//保存分类编辑
+router.post('/save_edit', function (req, res) {
+    var ware =req.body;
+    var _id = ware._id; //需要取出主键_id
+    delete ware._id;    //再将其删除
+    Ware.update({_id:_id},ware,function(err){
+        if (err) {
+            res.status(500).json({msg: err});
+        } else {
+            Ware.find({},function(err,wares){
+                if (err) {
+                    res.status(500).json({msg: err});
+                } else {
+                    res.json(wares);
+                }
+            });
+        }
+    });
+});
 module.exports = router;
