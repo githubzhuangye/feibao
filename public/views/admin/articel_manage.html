@@ -112,11 +112,11 @@
         <!--已有文章-->
         <div role="tabpanel" class="tab-pane text-center" id="show_article" ng-controller="show_articles">
             <div class="container">
-                <form class="form-inline">
+                <div class="form-inline">
                     <div class="form-group">
                         <input type="text" class="form-control" placeholder="请输入文章名称" ng-model="search">
                     </div>
-                </form>
+                </div>
                 <table class="table table-hover">
                     <caption>环保文章</caption>
                     <tr>
@@ -132,12 +132,81 @@
                         <td>{{article.author}}</td>
                         <td>{{article.date}}</td>
                         <td>
-                            <button class="btn btn-default" data-toggle="modal" data-target="#edit_article_modal" ng-click="edit(article._id)">编辑</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <button class="btn btn-default" data-toggle="modal" data-target="#edit_article_modal" ng-click="edit(article._id)">编辑/详情</button>&nbsp;&nbsp;&nbsp;&nbsp;
                             <button type="button" class="btn btn-default"  ng-click="pull(article._id)" ng-show="article.state ==1">下架</button>
                             <button type="button" class="btn btn-success"  ng-click="put(article._id)" ng-show="article.state ==0">上架</button>
                         </td>
                     </tr>
                 </table>
+            </div>
+            <!--编辑模态框-->
+            <div class="modal fade" id="edit_article_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">文章编辑/详情</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label class="col-sm-1 col-md-1 control-label">文章标题:</label>
+                                        <div class="col-sm-4 col-md-4">
+                                            <input type="text" class="form-control" name="name" placeholder="文章标题" ng-model="edit_article.name">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-1 col-md-1 control-label">简介:</label>
+                                        <div class="col-sm-4 col-md-4">
+                                            <input type="text" class="form-control" name="summary"  placeholder="简介" ng-model="edit_article.summary">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label  class="col-sm-1 col-md-1 control-label">作者姓名:</label>
+                                        <div class="col-sm-4 col-md-4">
+                                            <input type="text" class="form-control" name="author"  placeholder="作者姓名" ng-model="edit_article.author">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-1 col-md-1 control-label">日期:</label>
+                                        <div class="col-sm-4 col-md-4">
+                                            <input type="text" class="form-control" name="date"  placeholder="编辑时间" ng-model="edit_article.date">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-1 col-md-1 control-label">插图:</label>
+                                        <div class="col-sm-4 col-md-4">
+                                            <input type="file" name="photo" showimg-model>
+                                            <img src="{{edit_article.photo}}"  alt="图片预览" style="width:150px;height:150px;display:block;"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-1 col-md-1 control-label">文章内容:</label>
+                                        <div class="col-sm-8 col-md-8">
+                                            <div name="content" id="edit_article_content" title="文章内容" style="width:400px;"></div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-1 col-md-1 control-label">是否上架:</label>
+                                        <div class="col-sm-4 col-md-4">
+                                            <select class="form-control" name="state" ng-model="edit_article.state">
+                                                <option value="1" ng-selected="edit_article.state ==1">上架</option>
+                                                <option value="0" ng-selected="edit_article.state ==0">下架</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-success" ng-click="save_edit()">保存</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -157,6 +226,7 @@
             height:400,
             minHeight:300
         });
+        $('#content').summernote('code', ' ');
     });
     var app =angular.module('feibao_article',['ngRoute']);
     //添加文章
@@ -179,6 +249,7 @@
             }).success(function (article) {
                 $rootScope.articles.push(article);
                 $scope.article ={};
+                $('#content').summernote('code', ' ');
                 alert('添加成功');
             }).error(function(data){
                 alert('添加失败:'+data);
@@ -199,19 +270,26 @@
         }).success(function(articles){
             $rootScope.articles =articles;
         });
-//        //编辑分类
-//        $scope.edit =function(id){
-//            //显示模态框之前查询出数据
-//            $http({
-//                url:'/wares/edit',
-//                method:'POST',
-//                data:{
-//                    id:id
-//                }
-//            }).success(function(edit_ware){
-//                $scope.edit_ware =edit_ware;
-//            });
-//        };
+        //编辑文章
+        $scope.edit =function(id){
+            $('#edit_article_content').summernote({
+                height:400,
+                width:400,
+                minHeight:300,
+                maxHeight:500
+            });
+            //显示模态框之前查询出数据
+            $http({
+                url:'/articles/edit',
+                method:'POST',
+                data:{
+                    id:id
+                }
+            }).success(function(edit_article){
+                $scope.edit_article =edit_article;
+                $('#edit_article_content').summernote('code', edit_article.content);
+            });
+        };
 //        //保存编辑
 //        $scope.save_edit =function(){
 //            //显示模态框之前查询出数据
@@ -244,13 +322,13 @@
         $scope.put =function(id){
             if(confirm('是否确定上架')){
                 $http({
-                    url:'/wares/put',
+                    url:'/articles/put',
                     method:'POST',
                     data:{
                         id:id
                     }
-                }).success(function(wares){
-                    $rootScope.wares =wares;
+                }).success(function(articles){
+                    $rootScope.articles =articles;
                 });
             }
         }

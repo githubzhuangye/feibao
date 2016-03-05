@@ -35,53 +35,53 @@ router.get('/find', function (req, res) {
         }
     });
 });
-////分类下架
-//router.post('/pull', function (req, res) {
-//    var id =req.body.id;
-//    Ware.update({_id:id},{$set:{state:0}},function(err){
-//        if (err) {
-//            res.status(500).json({msg: err});
-//        } else {
-//            Ware.find({},function(err,wares){
-//                if (err) {
-//                    res.status(500).json({msg: err});
-//                } else {
-//                    res.json(wares);
-//                }
-//            });
-//        }
-//    });
-//});
-////分类上架
-//router.post('/put', function (req, res) {
-//    var id =req.body.id;
-//    Ware.update({_id:id},{$set:{state:1}},function(err){
-//        if (err) {
-//            res.status(500).json({msg: err});
-//        } else {
-//            Ware.find({},function(err,wares){
-//                if (err) {
-//                    res.status(500).json({msg: err});
-//                } else {
-//                    res.json(wares);
-//                }
-//            });
-//        }
-//    });
-//});
-//
-////分类编辑
-//router.post('/edit', function (req, res) {
-//    var id =req.body.id;
-//    Ware.findOne({_id:id},function(err,ware){
-//        if (err) {
-//            res.status(500).json({msg: err});
-//        } else {
-//            res.json(ware);
-//        }
-//    });
-//});
-//
+//文章下架
+router.post('/pull', function (req, res) {
+    var id =req.body.id;
+    Article.update({_id:id},{$set:{state:0}},function(err){
+        if (err) {
+            res.status(500).json({msg: err});
+        } else {
+            Article.find({},function(err,articles){
+                if (err) {
+                    res.status(500).json({msg: err});
+                } else {
+                    res.json(articles);
+                }
+            });
+        }
+    });
+});
+//文章上架
+router.post('/put', function (req, res) {
+    var id =req.body.id;
+    Article.update({_id:id},{$set:{state:1}},function(err){
+        if (err) {
+            res.status(500).json({msg: err});
+        } else {
+            Article.find({},function(err,articles){
+                if (err) {
+                    res.status(500).json({msg: err});
+                } else {
+                    res.json(articles);
+                }
+            });
+        }
+    });
+});
+
+//文章编辑
+router.post('/edit', function (req, res) {
+    var id =req.body.id;
+    Article.findOne({_id:id},function(err,article){
+        if (err) {
+            res.status(500).json({msg: err});
+        } else {
+            res.json(article);
+        }
+    });
+});
+
 ////保存分类编辑
 //router.post('/save_edit', function (req, res) {
 //    var ware =req.body;
