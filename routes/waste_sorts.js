@@ -80,7 +80,17 @@ router.post('/edit', function (req, res) {
         }
     });
 });
-
+//分类编辑
+router.post('/findById', function (req, res) {
+    var id =req.body.id;
+    Waste_sort.findOne({_id:id},function(err,waste_sort){
+        if (err) {
+            res.status(500).json({msg: err});
+        } else {
+            res.json(waste_sort);
+        }
+    });
+});
 //保存分类编辑
 router.post('/save_edit', function (req, res) {
     var waste_sort =req.body;

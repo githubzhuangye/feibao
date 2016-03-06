@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="zh-cn" ng-app="feibao">
+<html lang="zh-cn" ng-app="feibao_recycle_waste">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no" />
@@ -20,38 +20,10 @@
 <div class="jumbotron">
     <h1>废宝——废品回收</h1>
 </div>
-<div class="container logo_search_btn">
-    <div class="row">
-        <div class="col-md-3">
-            <a href="index.html" ><img src="../imgs/logo_h50.png" alt="logo" class="logo"/></a>
-        </div>
-        <div class="col-md-6 search_btn">
-            <form class="form-inline pull-left">
-                <div class="form-group">
-                    <input type="text" class="form-control" placeholder="请输入废品类别">
-                    <button type="submit" class="btn btn-success">搜索</button>
-                </div>
-            </form>
-            <div class="btn-group pull-right" role="group">
-                <a class="btn btn-default" href="recycle_waste_my_recycle.html">我的回收</a>
-                <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="23">我的余额</button>
-            </div>
-        </div>
-        <div class="col-md-3 search_btn">
-            <div class="btn-group" role="group" ng-hide="activeUser">
-                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#login_modal">登录</button>
-                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#register_modal">注册</button>
-            </div>
-            <div style="line-height: 30px;" ng-show="activeUser">
-                <span>你好:</span>
-                <span class="text-success">{{activeUser.name}}</span>
-            </div>
-        </div>
-    </div>
-</div>
 <nav class="navbar navbar-default">
     <div class="container">
         <div class="navbar-header">
+            <a href="index.html" ><img src="../imgs/logo_h50.png" alt="logo" class="logo" style="width:100px;height:50px;"/></a>
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#indexNavbar">
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -59,26 +31,45 @@
             </button>
         </div>
         <div class="collapse navbar-collapse" id="indexNavbar">
-            <ul class="nav navbar-nav">
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> 回收类别<span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#"> 手机平板</a></li>
-                        <li><a href="#"> 电脑家电</a></li>
-                        <li><a href="#"> 电子产品</a></li>
-                        <li><a href="#"> 饮料瓶</a></li>
-                        <li><a href="#"> 纸张报纸</a></li>
-                        <li><a href="#"> 衣服鞋子</a></li>
+            <div class="row">
+                <div class="col-md-6">
+                    <ul class="nav navbar-nav">
+                        <!--<li class="dropdown">-->
+                            <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> 回收类别<span class="caret"></span></a>-->
+                            <!--<ul class="dropdown-menu">-->
+                                <!--<li><a href="#"> 手机平板</a></li>-->
+                                <!--<li><a href="#"> 电脑家电</a></li>-->
+                                <!--<li><a href="#"> 电子产品</a></li>-->
+                                <!--<li><a href="#"> 饮料瓶</a></li>-->
+                                <!--<li><a href="#"> 纸张报纸</a></li>-->
+                                <!--<li><a href="#"> 衣服鞋子</a></li>-->
+                            <!--</ul>-->
+                        <!--</li>-->
+                        <li><a href="index.html"><span class="glyphicon glyphicon-home"></span>  首页</a></li>
+                        <li class="active"><a href="recycle_waste.html"><span class="glyphicon glyphicon-refresh"></span>  废品回收</a></li>
+                        <li><a href="mall.html"><span class="glyphicon glyphicon-shopping-cart"></span>  日常百货</a></li>
+                        <li><a href="article.html"><span class="glyphicon glyphicon-book"></span>  环保知识</a></li>
+                        <li><a href="my_feibao.html"><span class="glyphicon glyphicon-user"></span>  我的废宝</a></li>
                     </ul>
-                </li>
-                <li><a href="index.html"><span class="glyphicon glyphicon-home"></span>  首页</a></li>
-                <li class="active"><a href="recycle_waste.html"><span class="glyphicon glyphicon-refresh"></span>  废品回收</a></li>
-                <li><a href="mall.html"><span class="glyphicon glyphicon-shopping-cart"></span>  日常百货</a></li>
-                <li><a href="article.html"><span class="glyphicon glyphicon-book"></span>  环保知识</a></li>
-                <li><a href="my_feibao.html"><span class="glyphicon glyphicon-user"></span>  我的废宝</a></li>
-            </ul>
+                </div>
+                <div class="col-md-3">
+                    <div class="btn-group pull-right" role="group">
+                        <a class="btn btn-default" href="recycle_waste_my_recycle.html">我的回收</a>
+                        <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="23">我的余额</button>
+                    </div>
+                </div>
+                <div class="col-md-3 pull-right" style="width: 150px; line-height: 50px">
+                    <div class="btn-group" role="group" ng-hide="activeUser">
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#login_modal">登录</button>
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#register_modal">注册</button>
+                    </div>
+                    <div ng-show="activeUser">
+                        <span>你好:</span>
+                        <span class="text-success">{{activeUser.name}}</span>
+                    </div>
+                </div>
+            </div>
         </div>
-
     </div>
 </nav>
 
@@ -117,148 +108,29 @@
     <a href="#recycle_waste_carousel" data-slide="next" class="carousel-control right"><span class="glyphicon glyphicon-chevron-right"></span></a>
 </div>
 
-<div>
-    <div class="container waste_sort_thumbnail">
-        <div class="row" ng-view>
-            <div class="col-md-3 compares">
-                <div class="thumbnail">
-                    <a href="recycle_waste_sort_detail.html"><img src="../imgs/recycle_waste_category1.jpg" alt="手机平板"></a>
-                    <div class="caption text-center">
-                        <h3>手机平板</h3>
-                        <p>200-6000元</p>
-                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#bespeak_recycle_modal">预约回收</button>
-                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#cycle_recycle_modal">周期回收</button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3 compares">
-                <div class="thumbnail">
-                    <a href="recycle_waste_sort_detail.html"><img src="../imgs/recycle_waste_category2.jpg" alt="电脑家电"></a>
-                    <div class="caption text-center">
-                        <h3>电脑家电</h3>
-                        <p>1000-7000元</p>
-                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#bespeak_recycle_modal">预约回收</button>
-                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#cycle_recycle_modal">周期回收</button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3 compares">
-                <div class="thumbnail">
-                    <a href="recycle_waste_sort_detail.html"><img src="../imgs/recycle_waste_category3.jpg" alt="纸张报纸"></a>
-                    <div class="caption text-center">
-                        <h3>纸张报纸</h3>
-                        <p>2000-4000</p>
-                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#bespeak_recycle_modal">预约回收</button>
-                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#cycle_recycle_modal">周期回收</button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3 compares">
-                <div class="thumbnail">
-                    <a href="recycle_waste_sort_detail.html"><img src="../imgs/recycle_waste_category1.jpg" alt="手机平板"></a>
-                    <div class="caption text-center">
-                        <h3>手机平板</h3>
-                        <p>200-6000元</p>
-                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#bespeak_recycle_modal">预约回收</button>
-                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#cycle_recycle_modal">周期回收</button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3 compares">
-                <div class="thumbnail">
-                    <a href="recycle_waste_sort_detail.html"><img src="../imgs/recycle_waste_category2.jpg" alt="电脑家电"></a>
-                    <div class="caption text-center">
-                        <h3>电脑家电</h3>
-                        <p>1000-7000元</p>
-                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#bespeak_recycle_modal">预约回收</button>
-                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#cycle_recycle_modal">周期回收</button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3 compares">
-                <div class="thumbnail">
-                    <a href="recycle_waste_sort_detail.html"><img src="../imgs/recycle_waste_category3.jpg" alt="纸张报纸"></a>
-                    <div class="caption text-center">
-                        <h3>纸张报纸</h3>
-                        <p>2000-4000</p>
-                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#bespeak_recycle_modal">预约回收</button>
-                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#cycle_recycle_modal">周期回收</button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3 compares">
-                <div class="thumbnail">
-                    <a href="recycle_waste_sort_detail.html"><img src="../imgs/recycle_waste_category1.jpg" alt="手机平板"></a>
-                    <div class="caption text-center">
-                        <h3>手机平板</h3>
-                        <p>200-6000元</p>
-                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#bespeak_recycle_modal">预约回收</button>
-                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#cycle_recycle_modal">周期回收</button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3 compares">
-                <div class="thumbnail">
-                    <a href="recycle_waste_sort_detail.html"><img src="../imgs/recycle_waste_category2.jpg" alt="电脑家电"></a>
-                    <div class="caption text-center">
-                        <h3>电脑家电</h3>
-                        <p>1000-7000元</p>
-                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#bespeak_recycle_modal">预约回收</button>
-                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#cycle_recycle_modal">周期回收</button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3 compares">
-                <div class="thumbnail">
-                    <a href="recycle_waste_sort_detail.html"><img src="../imgs/recycle_waste_category3.jpg" alt="纸张报纸"></a>
-                    <div class="caption text-center">
-                        <h3>纸张报纸</h3>
-                        <p>2000-4000</p>
-                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#bespeak_recycle_modal">预约回收</button>
-                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#cycle_recycle_modal">周期回收</button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3 compares">
-                <div class="thumbnail">
-                    <a href="recycle_waste_sort_detail.html"><img src="../imgs/recycle_waste_category2.jpg" alt="电脑家电"></a>
-                    <div class="caption text-center">
-                        <h3>电脑家电</h3>
-                        <p>1000-7000元</p>
-                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#bespeak_recycle_modal">预约回收</button>
-                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#cycle_recycle_modal">周期回收</button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3 compares">
-                <div class="thumbnail">
-                    <a href="recycle_waste_sort_detail.html"><img src="../imgs/recycle_waste_category3.jpg" alt="纸张报纸"></a>
-                    <div class="caption text-center">
-                        <h3>纸张报纸</h3>
-                        <p>2000-4000</p>
-                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#bespeak_recycle_modal">预约回收</button>
-                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#cycle_recycle_modal">周期回收</button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3 compares">
-                <div class="thumbnail">
-                    <a href="recycle_waste_sort_detail.html"><img src="../imgs/recycle_waste_category3.jpg" alt="纸张报纸"></a>
-                    <div class="caption text-center">
-                        <h3>纸张报纸</h3>
-                        <p>2000-4000</p>
-                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#bespeak_recycle_modal">预约回收</button>
-                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#cycle_recycle_modal">周期回收</button>
-                    </div>
-                </div>
-            </div>
-
-
-
+<div class="container waste_sort_thumbnail" ng-controller="recycle_waste">
+    <div class="row">
+        <div class="col-md-4  col-md-offset-4">
+            <input type="text" class="form-control" placeholder="请输入废品类别进行查询" ng-model="search">
         </div>
     </div>
-</div>
-
+    <br/>
+    <div class="row">
+        <div class="col-md-3 compares" ng-repeat="waste_sort in waste_sorts |filter:search">
+            <div class="thumbnail">
+                <a href="recycle_waste_sort_detail.html">
+                    <img src="{{waste_sort.photo}}"  alt="图片预览" style="width:240px;height:200px;display:block;"/>
+                </a>
+                <div class="caption text-center">
+                    <h3>{{waste_sort.name}}</h3>
+                    <p>{{waste_sort.lowest_price}}-{{waste_sort.highest_price}}元</p>
+                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#bespeak_recycle_modal" ng-click="bespeak_recycle(waste_sort._id)">预约回收</button>
+                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#cycle_recycle_modal">周期回收</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--预约回收-->
     <div class="modal fade" id="bespeak_recycle_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -269,65 +141,67 @@
                 <div class="modal-body">
                     <form class="form-horizontal">
                         <div class="form-group">
-                            <label for="bespeak_recycle_date" class="col-sm-4 col-md-4 control-label">请选择日期:</label>
+                            <label  class="col-sm-4 col-md-4 control-label">请输入日期:</label>
                             <div class="col-sm-6 col-md-6">
-                                <input type="text" class="form-control" id="bespeak_recycle_date" name="bespeak_recycle_date" placeholder="请输入上门回收日期">
+                                <input type="text" class="form-control" name="bespeak_recycle_date" placeholder="请输入上门回收日期" ng-model="bespeak_recycle_item.date">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-4 col-md-4 control-label">请选择时间:</label>
                             <div class="col-sm-6 col-md-6">
-                                <select class="form-control">
-                                    <option>8:00-10:00</option>
-                                    <option>10:00-12:00</option>
-                                    <option>12:00-14:00</option>
-                                    <option>14:00-16:00</option>
-                                    <option>16:00-18:00</option>
-                                    <option>18:00-20:00</option>
+                                <select class="form-control" ng-model="bespeak_recycle_item.time">
+                                    <option value="8:00-10:00">8:00-10:00</option>
+                                    <option value="10:00-12:00">10:00-12:00</option>
+                                    <option value="12:00-14:00">12:00-14:00</option>
+                                    <option value="14:00-16:00">14:00-16:00</option>
+                                    <option value="16:00-18:00">16:00-18:00</option>
+                                    <option value="18:00-20:00">18:00-20:00</option>
                                 </select>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="bespeak_recycle_sort" class="col-sm-4 col-md-4 control-label">废品类型:</label>
+                            <label class="col-sm-4 col-md-4 control-label">废品类型(可添加):</label>
                             <div class="col-sm-6 col-md-6">
-                                <input type="text" class="form-control" name="bespeak_recycle_sort" id="bespeak_recycle_sort" value="手机平板">
+                                <input type="text" class="form-control" name="bespeak_recycle_sort" ng-model="bespeak_recycle_item.sort_name">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-4 col-md-4 control-label">大致重量:</label>
                             <div class="col-sm-6 col-md-6">
-                                <select class="form-control">
-                                    <option>1kg</option>
-                                    <option>2kg</option>
-                                    <option>3kg</option>
-                                    <option>4kg</option>
-                                    <option>5kg</option>
+                                <select class="form-control" ng-model="bespeak_recycle_item.weight">
+                                    <option value="0">小于1kg</option>
+                                    <option value="1">1kg</option>
+                                    <option value="2">2kg</option>
+                                    <option value="3">3kg</option>
+                                    <option value="4">4kg</option>
+                                    <option value="5">5kg</option>
+                                    <option value="6">5-10kg</option>
+                                    <option value="10">10kg以上</option>
                                 </select>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="contacts_name" class="col-sm-4 col-md-4 control-label">联系人:</label>
+                            <label class="col-sm-4 col-md-4 control-label">联系人:</label>
                             <div class="col-sm-6 col-md-6">
-                                <input type="text" class="form-control" placeholder="收货人姓名" name="contact_name" id="contacts_name" value="庄叶">
+                                <input type="text" class="form-control" placeholder="收货人姓名" name="contact_name" ng-model="bespeak_recycle_item.user_name">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="contact_number" class="col-sm-4 col-md-4 control-label">手机（联系方式）:</label>
                             <div class="col-sm-6 col-md-6">
-                                <input type="text" class="form-control" name="contact_number" id="contact_number" value="15652922740">
+                                <input type="text" class="form-control" name="contact_number" id="contact_number" ng-model="bespeak_recycle_item.user_phone">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="contact_address" class="col-sm-4 col-md-4 control-label">详细地址:</label>
                             <div class="col-sm-6 col-md-6">
-                                <input type="text" class="form-control" name="contact_address" id="contact_address" value="北京市朝阳区北四环东路97号">
+                                <input type="text" class="form-control" name="contact_address" id="contact_address" ng-model="bespeak_recycle_item.user_address">
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <div class="col-sm-offset-4 col-sm-6 col-md-6">
-                                <button type="reset" class="btn btn-default">重写</button>
-                                <button type="submit" class="btn btn-success">提交</button>
+                            <div class="col-sm-offset-4 col-sm-4 col-md-4">
+                                <button type="submit" class="btn btn-success btn-block" ng-click="add_bespeak_recycle_item()">提交</button>
                             </div>
                         </div>
                     </form>
@@ -335,6 +209,9 @@
             </div>
         </div>
     </div>
+</div>
+
+   <!--周期回收-->
     <div class="modal fade" id="cycle_recycle_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -542,7 +419,58 @@
 <script src="../js/angular.js"></script>
 <script src="../js/angular-route.js"></script>
 <script type="text/javascript">
-    var app =angular.module('feibao',['ngRoute']);
+    var app =angular.module('feibao_recycle_waste',['ngRoute']);
+    //回收废品
+    app.controller('recycle_waste',function($rootScope,$scope,$http){
+        $scope.waste_sorts =[];
+        $scope.bespeak_recycle_item ={};
+        $http({
+            url:'/waste_sorts/find',
+            method:'GET'
+        }).success(function(waste_sorts){
+//            alert(JSON.stringify(waste_sorts));
+            $scope.waste_sorts =waste_sorts;
+        });
+
+        //预约回收信息预填写
+        $scope.bespeak_recycle =function(id){
+            $http({
+                url:'/waste_sorts/findById',
+                method:'POST',
+                data:{
+                    id:id
+                }
+            }).success(function(bespeak_sort){
+                //预约回收分类名
+                $scope.bespeak_recycle_item.sort_name =bespeak_sort.name;
+                //预约回收状态
+                $scope.bespeak_recycle_item.state =1;
+                //预约回收用户信息
+                $scope.bespeak_recycle_item.user_id =$rootScope.activeUser._id;
+                $scope.bespeak_recycle_item.user_name =$rootScope.activeUser.name;
+                $scope.bespeak_recycle_item.user_phone =$rootScope.activeUser.phone;
+                $scope.bespeak_recycle_item.user_address =$rootScope.activeUser.address;
+            });
+
+        };
+        //添加用户预约回收
+        $scope.add_bespeak_recycle_item =function(){
+            $http({
+                url:'/bespeak_recycles/add',
+                method:'POST',
+                data:$scope.bespeak_recycle_item
+            }).success(function(bespeak_recycle){
+                $('#bespeak_recycle_modal').modal('hide');
+                $scope.bespeak_recycle_item ={};
+                alert('添加成功');
+
+            });
+        }
+    });
+
+
+
+
     //应用刷新检查是否登录
     app.run(function($rootScope,$http){
         $http({
@@ -552,7 +480,7 @@
             $('#login_modal').modal('hide');
             $rootScope.activeUser =user;
         }).error(function(data){
-            alert(data);
+            alert('您尚未登录，请先登录');
 //            $('#login_modal').modal('show');
         });
     });
