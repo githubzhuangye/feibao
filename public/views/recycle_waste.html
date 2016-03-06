@@ -52,10 +52,10 @@
                         <li><a href="my_feibao.html"><span class="glyphicon glyphicon-user"></span>  我的废宝</a></li>
                     </ul>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3" style="margin-top: 8px;">
                     <div class="btn-group pull-right" role="group">
                         <a class="btn btn-default" href="recycle_waste_my_recycle.html">我的回收</a>
-                        <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="23">我的余额</button>
+                        <button type="button" class="btn btn-default" >我的余额 {{activeUser.balance}} </button>
                     </div>
                 </div>
                 <div class="col-md-3 pull-right" style="width: 150px; line-height: 50px">
@@ -118,14 +118,14 @@
     <div class="row">
         <div class="col-md-3 compares" ng-repeat="waste_sort in waste_sorts |filter:search">
             <div class="thumbnail">
-                <a href="recycle_waste_sort_detail.html">
-                    <img src="{{waste_sort.photo}}"  alt="图片预览" style="width:240px;height:200px;display:block;"/>
-                </a>
+                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#waste_sort_detail_modal" ng-click="show_waste_sort_detail(waste_sort._id)">
+                    <img src="{{waste_sort.photo}}"  alt="图片预览" style="width:220px;height:200px;display:block;"/>
+                </button>
                 <div class="caption text-center">
                     <h3>{{waste_sort.name}}</h3>
                     <p>{{waste_sort.lowest_price}}-{{waste_sort.highest_price}}元</p>
                     <button type="button" class="btn btn-default" data-toggle="modal" data-target="#bespeak_recycle_modal" ng-click="bespeak_recycle(waste_sort._id)">预约回收</button>
-                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#cycle_recycle_modal">周期回收</button>
+                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#cycle_recycle_modal" ng-click="cycle_recycle(waste_sort._id)">周期回收</button>
                 </div>
             </div>
         </div>
@@ -209,9 +209,8 @@
             </div>
         </div>
     </div>
-</div>
 
-   <!--周期回收-->
+    <!--周期回收-->
     <div class="modal fade" id="cycle_recycle_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -222,79 +221,81 @@
                 <div class="modal-body">
                     <form class="form-horizontal">
                         <div class="form-group">
-                            <label for="cycle_recycle_begin_date" class="col-sm-4 col-md-4 control-label">起始日期:</label>
+                            <label class="col-sm-4 col-md-4 control-label">起始日期:</label>
                             <div class="col-sm-6 col-md-6">
-                                <input type="text" class="form-control" id="cycle_recycle_begin_date" name="cycle_recycle_begin_date" value="2016-2-1">
+                                <input type="text" class="form-control" name="cycle_recycle_begin_date" disabled="disabled"  ng-model="cycle_recycle_item.begin_date">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-4 col-md-4 control-label">间隔:</label>
                             <div class="col-sm-6 col-md-6">
-                                <select class="form-control">
-                                    <option>一周</option>
-                                    <option>二周</option>
-                                    <option>三周</option>
-                                    <option>四周</option>
-                                    <option>两个月</option>
-                                    <option>两个半月</option>
-                                    <option>三个月</option>
+                                <select class="form-control" ng-model="cycle_recycle_item.interval">
+                                    <option value="一周">一周</option>
+                                    <option value="二周" selected>二周</option>
+                                    <option value="三周">三周</option>
+                                    <option value="四周">四周</option>
+                                    <option value="两个月">两个月</option>
+                                    <option value="两个半月">两个半月</option>
+                                    <option value="三个月">三个月</option>
                                 </select>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-4 col-md-4 control-label">上门时间:</label>
                             <div class="col-sm-6 col-md-6">
-                                <select class="form-control">
-                                    <option>8:00-10:00</option>
-                                    <option>10:00-12:00</option>
-                                    <option>12:00-14:00</option>
-                                    <option>14:00-16:00</option>
-                                    <option>16:00-18:00</option>
-                                    <option>18:00-20:00</option>
+                                <select class="form-control" ng-model="cycle_recycle_item.time">
+                                    <option value="8:00-10:00">8:00-10:00</option>
+                                    <option value="10:00-12:00" selected="selected">10:00-12:00</option>
+                                    <option value="12:00-14:00">12:00-14:00</option>
+                                    <option value="14:00-16:00">14:00-16:00</option>
+                                    <option value="16:00-18:00">16:00-18:00</option>
+                                    <option value="18:00-20:00">18:00-20:00</option>
                                 </select>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="cycle_recycle_sort" class="col-sm-4 col-md-4 control-label">废品类型:</label>
+                            <label class="col-sm-4 col-md-4 control-label">废品类型:</label>
                             <div class="col-sm-6 col-md-6">
-                                <input type="text" class="form-control" name="cycle_recycle_sort" id="cycle_recycle_sort" value="手机平板">
+                                <input type="text" class="form-control" name="cycle_recycle_sort_name" ng-model="cycle_recycle_item.sort_name">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-4 col-md-4 control-label">大致重量:</label>
                             <div class="col-sm-6 col-md-6">
-                                <select class="form-control">
-                                    <option>1kg</option>
-                                    <option>2kg</option>
-                                    <option>3kg</option>
-                                    <option>4kg</option>
-                                    <option>5kg</option>
+                                <select class="form-control" ng-model="cycle_recycle_item.weight">
+                                    <option value="0">小于1kg</option>
+                                    <option value="1">1kg</option>
+                                    <option value="2">2kg</option>
+                                    <option value="3">3kg</option>
+                                    <option value="4">4kg</option>
+                                    <option value="5">5kg</option>
+                                    <option value="6">5-10kg</option>
+                                    <option value="10">10kg以上</option>
                                 </select>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-4 col-md-4 control-label">联系人:</label>
                             <div class="col-sm-6 col-md-6">
-                                <input type="text" class="form-control" placeholder="收货人姓名" name="contact_name"  value="庄叶">
+                                <input type="text" class="form-control" placeholder="收货人姓名" name="contact_name" ng-model="cycle_recycle_item.user_name">
                             </div>
                         </div>
                         <div class="form-group">
                             <label  class="col-sm-4 col-md-4 control-label">手机（联系方式）:</label>
                             <div class="col-sm-6 col-md-6">
-                                <input type="text" class="form-control" name="contact_number" value="15652922740">
+                                <input type="text" class="form-control" name="contact_number" ng-model="cycle_recycle_item.user_phone">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-4 col-md-4 control-label">详细地址:</label>
                             <div class="col-sm-6 col-md-6">
-                                <input type="text" class="form-control" name="contact_address" value="北京市朝阳区北四环东路97号">
+                                <input type="text" class="form-control" name="contact_address" ng-model="cycle_recycle_item.user_address">
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <div class="col-sm-offset-4 col-sm-6 col-md-6">
-                                <button type="reset" class="btn btn-default">重写</button>
-                                <button type="submit" class="btn btn-success">提交</button>
+                            <div class="col-sm-offset-4 col-sm-4 col-md-4">
+                                <button type="submit" class="btn btn-success btn-block " ng-click="add_cycle_recycle_item()">提交</button>
                             </div>
                         </div>
                     </form>
@@ -302,6 +303,43 @@
             </div>
         </div>
     </div>
+
+    <!--展示废品分类详情-->
+    <div class="modal fade" id="waste_sort_detail_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">分类详情</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="media">
+                        <div class="media-left">
+                            <a href="#">
+                                <img class="media-object" src="{{waste_sort_detail.photo}}" width="400" height="300" alt="手机平板分类大图">
+                            </a>
+                        </div>
+                        <div class="media-body" style="font-size: 18px;">
+                            <h2 class="media-heading">{{waste_sort_detail.name}}</h2>
+                            <div>最低价格:<strong style="color: #5CB85C;">{{waste_sort_detail.lowest_price}} </strong>元</div>
+                            <div>最高价格:<strong style="color: #5CB85C;">{{waste_sort_detail.highest_price}} </strong>元</div>
+                            <div>回收物品:<label>{{waste_sort_detail.include}}</label></div>
+                            <div>回收用途:<label>{{waste_sort_detail.use_for}}</label></div>
+                            <br/>
+                            <br/>
+                            <div>
+                                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#bespeak_recycle_modal" ng-click="bespeak_recycle(waste_sort_detail._id)">预约回收</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#cycle_recycle_modal" ng-click="cycle_recycle(waste_sort_detail._id)">周期回收</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
     <!--登录模态框-->
     <div class="modal fade" id="login_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" ng-controller="loginCtrl">
     <div class="modal-dialog" role="document">
@@ -424,6 +462,8 @@
     app.controller('recycle_waste',function($rootScope,$scope,$http){
         $scope.waste_sorts =[];
         $scope.bespeak_recycle_item ={};
+        $scope.waste_sort_detail ={};
+        $scope.cycle_recycle_item ={};
         $http({
             url:'/waste_sorts/find',
             method:'GET'
@@ -434,6 +474,7 @@
 
         //预约回收信息预填写
         $scope.bespeak_recycle =function(id){
+            $('#waste_sort_detail_modal').modal('hide');
             $http({
                 url:'/waste_sorts/findById',
                 method:'POST',
@@ -465,7 +506,59 @@
                 alert('添加成功');
 
             });
+        };
+
+        //周期回收信息预填写
+        $scope.cycle_recycle =function(id){
+            $('#waste_sort_detail_modal').modal('hide');
+            $http({
+                url:'/waste_sorts/findById',
+                method:'POST',
+                data:{
+                    id:id
+                }
+            }).success(function(cycle_sort){
+                //周期回收起始日期
+                var today =new Date();
+                $scope.cycle_recycle_item.begin_date =today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate();
+                //周期回收分类名
+                $scope.cycle_recycle_item.sort_name =cycle_sort.name;
+                //周期回收状态
+                $scope.cycle_recycle_item.state =1;
+                //周期回收用户信息
+                $scope.cycle_recycle_item.user_id =$rootScope.activeUser._id;
+                $scope.cycle_recycle_item.user_name =$rootScope.activeUser.name;
+                $scope.cycle_recycle_item.user_phone =$rootScope.activeUser.phone;
+                $scope.cycle_recycle_item.user_address =$rootScope.activeUser.address;
+            });
+
+        };
+        //添加用户周期回收
+        $scope.add_cycle_recycle_item =function(){
+            $http({
+                url:'/cycle_recycles/add',
+                method:'POST',
+                data:$scope.cycle_recycle_item
+            }).success(function(cycle_recycle){
+                $('#cycle_recycle_modal').modal('hide');
+                $scope.cycle_recycle_item ={};
+                alert('添加成功');
+            });
         }
+
+        //废品分类详情
+        $scope.show_waste_sort_detail =function(id){
+            $http({
+                url:'/waste_sorts/findById',
+                method:'POST',
+                data:{
+                    id:id
+                }
+            }).success(function(waste_sort){
+                $scope.waste_sort_detail =waste_sort;
+            });
+
+        };
     });
 
 
@@ -510,7 +603,7 @@
             }).success(function (user) {
                 $('#login_modal').modal('hide');
                 $rootScope.activeUser =user;
-                alert('登录成功');
+//                alert('登录成功');
             }).error(function(data){
                 alert('登录失败:'+data);
             });
