@@ -1,12 +1,11 @@
 <!DOCTYPE html>
-<html lang="zh-cn">
+<html lang="zh-cn" ng-app="feibao_mall">
 <head>
     <meta charset="UTF-8">
     <title>废宝--购物平台</title>
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1, user-scalable=no">
-    <link rel="stylesheet" href="../public/css/bootstrap.css" />
-    <link rel="stylesheet" href="../public/css/mall_layout.css" />
-    <link rel="stylesheet" type="text/css" href="../public/css/style.css">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
     <style type="text/css">
         .ware_sort_list td:hover{
             cursor: pointer;
@@ -16,65 +15,56 @@
 </head>
 <body>
 <div class="jumbotron">
-    <h1>废宝商城</h1>
-</div>
-<div class="container">
-    <div class="row">
-        <div class="col-md-3">
-            <a href="index.html" ><img src="../public/imgs/logo_h50.png" alt="logo" class="logo"/></a>
-        </div>
-        <div class="col-md-7">
-            <form class="form-inline pull-left">
-                <div class="form-group">
-                    <input type="text" class="form-control" placeholder="请输入商品类别">
-                    <button type="submit" class="btn btn-success">搜索</button>
-                </div>
-            </form>
-            <div class="btn-group pull-right" role="group">
-                <a class="btn btn-default" href="mall_my_order.html">我的订单</a>
-                <a class="btn btn-default" href="mall_my_order.html">周期配送</a>
-                <a class="btn btn-default" href="mall_my_cart.html">购物车</a>
-                <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="23">我的余额</button>
-            </div>
-        </div>
-        <div class="col-md-2">
-            <div class="btn-group" role="group">
-                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#login_modal">登录</button>
-                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#register_modal">注册</button>
-            </div>
-        </div>
-    </div>
+    <h1>废宝——废宝商城</h1>
 </div>
 <nav class="navbar navbar-default">
     <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#indexNavbar">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-        </div>
-        <div class="collapse navbar-collapse" id="indexNavbar">
-            <ul class="nav navbar-nav">
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">商品类别<span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#"> 干果类</a></li>
-                        <li><a href="#"> 零食</a></li>
-                        <li><a href="#"> 纸巾</a></li>
-                        <li><a href="#"> 日常用品</a></li>
-                        <li><a href="#"> 生鲜</a></li>
-                        <li><a href="#"> 二手商品</a></li>
-                    </ul>
-                </li>
-                <li><a href="index.html"><span class="glyphicon glyphicon-home"></span>  首页</a></li>
-                <li><a href="recycle_waste.html"><span class="glyphicon glyphicon-list"></span>  废品回收</a></li>
-                <li  class="active"><a href="mall.html"><span class="glyphicon glyphicon-fire"></span>  日常百货</a></li>
-                <li><a href="article.html"><span class="glyphicon glyphicon-fire"></span>  环保知识</a></li>
-                <li><a href="my_feibao.html"><span class="glyphicon glyphicon-question-sign"></span>  我的废宝</a></li>
-            </ul>
-        </div>
+        <div class="row">
+            <div class="col-md-1">
+                <a href="index.html" ><img src="../imgs/logo_h50.png" alt="logo" class="logo" style="width:100px;height:50px;"/></a>
+            </div>
+            <div class="col-md-6">
+                <div class="navbar-header">
 
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#indexNavbar">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse" id="indexNavbar">
+
+                    <ul class="nav navbar-nav">
+                        <li><a href="index.html"><span class="glyphicon glyphicon-home"></span>  首页</a></li>
+                        <li><a href="recycle_waste.html"><span class="glyphicon glyphicon-refresh"></span>  废品回收</a></li>
+                        <li  class="active"><a href="mall.html"><span class="glyphicon glyphicon-shopping-cart"></span>  日常百货</a></li>
+                        <li><a href="article.html"><span class="glyphicon glyphicon-book"></span>  环保知识</a></li>
+                        <li><a href="my_feibao.html"><span class="glyphicon glyphicon-user"></span>  我的废宝</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <!--按钮组-->
+                <div class="btn-group" role="group" style="margin-top: 8px;">
+                    <a class="btn btn-default" href="mall_my_order.html">我的订单</a>
+                    <a class="btn btn-default" href="mall_my_order.html">周期配送</a>
+                    <!--<a class="btn btn-default" href="mall_my_cart.html">购物车</a>-->
+                    <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="23">我的余额</button>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div style="width: 150px; line-height: 50px">
+                    <div class="btn-group" role="group" ng-hide="activeUser">
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#login_modal">登录</button>
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#register_modal">注册</button>
+                    </div>
+                    <div ng-show="activeUser">
+                        <span>你好:</span>
+                        <span class="text-success">{{activeUser.name}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </nav>
 
@@ -100,146 +90,40 @@
     </ol>
     <div class="carousel-inner" role="listbox">
         <div class="item active">
-            <img src="../public/imgs/mall_carousel1.jpg" alt="轮播第一张" style="margin:0 auto;">
+            <img src="../imgs/mall_carousel1.jpg" alt="轮播第一张" style="margin:0 auto;">
         </div>
         <div class="item">
-            <img src="../public/imgs/mall_carousel2.jpg" alt="轮播第二张" style="margin:0 auto;">
+            <img src="../imgs/mall_carousel2.jpg" alt="轮播第二张" style="margin:0 auto;">
         </div>
         <div class="item">
-            <img src="../public/imgs/mall_carousel3.jpg" alt="轮播第三张" style="margin:0 auto;">
+            <img src="../imgs/mall_carousel3.jpg" alt="轮播第三张" style="margin:0 auto;">
         </div>
     </div>
     <a href="#mall_carousel" data-slide="prev" class="carousel-control left"><span class="glyphicon glyphicon-chevron-left"></span></a>
     <a href="#mall_carousel" data-slide="next" class="carousel-control right"><span class="glyphicon glyphicon-chevron-right"></span></a>
 </div>
-
-<div class="container">
+<br/>
+<div class="container" ng-controller="mall">
     <div class="row">
-        <div class="col-sm-4 col-md-3">
+        <div class="col-md-4  col-md-offset-4">
+            <input type="text" class="form-control" placeholder="请输入商品名称进行查询" ng-model="search">
+        </div>
+    </div>
+    <br/>
+    <div class="row">
+        <div class="col-sm-4 col-md-3" ng-repeat="ware in wares |filter:search">
             <div class="thumbnail">
-                <a href="mall_ware_detail.html"><img src="../public/imgs/food1.jpg" alt="食品1"></a>
+                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#ware_detail_modal" ng-click="show_ware_detail(ware._id)">
+                    <img src="{{ware.photo}}"  alt="图片预览" style="width:220px;height:200px;display:block;"/>
+                </button>
                 <div class="caption text-center">
-                    <h3>巧克力桶装</h3>
-                    <p>意大利进口</p>
+                    <h4 style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">{{ware.name}}</h4>
                     <p>
-                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#add_to_cart_modal">加入购物车</button>
-                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#cycle_distribution_modal">周期配送</button>
+                        <span>原价:</span><del>{{ware.original_price}}</del>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <span>现价:</span><strong style="color: #5CB85C; font-size: 18px;">{{ware.present_price}} </strong>元
                     </p>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-4 col-md-3">
-            <div class="thumbnail">
-                <a href="mall_ware_detail.html"><img src="../public/imgs/food2.jpg" alt="食品1"></a>
-                <div class="caption text-center">
-                    <h3>巧克力桶装</h3>
-                    <p>意大利进口</p>
-                    <p> <button type="button" class="btn btn-default" data-toggle="modal" data-target="#add_to_cart_modal">加入购物车</button>
-                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#cycle_distribution_modal">周期配送</button>
-                    </p>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-4 col-md-3">
-            <div class="thumbnail">
-                <a href="mall_ware_detail.html"><img src="../public/imgs/food2.jpg" alt="食品1"></a>
-                <div class="caption text-center">
-                    <h3>巧克力桶装</h3>
-                    <p>意大利进口</p>
-                    <p>
-                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#add_to_cart_modal">加入购物车</button>
-                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#cycle_distribution_modal">周期配送</button>
-                    </p>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-4 col-md-3">
-            <div class="thumbnail">
-                <a href="mall_ware_detail.html"><img src="../public/imgs/food1.jpg" alt="食品1"></a>
-                <div class="caption text-center">
-                    <h3>巧克力桶装</h3>
-                    <p>意大利进口</p>
-                    <p> <button type="button" class="btn btn-default" data-toggle="modal" data-target="#add_to_cart_modal">加入购物车</button>
-                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#cycle_distribution_modal">周期配送</button>
-                    </p>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-4 col-md-3">
-            <div class="thumbnail">
-                <a href="mall_ware_detail.html"><img src="../public/imgs/food1.jpg" alt="食品1"></a>
-                <div class="caption text-center">
-                    <h3>巧克力桶装</h3>
-                    <p>意大利进口</p>
-                    <p>
-                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#add_to_cart_modal">加入购物车</button>
-                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#cycle_distribution_modal">周期配送</button>
-                    </p>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-4 col-md-3">
-            <div class="thumbnail">
-                <a href="mall_ware_detail.html"><img src="../public/imgs/food2.jpg" alt="食品1"></a>
-                <div class="caption text-center">
-                    <h3>巧克力桶装</h3>
-                    <p>意大利进口</p>
-                    <p>
-                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#add_to_cart_modal">加入购物车</button>
-                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#cycle_distribution_modal">周期配送</button>
-                    </p>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-4 col-md-3">
-            <div class="thumbnail">
-                <img src="../public/imgs/food1.jpg" alt="食品1">
-                <div class="caption">
-                    <h3>巧克力桶装</h3>
-                    <p>意大利进口</p>
-                    <p>
-                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#add_to_cart_modal">加入购物车</button>
-                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#cycle_distribution_modal">周期配送</button>
-                    </p>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-4 col-md-3">
-            <div class="thumbnail">
-                <img src="../public/imgs/food2.jpg" alt="食品1">
-                <div class="caption">
-                    <h3>巧克力桶装</h3>
-                    <p>意大利进口</p>
-                    <p>
-                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#add_to_cart_modal">加入购物车</button>
-                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#cycle_distribution_modal">周期配送</button>
-                    </p>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-4 col-md-3">
-            <div class="thumbnail">
-                <img src="../public/imgs/food1.jpg" alt="食品1">
-                <div class="caption">
-                    <h3>巧克力桶装</h3>
-                    <p>意大利进口</p>
-                    <p>
-                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#add_to_cart_modal">加入购物车</button>
-                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#cycle_distribution_modal">周期配送</button>
-                    </p>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-4 col-md-3">
-            <div class="thumbnail">
-                <img src="../public/imgs/food2.jpg" alt="食品1">
-                <div class="caption">
-                    <h3>巧克力桶装</h3>
-                    <p>意大利进口</p>
-                    <p>
-                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#add_to_cart_modal">加入购物车</button>
-                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#cycle_distribution_modal">周期配送</button>
-                    </p>
+                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#add_to_cart_modal" ng-click="add_to_cart(ware._id)">加入购物车</button>
+                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#cycle_distribution_modal" ng-click="cycle_distribution(ware._id)">周期配送</button>
                 </div>
             </div>
         </div>
@@ -388,13 +272,170 @@
         </div>
     </div>
 </div>
-<!--<footer id="mall_footer">-->
-    <!--<div class="container">-->
-        <!--<p>废品回收 | 百货购买 | 版权投诉</p>-->
-        <!--<p> © 2009-2016 废宝网. Powered by Bootstrap.</p>-->
-    <!--</div>-->
-<!--</footer>-->
-<script src="../public/js/jquery-1.11.3.js"></script>
-<script src="../public/js/bootstrap.js"></script>
+<footer id="mall_footer" style="background-color: #F8F8F8;padding: 10px auto;">
+    <div class="container text-center">
+        <p>废品回收 | 百货购买 | 版权投诉</p>
+        <p> © 2009-2016 废宝网. Powered by Bootstrap.</p>
+    </div>
+</footer>
+<script src="../js/jquery-1.11.3.js"></script>
+<script src="../js/bootstrap.js"></script>
+<script src="../js/angular.js"></script>
+<script src="../js/angular-route.js"></script>
+<script type="text/javascript">
+    var app =angular.module('feibao_mall',['ngRoute']);
+    //回收废品
+    app.controller('mall',function($rootScope,$scope,$http){
+        $scope.wares =[];
+//        $scope.bespeak_recycle_item ={};
+//        $scope.waste_sort_detail ={};
+//        $scope.cycle_recycle_item ={};
+        $http({
+            url:'/wares/findPut',
+            method:'GET'
+        }).success(function(wares){
+//            alert(JSON.stringify(waste_sorts));
+            $scope.wares =wares;
+        });
+
+//        //预约回收信息预填写
+//        $scope.bespeak_recycle =function(id){
+//            $('#waste_sort_detail_modal').modal('hide');
+//            $http({
+//                url:'/waste_sorts/findById',
+//                method:'POST',
+//                data:{
+//                    id:id
+//                }
+//            }).success(function(bespeak_sort){
+//                //预约回收分类名
+//                $scope.bespeak_recycle_item.sort_name =bespeak_sort.name;
+//                //预约回收状态
+//                $scope.bespeak_recycle_item.state =1;
+//                //预约回收用户信息
+//                $scope.bespeak_recycle_item.user_id =$rootScope.activeUser._id;
+//                $scope.bespeak_recycle_item.user_name =$rootScope.activeUser.name;
+//                $scope.bespeak_recycle_item.user_phone =$rootScope.activeUser.phone;
+//                $scope.bespeak_recycle_item.user_address =$rootScope.activeUser.address;
+//            });
+//
+//        };
+//        //添加用户预约回收
+//        $scope.add_bespeak_recycle_item =function(){
+//            $http({
+//                url:'/bespeak_recycles/add',
+//                method:'POST',
+//                data:$scope.bespeak_recycle_item
+//            }).success(function(bespeak_recycle){
+//                $('#bespeak_recycle_modal').modal('hide');
+//                $scope.bespeak_recycle_item ={};
+//                alert('添加成功');
+//
+//            });
+//        };
+//
+//        //周期回收信息预填写
+//        $scope.cycle_recycle =function(id){
+//            $('#waste_sort_detail_modal').modal('hide');
+//            $http({
+//                url:'/waste_sorts/findById',
+//                method:'POST',
+//                data:{
+//                    id:id
+//                }
+//            }).success(function(cycle_sort){
+//                //周期回收起始日期
+//                var today =new Date();
+//                $scope.cycle_recycle_item.begin_date =today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate();
+//                //周期回收分类名
+//                $scope.cycle_recycle_item.sort_name =cycle_sort.name;
+//                //周期回收状态
+//                $scope.cycle_recycle_item.state =1;
+//                //周期回收用户信息
+//                $scope.cycle_recycle_item.user_id =$rootScope.activeUser._id;
+//                $scope.cycle_recycle_item.user_name =$rootScope.activeUser.name;
+//                $scope.cycle_recycle_item.user_phone =$rootScope.activeUser.phone;
+//                $scope.cycle_recycle_item.user_address =$rootScope.activeUser.address;
+//            });
+//
+//        };
+//        //添加用户周期回收
+//        $scope.add_cycle_recycle_item =function(){
+//            $http({
+//                url:'/cycle_recycles/add',
+//                method:'POST',
+//                data:$scope.cycle_recycle_item
+//            }).success(function(cycle_recycle){
+//                $('#cycle_recycle_modal').modal('hide');
+//                $scope.cycle_recycle_item ={};
+//                alert('添加成功');
+//            });
+//        }
+//
+//        //废品分类详情
+//        $scope.show_waste_sort_detail =function(id){
+//            $http({
+//                url:'/waste_sorts/findById',
+//                method:'POST',
+//                data:{
+//                    id:id
+//                }
+//            }).success(function(waste_sort){
+//                $scope.waste_sort_detail =waste_sort;
+//            });
+//
+//        };
+    });
+
+
+
+
+    //应用刷新检查是否登录
+    app.run(function($rootScope,$http){
+        $http({
+            url:'/users/is_login',
+            method:"POST",
+        }).success(function (user) {
+            $('#login_modal').modal('hide');
+            $rootScope.activeUser =user;
+        }).error(function(data){
+            alert('您尚未登录，请先登录');
+//            $('#login_modal').modal('show');
+        });
+    });
+
+    //注册控制器
+    app.controller('registerCtrl',function($scope,$http){
+        $scope.register =function(){
+            $http({
+                url:'/users/register',
+                method:"POST",
+                data:$scope.user
+            }).success(function (user) {
+                $('#register_modal').modal('hide');
+                alert('注册成功');
+            }).error(function(data){
+                alert('注册失败:'+data);
+            });
+        }
+    });
+    //登录控制器
+    app.controller('loginCtrl',function($rootScope,$scope,$http){
+        $scope.login =function(){
+            $http({
+                url:'/users/login',
+                method:"POST",
+                data:$scope.user
+            }).success(function (user) {
+                $('#login_modal').modal('hide');
+                $rootScope.activeUser =user;
+//                alert('登录成功');
+            }).error(function(data){
+                alert('登录失败:'+data);
+            });
+        }
+    });
+
+</script>
 </body>
 </html>

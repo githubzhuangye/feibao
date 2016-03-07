@@ -25,9 +25,19 @@ router.post('/add',parser,function(req, res) {
   });
 });
 
-//查找所有分类
+//查找所有商品
 router.get('/find', function (req, res) {
     Ware.find({},function(err,wares){
+        if (err) {
+            res.status(500).json({msg: err});
+        } else {
+            res.json(wares);
+        }
+    });
+});
+//查找所有上架的商品
+router.get('/findPut', function (req, res) {
+    Ware.find({state:1},function(err,wares){
         if (err) {
             res.status(500).json({msg: err});
         } else {
