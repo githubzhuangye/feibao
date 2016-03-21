@@ -35,6 +35,17 @@ router.get('/find', function (req, res) {
         }
     });
 });
+//根据id查找商品
+router.post('/findById', function (req, res) {
+    var id =req.body.id;
+    Ware.findOne({_id:id},function(err,ware){
+        if (err) {
+            res.status(500).json({msg: err});
+        } else {
+            res.json(ware);
+        }
+    });
+});
 //查找所有上架的商品
 router.get('/findPut', function (req, res) {
     Ware.find({state:1},function(err,wares){
