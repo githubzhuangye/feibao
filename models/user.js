@@ -4,5 +4,5 @@ module.exports =mongoose.model('User',new mongoose.Schema({
         password:String,
         phone:Number,
         address:String,
-        balance:String
+        balance:Number
 }));

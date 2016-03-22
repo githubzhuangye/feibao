@@ -1,17 +1,15 @@
 var express = require('express');
-var Shop_cart =require('../models').Shop_cart;
-var parser =require('multer')().single('photo');
+var Order =require('../models').Order;
 var router = express.Router();
-var fs = require('fs');
 
 /*Ìí¼Ó¹ºÎï³µ */
-router.post('/add',parser,function(req, res) {
-    var shop_cart =req.body;
-    new Shop_cart(shop_cart).save(function (err, shop_cart) {
+router.post('/add',function(req, res) {
+    var order =req.body;
+    new Order(order).save(function (err, order) {
           if (err) {
             res.status(500).json({msg: err});
           } else {
-            res.json(shop_cart);
+            res.json(order);
           }
     });
 });

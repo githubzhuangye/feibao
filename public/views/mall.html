@@ -277,14 +277,14 @@
                         <div class="form-group">
                             <label class="col-sm-4 col-md-4 control-label">需付款:</label>
                             <div class="col-sm-6 col-md-6">
-                                <span>42</span>
+                                <span style="font-size: 20px;color: #5CB85C;">{{order.total_price}}</span> 元
                             </div>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-default" ng-click="">确认付款</button>
+                    <button type="button" class="btn btn-default" ng-click="confirmPay()">确认付款</button>
                 </div>
             </div>
         </div>
@@ -443,7 +443,7 @@
         $scope.order.wares =[];//订单商品
         $scope.order.amount =0;
         $scope.order.total_price =0;
-        $scope.order.contact_name ='';
+//        $scope.order.contact_name ='';
 //        $scope.order.phone =$rootScope.activeUser.phone;
 //        $scope.order.address =$rootScope.activeUser.phone;
 //        $scope.order.state =0;
@@ -497,11 +497,47 @@
             $scope.order.contact_name =$rootScope.activeUser.name;
             $scope.order.contact_phone =$rootScope.activeUser.phone;
             $scope.order.contact_address =$rootScope.activeUser.address;
-            $scope.order.state =0;
-            $scope.order.pay_mode =0;
+            $scope.order.state =0;//0未付款，1付款，2未发货，3已发货
+            $scope.order.pay_mode =0;//0表示平台电子货币，1表示其他
             $scope.order.user_name =$rootScope.activeUser.name;
             $scope.order.user_id =$rootScope.activeUser._id;
             $('#count_shop_cart_modal').modal('show');
+        };
+        //确认付款
+        $scope.confirmPay =function(){
+            if($rootScope.activeUser.balance <$scope.order.total_price){
+                alert('您的电子虚拟货币不足！');
+            }else{
+                if(confirm('您确认支付'+$scope.order.total_price+'元')){
+                    //用户确认支付之后，先生成订单
+                    $http({
+                        url:'/orders/add',
+                        method:'POST',
+                        data:$scope.order
+                    }).success(function(order){
+                        if(order){
+                            $http({
+                                url:'/users/pay',
+                                method:'POST',
+                                data:{
+                                    user_id:$rootScope.activeUser._id,
+                                    price:$scope.order.total_price
+                                }
+                            }).success(function(user){
+                                //支付成功
+                                $rootScope.activeUser.balance =user.balance;
+                                //清空数据
+                                $scope.order.wares =[];
+                                $('#count_shop_cart_modal').modal('hide');
+                                alert('支付成功');
+                            }).error(function(){
+                                alert('支付失败');
+                            });
+                        }
+                    });
+
+                }
+            }
         };
         //查找用户是否有购物车
 //        $http({

@@ -40,6 +40,26 @@ router.post('/is_login', function(req, res) {
   }
 });
 
+//∏∂øÓ
+router.post('/pay', function(req, res) {
+  var user_id =req.body.user_id;
+  var price =-req.body.price;
+  User.update({_id:user_id},{$inc:{balance:price}}, function(err){
+    if (err) {
+      console.log(err);
+      res.status(500).json({msg: err});
+    } else {
+      User.findOne({_id:user_id},function(err,user){
+        if (err) {
+          res.status(500).json({msg: err});
+        } else {
+          res.json(user);
+        }
+      });
+    }
+  })
+});
+
 //md5º”√‹√‹¬Î
 function encrypto(str){
   return crypto.createHash('md5').update(str).digest('hex');
