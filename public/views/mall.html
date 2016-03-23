@@ -134,7 +134,8 @@
                     </p>
                     <!--data-toggle="modal" data-target="#add_to_cart_modal"-->
                     <button type="button" class="btn btn-default"  ng-click="add_to_cart(ware._id)">加入购物车</button>
-                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#cycle_distribution_modal" ng-click="cycle_distribution(ware._id)">周期配送</button>
+                    <!--ng-click="cycle_distribution(ware._id)"-->
+                    <button type="button" class="btn btn-default" ng-click="add_to_cycle_distribution(ware._id)">周期配送</button>
                 </div>
             </div>
         </div>
@@ -256,18 +257,6 @@
                                 <input type="text" class="form-control" name="contact_address" ng-model="order.contact_address">
                             </div>
                         </div>
-                        <!--<div class="form-group">-->
-                            <!--<label class="col-sm-4 col-md-4 control-label">订单状态:</label>-->
-                            <!--<div class="col-sm-6 col-md-6">-->
-                                <!--<span>未付款</span>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                        <!--<div class="form-group">-->
-                            <!--<label class="col-sm-4 col-md-4 control-label">付款方式:</label>-->
-                            <!--<div class="col-sm-6 col-md-6">-->
-                                <!--<span>电子货币</span>-->
-                            <!--</div>-->
-                        <!--</div>-->
                         <div class="form-group">
                             <label class="col-sm-4 col-md-4 control-label">当前用户:</label>
                             <div class="col-sm-6 col-md-6">
@@ -285,6 +274,106 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                     <button type="button" class="btn btn-default" ng-click="confirmPay()">确认付款</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--周期配送-->
+    <div class="modal fade" id="cycle_distribution_modal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="overflow-y:scroll;">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">周期配送详细信息</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-sm-3 col-md-3 control-label">下单日期:</label>
+                            <div class="col-sm-6 col-md-6">
+                                <input type="text" class="form-control" name="date" disabled="disabled"  ng-model="cycle_distribution.date">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 col-md-3 control-label">间隔:</label>
+                            <div class="col-sm-6 col-md-6">
+                                <select class="form-control" ng-model="cycle_distribution.interval">
+                                    <option value="一周">一周</option>
+                                    <option value="二周">二周</option>
+                                    <option value="三周">三周</option>
+                                    <option value="四周">四周</option>
+                                    <option value="两个月">两个月</option>
+                                    <option value="两个半月">两个半月</option>
+                                    <option value="三个月">三个月</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 col-md-3 control-label">配送商品:</label>
+                            <div class="col-sm-9 col-md-9">
+                                <table class="table table-striped table-bordered text-center">
+                                    <tr>
+                                        <td>商品名称</td>
+                                        <td>价格</td>
+                                        <td>数量</td>
+                                    </tr>
+                                    <tr ng-repeat="ware in cycle_distribution.wares">
+                                        <td>{{ware.name}}</td>
+                                        <td>{{ware.present_price}}</td>
+                                        <!--{{ware.quantity}}-->
+                                        <td><input type="number" ng-model="ware.quantity"/></td>
+                                        <td><span class="glyphicon glyphicon-remove"></span></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 col-md-3 control-label">商品总数量:</label>
+                            <div class="col-sm-6 col-md-6">
+                                {{cycle_distribution.amount}}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 col-md-2 control-label">总价:</label>
+                            <div class="col-sm-6 col-md-6">
+                                <span style="font-size: 18px;color: #5CB85C;">{{cycle_distribution.total_price}}</span> 元
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 col-md-3 control-label">联系人:</label>
+                            <div class="col-sm-6 col-md-6">
+                                <input type="text" class="form-control" placeholder="收货人姓名" name="contact_name" ng-model="cycle_distribution.contact_name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label  class="col-sm-3 col-md-3 control-label">手机（联系方式）:</label>
+                            <div class="col-sm-6 col-md-6">
+                                <input type="text" class="form-control" name="contact_number" ng-model="cycle_distribution.contact_phone">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 col-md-3 control-label">详细地址:</label>
+                            <div class="col-sm-6 col-md-6">
+                                <input type="text" class="form-control" name="contact_address" ng-model="cycle_distribution.contact_address">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 col-md-3 control-label">当前用户:</label>
+                            <div class="col-sm-6 col-md-6">
+                                <span>{{activeUser.name}}</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 col-md-3 control-label">货到需付款:</label>
+                            <div class="col-sm-6 col-md-6">
+                                <span style="font-size: 20px;color: #5CB85C;">{{cycle_distribution.total_price}}</span> 元
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-default" ng-click="confirmCycleDistribution()">确认周期配送</button>
                 </div>
             </div>
         </div>
@@ -359,64 +448,64 @@
     </div>
 </div>
 
-<div class="modal fade" id="cycle_distribution_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">加入周期配送</h4>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label>配送物品:
-                        <input type="text" class="form-control" placeholder="配送物品" value="巧克力桶装1kg">
-                    </label>
-                    <label>数量:
-                        <input type="text" class="form-control" placeholder="物品数量" value="1">
-                    </label>
-                </div>
-                <div class="form-group">
-                    <label>间隔周期:
-                        <label>每隔</label>
-                        <select class="form-control">
-                            <option>一</option>
-                            <option>二</option>
-                            <option>三</option>
-                            <option>四</option>
-                            <option>五</option>
-                            <option>六</option>
-                            <option>日</option>
-                        </select>周
-                    </label>
-                </div>
-                <div class="form-group">
-                    <label>收货人:
-                        <input type="text" class="form-control" placeholder="收货人姓名" value="庄叶">
-                    </label>
-                </div>
-                <div class="form-group">
-                    <label>手机（联系方式）:
-                        <input type="text" class="form-control" placeholder="手机号码" value="15652922740">
-                    </label>
-                </div>
-                <div class="form-group">
-                    <label>送货地址:
-                        <textarea>北京市朝阳区北四环东路97号</textarea>
-                    </label>
-                </div>
-                <div class="form-group">
-                    <label>起始日期
-                        <input type="text" class="form-control" placeholder="起始日期" value="2016-2-1">
-                    </label>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-success">确定</button>
-            </div>
-        </div>
-    </div>
-</div>
+<!--<div class="modal fade" id="add_to_cycle_distribution_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">-->
+    <!--<div class="modal-dialog" role="document">-->
+        <!--<div class="modal-content">-->
+            <!--<div class="modal-header">-->
+                <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+                <!--<h4 class="modal-title">加入周期配送</h4>-->
+            <!--</div>-->
+            <!--<div class="modal-body">-->
+                <!--<div class="form-group">-->
+                    <!--<label>配送物品:-->
+                        <!--<input type="text" class="form-control" placeholder="配送物品" value="巧克力桶装1kg">-->
+                    <!--</label>-->
+                    <!--<label>数量:-->
+                        <!--<input type="text" class="form-control" placeholder="物品数量" value="1">-->
+                    <!--</label>-->
+                <!--</div>-->
+                <!--<div class="form-group">-->
+                    <!--<label>间隔周期:-->
+                        <!--<label>每隔</label>-->
+                        <!--<select class="form-control">-->
+                            <!--<option>一</option>-->
+                            <!--<option>二</option>-->
+                            <!--<option>三</option>-->
+                            <!--<option>四</option>-->
+                            <!--<option>五</option>-->
+                            <!--<option>六</option>-->
+                            <!--<option>日</option>-->
+                        <!--</select>周-->
+                    <!--</label>-->
+                <!--</div>-->
+                <!--<div class="form-group">-->
+                    <!--<label>收货人:-->
+                        <!--<input type="text" class="form-control" placeholder="收货人姓名" value="庄叶">-->
+                    <!--</label>-->
+                <!--</div>-->
+                <!--<div class="form-group">-->
+                    <!--<label>手机（联系方式）:-->
+                        <!--<input type="text" class="form-control" placeholder="手机号码" value="15652922740">-->
+                    <!--</label>-->
+                <!--</div>-->
+                <!--<div class="form-group">-->
+                    <!--<label>送货地址:-->
+                        <!--<textarea>北京市朝阳区北四环东路97号</textarea>-->
+                    <!--</label>-->
+                <!--</div>-->
+                <!--<div class="form-group">-->
+                    <!--<label>起始日期-->
+                        <!--<input type="text" class="form-control" placeholder="起始日期" value="2016-2-1">-->
+                    <!--</label>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="modal-footer">-->
+                <!--<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>-->
+                <!--<button type="button" class="btn btn-success">确定</button>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
 <footer id="mall_footer" style="background-color: #F8F8F8;padding: 10px auto;">
     <div class="container text-center">
         <p>废品回收 | 百货购买 | 版权投诉</p>
@@ -443,6 +532,12 @@
         $scope.order.wares =[];//订单商品
         $scope.order.amount =0;
         $scope.order.total_price =0;
+
+        $scope.cycle_distribution ={};//周期配送
+        $scope.cycle_distribution.date =today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate();//订单日期
+        $scope.cycle_distribution.wares =[];
+        $scope.cycle_distribution.amount =0;
+        $scope.cycle_distribution.total_price =0;
 //        $scope.order.contact_name ='';
 //        $scope.order.phone =$rootScope.activeUser.phone;
 //        $scope.order.address =$rootScope.activeUser.phone;
@@ -503,7 +598,7 @@
             $scope.order.user_id =$rootScope.activeUser._id;
             $('#count_shop_cart_modal').modal('show');
         };
-        //确认付款
+        //订单确认付款
         $scope.confirmPay =function(){
             if($rootScope.activeUser.balance <$scope.order.total_price){
                 alert('您的电子虚拟货币不足！');
@@ -539,32 +634,46 @@
                 }
             }
         };
-        //查找用户是否有购物车
-//        $http({
-//            url:'/shop_carts/findByUserId',
-//            method:'POST',
-//            data:{
-//                id:$rootScope.activeUser._id
-//            }
-//        }).success(function(shop_cart){
-//            $scope.shop_cart =shop_cart;
-//        }).error(function(){//找不到购物车
-//            var today =new Date();
-//            $scope.shop_cart.date =today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate();//购物车日期
-//            $scope.shop_cart.state =0;//购物车状态，应该没用
-//            $scope.shop_cart.user_name = $rootScope.activeUser.name;//购物车用户姓名
-//            $scope.shop_cart.user_phone =$rootScope.activeUser.phone;//购物车用户电话
-//            $scope.shop_cart.user_address =$rootScope.activeUser.address;//购物车用户地址
-//            $scope.shop_cart.user_id =$rootScope.activeUser._id;//购物车用户id
-//            //为用户添加购物车
-//            $http({
-//                url:'/shop_carts/add',
-//                method:'POST',
-//                data:$scope.shop_cart
-//            }).success(function(shop_cart){
-//                $scope.shop_cart =shop_cart;
-//            });
-//        });
+        $scope.add_to_cycle_distribution =function(ware_id){
+            //按商品id查询商品
+            $http({
+                url:'/wares/findById',
+                method:'POST',
+                data:{
+                    id:ware_id
+                }
+            }).success(function(ware){
+//                alert(JSON.stringify(ware));
+                if(ware){
+                    delete ware.photo;
+                    ware.quantity =1;
+                    $scope.cycle_distribution.wares.push(ware);
+                    $('#cycle_distribution_modal').modal('show');
+                }
+//                $scope.shop_cart.wares.push({ware_name:ware.name,quantity:1,ware_price:ware.present_price});
+//                $('#add_to_cart_modal').modal('show');
+
+            });
+        };
+        //确认周期配送
+        $scope.confirmCycleDistribution =function(){
+            var total_price =0;
+            var amount =0;
+            angular.forEach($scope.cycle_distribution.wares,function(ware,key){
+                total_price +=ware.present_price;
+                amount +=ware.quantity;
+            });
+            $scope.cycle_distribution.total_price =total_price;
+            $scope.cycle_distribution.amount =amount;
+            $scope.cycle_distribution.contact_name =$rootScope.activeUser.name;
+            $scope.cycle_distribution.contact_phone =$rootScope.activeUser.phone;
+            $scope.cycle_distribution.contact_address =$rootScope.activeUser.address;
+            $scope.cycle_distribution.state =0;//0未付款，1付款，2未发货，3已发货
+            $scope.cycle_distribution.pay_mode =0;//0表示平台电子货币，1表示货到付款（现金）
+            $scope.cycle_distribution.user_name =$rootScope.activeUser.name;
+            $scope.cycle_distribution.user_id =$rootScope.activeUser._id;
+            console.log(JSON.stringify($scope.cycle_distribution));
+        };
 
 //        //周期回收信息预填写
 //        $scope.cycle_recycle =function(id){

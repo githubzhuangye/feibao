@@ -17,6 +17,7 @@ var articles = require('./routes/articles');
 var bespeak_recycles = require('./routes/bespeak_recycles');
 var cycle_recycles = require('./routes/cycle_recycles');
 var orders = require('./routes/orders');
+var cycle_distributions = require('./routes/cycle_distributions');
 
 var app = express();
 
@@ -54,6 +55,7 @@ app.use('/articles', articles);
 app.use('/bespeak_recycles', bespeak_recycles);
 app.use('/cycle_recycles', cycle_recycles);
 app.use('/orders', orders);
+app.use('/cycle_distributions', cycle_distributions);
 
 app.listen(3000);
 //

@@ -6,3 +6,4 @@ exports.Article =require('./article');
 exports.Bespeak_recycle =require('./bespeak_recycle');
 exports.Cycle_recycle =require('./cycle_recycle');
 exports.Order =require('./order');
+exports.Cycle_distribution =require('./cycle_distribution');
