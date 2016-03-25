@@ -1,6 +1,7 @@
 var mongoose =require('mongoose');
 module.exports =mongoose.model('Cycle_distribution',new mongoose.Schema({
         date:String,
+        interval:String,
         wares:[],
         amount:Number,
         total_price:Number,
