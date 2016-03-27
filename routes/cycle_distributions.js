@@ -5,7 +5,7 @@ var router = express.Router();
 /*Ìí¼Ó¹ºÎï³µ */
 router.post('/add',function(req, res) {
     var cycle_distribution =req.body;
-    new cycle_distribution(cycle_distribution).save(function (err, cycle_distribution) {
+    new Cycle_distribution(cycle_distribution).save(function (err, cycle_distribution) {
           if (err) {
             res.status(500).json({msg: err});
           } else {

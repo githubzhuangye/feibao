@@ -81,7 +81,17 @@ router.post('/edit', function (req, res) {
         }
     });
 });
-
+//根据文章id查找文章
+router.post('/findById', function (req, res) {
+    var id =req.body.id;
+    Article.findOne({_id:id},function(err,article){
+        if (err) {
+            res.status(500).json({msg: err});
+        } else {
+            res.json(article);
+        }
+    });
+});
 ////保存分类编辑
 //router.post('/save_edit', function (req, res) {
 //    var ware =req.body;

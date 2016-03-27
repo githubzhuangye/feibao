@@ -18,48 +18,45 @@
 </head>
 <body>
 <div class="jumbotron">
-    <h1>废宝——我的废宝</h1>
-</div>
-<div class="container">
-    <div class="row">
-        <div class="col-md-3">
-            <a href="index.html" ><img src="../public/imgs/logo_h50.png" alt="logo" class="logo"/></a>
-        </div>
-        <div class="col-md-7">
-            <form class="form-inline pull-left">
-                <div class="form-group">
-                    <input type="text" class="form-control" placeholder="请输入废品类别">
-                    <button type="submit" class="btn btn-success">搜索</button>
-                </div>
-            </form>
-        </div>
-        <div class="col-md-2">
-            <div class="btn-group" role="group">
-                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#login_modal">登录</button>
-                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#register_modal">注册</button>
-            </div>
-        </div>
-    </div>
+    <h1>环保美文</h1>
 </div>
 <nav class="navbar navbar-default">
     <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#indexNavbar">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
+        <div class="row">
+            <div class="col-md-1">
+                <a href="index.html" ><img src="../imgs/logo_h50.png" alt="logo" class="logo" style="width:100px;height:50px;"/></a>
+            </div>
+            <div class="col-md-6">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#indexNavbar">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse" id="indexNavbar">
+                    <ul class="nav navbar-nav">
+                        <li><a href="index.html"><span class="glyphicon glyphicon-home"></span>  首页</a></li>
+                        <li><a href="recycle_waste.html"><span class="glyphicon glyphicon-refresh"></span>  废品回收</a></li>
+                        <li><a href="mall.html"><span class="glyphicon glyphicon-shopping-cart"></span>  日常百货</a></li>
+                        <li><a href="article.html"><span class="glyphicon glyphicon-book"></span>  环保知识</a></li>
+                        <li  class="active"><a href="my_feibao.html"><span class="glyphicon glyphicon-user"></span>  我的废宝</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-5" style="padding-top:8px; ">
+                <div style="width: 150px;display: inline;" class="pull-right">
+                    <div class="btn-group" role="group" ng-hide="activeUser">
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#login_modal">登录</button>
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#register_modal">注册</button>
+                    </div>
+                    <div ng-show="activeUser" style="padding-top:4px; ">
+                        <span>你好:</span>
+                        <span class="text-success">{{activeUser.name}}</span>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="collapse navbar-collapse" id="indexNavbar">
-            <ul class="nav navbar-nav">
-                <li><a href="index.html"><span class="glyphicon glyphicon-home"></span>  首页</a></li>
-                <li><a href="recycle_waste.html"><span class="glyphicon glyphicon-list"></span>  废品回收</a></li>
-                <li><a href="mall.html"><span class="glyphicon glyphicon-fire"></span>  日常百货</a></li>
-                <li><a href="article.html"><span class="glyphicon glyphicon-fire"></span>  环保知识</a></li>
-                <li class="active"><a href="my_feibao.html"><span class="glyphicon glyphicon-question-sign"></span>  我的废宝</a></li>
-            </ul>
-        </div>
-
     </div>
 </nav>
 
@@ -72,7 +69,7 @@
         <li role="presentation"><a href="#change_password" aria-controls="messages" role="tab" data-toggle="tab">修改密码</a></li>
         <li role="presentation"><a href="#personal_information" aria-controls="settings" role="tab" data-toggle="tab">个人信息</a></li>
     </ul>
-    <div class="tab-content">
+    <div class="tab-content" style="min-height:600px; ">
         <div role="tabpanel" class="tab-pane active" id="bespeak_recycle">
             <div class="table-responsive text-center container">
                 <table class="table table-bordered table-hover">
@@ -85,12 +82,12 @@
                         <td>是否有效</td>
                         <td>取消预约回收</td>
                     </thead>
-                    <tr ng-repeat="bespeak_recycle in bespeak_recycles">
+                    <tr ng-repeat="bespeak_recycle in bespeak_recycles | orderBy: '-date'">
                         <td>{{bespeak_recycle.date}}</td>
                         <td>{{bespeak_recycle.time}}</td>
                         <td>{{bespeak_recycle.sort_name}}</td>
                         <td>{{bespeak_recycle.weight}} kg</td>
-                        <td>有</td>
+                        <td>{{bespeak_recycle.date | is_date_enabled | show_date_enabled}}</td>
                         <td><button class="btn btn-default" ng-click="cancleBespeak_recycle()">取消</button></td>
                     </tr>
                 </table>
@@ -245,62 +242,98 @@
         $scope.cycle_recycles =[];//周期回收
         $scope.orders =[];//我的订单
         $scope.cycle_distributions =[];//周期配送
-        //获取所有预约回收
+        $rootScope.activeUser ={};
+        //获取当前用户
         $http({
-            url:'/bespeak_recycles/findByUserId',
-            method:"POST",
-            data:{
-                user_id:$rootScope.activeUser._id
-            }
-        }).success(function (bespeak_recycles) {
-            $scope.bespeak_recycles =bespeak_recycles;
-        }).error(function(){
-            alert('获取预约回收记录失败');
+            url:'/users/is_login',
+            method:"POST"
+        }).success(function (user) {//成功之后获取该用户数据
+            $rootScope.activeUser =user;
+            //获取所有预约回收
+            $http({
+                url:'/bespeak_recycles/findByUserId',
+                method:"POST",
+                data:{
+                    user_id:$rootScope.activeUser._id
+                }
+            }).success(function (bespeak_recycles) {
+//                alert(JSON.stringify(bespeak_recycles));
+                $scope.bespeak_recycles =bespeak_recycles;
+            }).error(function(){
+                alert('获取预约回收记录失败');
+            });
+//            //获取所有周期回收
+//            $http({
+//                url:'/cycle_recycles/findByUserId',
+//                method:"POST",
+//                data:{
+//                    user_id:$rootScope.activeUser._id
+//                }
+//            }).success(function (cycle_recycles) {
+//                $scope.cycle_recycles =cycle_recycles;
+//            }).error(function(){
+//                alert('获取周期回收记录失败');
+//            });
+//            //获取所有订单
+//            $http({
+//                url:'/orders/findByUserId',
+//                method:"POST",
+//                data:{
+//                    user_id:$rootScope.activeUser._id
+//                }
+//            }).success(function (orders) {
+//                $scope.orders =orders;
+//            }).error(function(){
+//                alert('获取订单记录失败');
+//            });
+//            //获取所有周期配送
+//            $http({
+//                url:'/cycle_distributions/findByUserId',
+//                method:"POST",
+//                data:{
+//                    user_id:$rootScope.activeUser._id
+//                }
+//            }).success(function (cycle_distributions) {
+//                $scope.cycle_distributions =cycle_distributions;
+//            }).error(function(){
+//                alert('获取预约回收记录失败');
+//            });
+        }).error(function(data){
+            alert('您尚未登录，请先登录');
         });
-        //获取所有周期回收
-        $http({
-            url:'/cycle_recycles/findByUserId',
-            method:"POST",
-            data:{
-                user_id:$rootScope.activeUser._id
+
+    });
+    //判断用户是否的日期是否大于当前日期
+    app.filter('is_date_enabled', function() {
+        return function(bespeak_date) {
+
+            var tdate =new Date();
+            var nowDate =tdate.getFullYear()+'-'+(tdate.getMonth()+1)+'-'+tdate.getDate();
+//            alert(bespeak_date+',,,'+nowDate);
+            if(nowDate <bespeak_date){
+                return 1;//有效
+            }else{
+                return 0;//无效
             }
-        }).success(function (cycle_recycles) {
-            $scope.cycle_recycles =cycle_recycles;
-        }).error(function(){
-            alert('获取周期回收记录失败');
-        });
-        //获取所有订单
-        $http({
-            url:'/orders/findByUserId',
-            method:"POST",
-            data:{
-                user_id:$rootScope.activeUser._id
+        }
+    });
+    //判断用户是否的日期是否大于当前日期
+    app.filter('show_date_enabled', function() {
+        return function(is_enabled) {
+            if(is_enabled ==1){
+                return '有效';//有效
+            }else{
+                return '无效';//无效
             }
-        }).success(function (orders) {
-            $scope.orders =orders;
-        }).error(function(){
-            alert('获取订单记录失败');
-        });
-        //获取所有周期配送
-        $http({
-            url:'/cycle_distributions/findByUserId',
-            method:"POST",
-            data:{
-                user_id:$rootScope.activeUser._id
-            }
-        }).success(function (cycle_distributions) {
-            $scope.cycle_distributions =cycle_distributions;
-        }).error(function(){
-            alert('获取预约回收记录失败');
-        });
+        }
     });
     //应用刷新检查是否登录
     app.run(function($rootScope,$http){
         $http({
             url:'/users/is_login',
-            method:"POST",
+            method:"POST"
         }).success(function (user) {
-            $('#login_modal').modal('hide');
+//            alert(JSON.stringify(user));
             $rootScope.activeUser =user;
         }).error(function(data){
             alert('您尚未登录，请先登录');

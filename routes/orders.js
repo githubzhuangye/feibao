@@ -2,9 +2,10 @@ var express = require('express');
 var Order =require('../models').Order;
 var router = express.Router();
 
-/*添加购物车 */
+/*添加订单 */
 router.post('/add',function(req, res) {
     var order =req.body;
+    order.state =1;
     new Order(order).save(function (err, order) {
           if (err) {
             res.status(500).json({msg: err});
@@ -14,27 +15,27 @@ router.post('/add',function(req, res) {
     });
 });
 
-//根据user_id查找购物车
-//router.get('/findShopCartByUserId', function (req, res) {
-//    Ware.find({},function(err,wares){
-//        if (err) {
-//            res.status(500).json({msg: err});
-//        } else {
-//            res.json(wares);
-//        }
-//    });
-//});
-//根据user_id查找购物车
-router.post('/findByUserId', function (req, res) {
-    var id =req.body.id;
-    Shop_cart.findOne({user_id:id},function(err,shop_cart){
+//根据user_id查找订单
+router.get('/findByUserId', function (req, res) {
+    Order.find({},function(err,orders){
         if (err) {
             res.status(500).json({msg: err});
         } else {
-            res.json(shop_cart);
+            res.json(orders);
         }
     });
 });
+//根据user_id查找购物车
+//router.post('/findByUserId', function (req, res) {
+//    var id =req.body.id;
+//    Shop_cart.findOne({user_id:id},function(err,shop_cart){
+//        if (err) {
+//            res.status(500).json({msg: err});
+//        } else {
+//            res.json(shop_cart);
+//        }
+//    });
+//});
 ////查找所有上架的商品
 //router.get('/findPut', function (req, res) {
 //    Ware.find({state:1},function(err,wares){

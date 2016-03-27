@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="zh-cn">
+<html lang="zh-cn" ng-app="feibao_article_detail">
 <head>
     <meta charset="UTF-8">
-    <title>废宝--环保美文详情</title>
+    <title>废宝--环保美文</title>
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1, user-scalable=no">
-    <link rel="stylesheet" href="../public/css/bootstrap.css" />
-    <link rel="stylesheet" href="../public/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
 </head>
 <body>
 <div class="jumbotron">
-    <h1>环保美文</h1>
+    <h1>环保美文详情</h1>
 </div>
 <div class="container">
     <div class="row">
@@ -45,11 +45,6 @@
             <ul class="nav navbar-nav">
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">环保知识分类<span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#"> 最热</a></li>
-                        <li><a href="#"> 最新</a></li>
-                        <li><a href="#"> 最感人</a></li>
-                    </ul>
                 </li>
                 <li><a href="index.html"><span class="glyphicon glyphicon-home"></span>  首页</a></li>
                 <li><a href="recycle_waste.html"><span class="glyphicon glyphicon-list"></span>  废品回收</a></li>
@@ -62,16 +57,6 @@
     </div>
 </nav>
 
-<div class="table-responsive container">
-    <table class="table">
-        <tr>
-            <td>环保知识分类:</td>
-            <td>最热</td>
-            <td>最新</td>
-            <td>最感人</td>
-        </tr>
-    </table>
-</div>
 
 <div class="container text-center">
     <h3>谷歌安卓营收为310亿美元 利润220亿</h3>
@@ -95,83 +80,23 @@
     <button class="btn btn-default">点赞</button>
 </div>
 
-
-
-
-<div class="modal fade" id="login_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">登录</h4>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label for="username">用户名:</label>
-                    <input type="text" class="form-control" id="username" placeholder="用户名/账号">
-                </div>
-                <div class="form-group">
-                    <label for="password">密码:</label>
-                    <input type="password" class="form-control" id="password" placeholder="Password">
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-success">登录</button>
-            </div>
-        </div>
+<footer id="mall_footer" style="background-color: #F8F8F8;padding: 10px auto;">
+    <div class="container text-center">
+        <p>废品回收 | 百货购买 | 版权投诉</p>
+        <p> © 2009-2016 废宝网. Powered by Bootstrap.</p>
     </div>
-</div>
-
-
-<div class="modal fade" id="register_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">登录</h4>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label>用户名(手机号):
-                        <input type="text" class="form-control" placeholder="用户名/账号">
-                    </label>
-                </div>
-                <div class="form-group">
-                    <label>密码:
-                        <input type="password" class="form-control" placeholder="密码">
-                    </label>
-                </div>
-                <div class="form-group">
-                    <label>确认密码:
-                        <input type="password" class="form-control" placeholder="确认密码">
-                    </label>
-                </div>
-                <div class="form-group">
-                    <label>手机号:
-                        <input type="password" class="form-control" placeholder="手机号">
-                    </label>
-                </div>
-                <div class="form-group">
-                    <label>详细地址(请具体到门牌号):
-                        <input type="password" class="form-control" placeholder="详细地址">
-                    </label>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-success">注册</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!--<footer id="mall_footer">-->
-    <!--<div class="container">-->
-        <!--<p>废品回收 | 百货购买 | 版权投诉</p>-->
-        <!--<p> © 2009-2016 废宝网. Powered by Bootstrap.</p>-->
-    <!--</div>-->
-<!--</footer>-->
-<script src="../public/js/jquery-1.11.3.js"></script>
-<script src="../public/js/bootstrap.js"></script>
+</footer>
+<script src="../js/jquery-1.11.3.js"></script>
+<script src="../js/bootstrap.js"></script>
+<script src="../js/angular.js"></script>
+<script src="../js/angular-route.js"></script>
+<script type="text/javascript">
+    var app =angular.module('feibao_article_detail',['ngRoute']);
+    //废宝文章
+    app.controller('article_detail',function($rootScope,$scope,$http,$state,$stateParams){
+        var article_id = $stateParams.article_id;
+        alert(article_id);
+    });
+</script>
 </body>
 </html>

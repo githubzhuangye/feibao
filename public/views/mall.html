@@ -122,7 +122,7 @@
     <div class="row">
         <div class="col-sm-4 col-md-3" ng-repeat="ware in wares |filter:search">
             <div class="thumbnail">
-                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#ware_detail_modal" ng-click="show_ware_detail(ware._id)">
+                <button type="button" class="btn btn-default" ng-click="show_ware_detail(ware._id)">
                     <img src="{{ware.photo}}"  alt="图片预览" style="width:220px;height:200px;display:block;"/>
                 </button>
                 <div class="caption text-center">
@@ -272,7 +272,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-default" ng-click="confirmPay()">确认付款</button>
+                    <button type="button" class="btn btn-default" ng-click="confirm_pay()">确认付款</button>
                 </div>
             </div>
         </div>
@@ -285,25 +285,25 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">周期配送详细信息</h4>
                 </div>
-                <div class="modal-body">
-                    <form class="form-horizontal">
+                <form class="form-horizontal" name="cycle_distribution_form">
+                    <div class="modal-body">
                         <div class="form-group">
                             <label class="col-sm-3 col-md-3 control-label">下单日期:</label>
                             <div class="col-sm-6 col-md-6">
-                                <input type="text" class="form-control" name="date" disabled="disabled"  ng-model="cycle_distribution.date">
+                                <input type="text" class="form-control" name="date" disabled="disabled"  ng-model="cycle_distribution.begin_date">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 col-md-3 control-label">间隔:</label>
                             <div class="col-sm-6 col-md-6">
-                                <select class="form-control" ng-model="cycle_distribution.interval">
-                                    <option value="一周">一周</option>
-                                    <option value="二周">二周</option>
-                                    <option value="三周">三周</option>
-                                    <option value="四周">四周</option>
-                                    <option value="两个月">两个月</option>
-                                    <option value="两个半月">两个半月</option>
-                                    <option value="三个月">三个月</option>
+                                <select class="form-control" ng-model="cycle_distribution.interval" required>
+                                    <option value="7">一周</option>
+                                    <option value="14">二周</option>
+                                    <option value="21">三周</option>
+                                    <option value="28">四周</option>
+                                    <option value="60">两个月</option>
+                                    <option value="75">两个半月</option>
+                                    <option value="90">三个月</option>
                                 </select>
                             </div>
                         </div>
@@ -320,8 +320,8 @@
                                         <td>{{ware.name}}</td>
                                         <td>{{ware.present_price}}</td>
                                         <!--{{ware.quantity}}-->
-                                        <td><input type="number" ng-model="ware.quantity"/></td>
-                                        <td><span class="glyphicon glyphicon-remove"></span></td>
+                                        <td><input type="number" ng-change="count_amount_price()" ng-model="ware.quantity"/></td>
+                                        <td><span class="glyphicon glyphicon-remove" style="cursor: pointer;" ng-click="delete_cycle_distribution_ware($index)"></span></td>
                                     </tr>
                                 </table>
                             </div>
@@ -329,11 +329,11 @@
                         <div class="form-group">
                             <label class="col-sm-3 col-md-3 control-label">商品总数量:</label>
                             <div class="col-sm-6 col-md-6">
-                                {{cycle_distribution.amount}}
+                                <span style="font-size: 18px;color: #5CB85C;">{{cycle_distribution.amount}}</span>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-2 col-md-2 control-label">总价:</label>
+                            <label class="col-sm-3 col-md-3 control-label">总价:</label>
                             <div class="col-sm-6 col-md-6">
                                 <span style="font-size: 18px;color: #5CB85C;">{{cycle_distribution.total_price}}</span> 元
                             </div>
@@ -368,11 +368,44 @@
                                 <span style="font-size: 20px;color: #5CB85C;">{{cycle_distribution.total_price}}</span> 元
                             </div>
                         </div>
-                    </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">继续添加</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <button type="button" class="btn btn-default" ng-click="confirm_cycle_distribution()" ng-disabled="cycle_distribution_form.$invalid || cycle_distribution.wares.length <1">确认周期配送</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--展示商品详情-->
+    <div class="modal fade" id="ware_detail_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">商品详情</h4>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-default" ng-click="confirmCycleDistribution()">确认周期配送</button>
+                <div class="modal-body">
+                    <div class="media">
+                        <div class="media-left">
+                            <a href="#">
+                                <img class="media-object" src="{{ware_detail.photo}}" width="300" height="300" alt="商品详情图">
+                            </a>
+                        </div>
+                        <div class="media-body">
+                            <div><strong style="font-size: 18px;">名称：</strong><span class="media-heading">{{ware_detail.name}}</span></div>
+                            <div><strong style="font-size: 18px;">原价:</strong> <del>{{ware_detail.original_price}}</del> 元</div>
+                            <div><strong style="font-size: 18px;">现价:</strong><strong style="font-size: 20px;color: #5CB85C;">{{ware_detail.present_price}} </strong>元</div>
+                            <div><strong style="font-size: 18px;">商品详情:</strong><span>{{ware_detail.introduce}}</span></div>
+                            <div><strong style="font-size: 18px;">商品分类:</strong><span>{{ware_detail.sort}}</span></div>
+                            <br/>
+                            <br/>
+                            <div>
+                                <button type="button" class="btn btn-default" ng-click="add_to_cart(ware_detail._id)">加入购物车</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <button type="button" class="btn btn-default" ng-click="add_to_cycle_distribution(ware_detail._id)">周期配送</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -520,6 +553,7 @@
     //废宝商城
     app.controller('mall',function($rootScope,$scope,$http){
         $scope.wares =[];
+        $scope.ware_detail ={};//商品详情
 //        $scope.bespeak_recycle_item ={};
 //        $scope.waste_sort_detail ={};
         $scope.shop_cart ={};//购物车
@@ -533,7 +567,7 @@
         $scope.order.total_price =0;
 
         $scope.cycle_distribution ={};//周期配送
-        $scope.cycle_distribution.date =today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate();//订单日期
+        $scope.cycle_distribution.begin_date =today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate();//订单日期
         $scope.cycle_distribution.wares =[];
         $scope.cycle_distribution.amount =0;
         $scope.cycle_distribution.total_price =0;
@@ -555,6 +589,7 @@
 
         //添加进购物车
         $scope.add_to_cart =function(ware_id){
+            $('#ware_detail_modal').modal('hide');
             //按商品id查询商品
             $http({
                 url:'/wares/findById',
@@ -598,7 +633,7 @@
             $('#count_shop_cart_modal').modal('show');
         };
         //订单确认付款
-        $scope.confirmPay =function(){
+        $scope.confirm_pay =function(){
             if($rootScope.activeUser.balance <$scope.order.total_price){
                 alert('您的电子虚拟货币不足！');
             }else{
@@ -633,7 +668,13 @@
                 }
             }
         };
+        //加入周期配送
         $scope.add_to_cycle_distribution =function(ware_id){
+            $('#ware_detail_modal').modal('hide');
+            //给周期配送收货人姓名，号码，地址指定默认值
+            $scope.cycle_distribution.contact_name =$rootScope.activeUser.name;
+            $scope.cycle_distribution.contact_phone =$rootScope.activeUser.phone;
+            $scope.cycle_distribution.contact_address =$rootScope.activeUser.address;
             //按商品id查询商品
             $http({
                 url:'/wares/findById',
@@ -645,35 +686,92 @@
 //                alert(JSON.stringify(ware));
                 if(ware){
                     delete ware.photo;
+                    delete ware.introduce;
                     ware.quantity =1;
                     $scope.cycle_distribution.wares.push(ware);
+                    $scope.count_amount_price();
                     $('#cycle_distribution_modal').modal('show');
                 }
-//                $scope.shop_cart.wares.push({ware_name:ware.name,quantity:1,ware_price:ware.present_price});
-//                $('#add_to_cart_modal').modal('show');
-
             });
+        };
+        //计算商品总数量和总价
+        $scope.count_amount_price =function(){
+            var total_amount =0;
+            var total_price =0;
+            angular.forEach($scope.cycle_distribution.wares,function(ware,key){
+                total_amount +=ware.quantity;
+                total_price +=ware.quantity*ware.present_price;
+            });
+            $scope.cycle_distribution.amount =total_amount;
+            $scope.cycle_distribution.total_price =total_price;
+        };
+        //日期加上天数得到新的日期
+        //dateTemp 需要参加计算的日期，days要添加的天数，返回新的日期，日期格式：YYYY-MM-DD
+//        var dateTemp = dateTemp.split("-");
+//        var nDate = new Date(dateTemp[1] + '-' + dateTemp[2] + '-' + dateTemp[0]); //转换为MM-DD-YYYY格式
+//        var millSeconds = Math.abs(nDate) + (days * 24 * 60 * 60 * 1000);
+//        var rDate = new Date(millSeconds);
+//        var year = rDate.getFullYear();
+//        var month = rDate.getMonth() + 1;
+//        if (month < 10) month = "0" + month;
+//        var date = rDate.getDate();
+//        if (date < 10) date = "0" + date;
+//        return (year + "-" + month + "-" + date);
+        $scope.getNewDay =function(dateTemp, days) {
+            var beginDate = dateTemp.split("-");
+            var millSeconds =  (new Date(beginDate[0] + '/' + beginDate[1] + '/' + beginDate[2])).getTime() + (days * 24 * 60 * 60 * 1000);
+            var rDate = new Date(millSeconds);
+            var year = rDate.getFullYear();
+            var month = rDate.getMonth() + 1;
+            if (month < 10) month = "0" + month;
+            var date = rDate.getDate();
+            if (date < 10) date = "0" + date;
+            return (year + "-" + month + "-" + date);
         };
         //确认周期配送
-        $scope.confirmCycleDistribution =function(){
-            var total_price =0;
-            var amount =0;
-            angular.forEach($scope.cycle_distribution.wares,function(ware,key){
-                total_price +=ware.present_price;
-                amount +=ware.quantity;
-            });
-            $scope.cycle_distribution.total_price =total_price;
-            $scope.cycle_distribution.amount =amount;
-            $scope.cycle_distribution.contact_name =$rootScope.activeUser.name;
-            $scope.cycle_distribution.contact_phone =$rootScope.activeUser.phone;
-            $scope.cycle_distribution.contact_address =$rootScope.activeUser.address;
+        $scope.confirm_cycle_distribution =function(){
+            var end_date =$scope.getNewDay($scope.cycle_distribution.begin_date,$scope.cycle_distribution.interval);
+            //计算周期配送到期日期
             $scope.cycle_distribution.state =0;//0未付款，1付款，2未发货，3已发货
-            $scope.cycle_distribution.pay_mode =0;//0表示平台电子货币，1表示货到付款（现金）
+            $scope.cycle_distribution.end_date =end_date;
+            $scope.cycle_distribution.is_enabled =1;//1表示有效，0表示无效
+            $scope.cycle_distribution.pay_mode =1;//0表示平台电子货币，1表示货到付款（现金）
             $scope.cycle_distribution.user_name =$rootScope.activeUser.name;
             $scope.cycle_distribution.user_id =$rootScope.activeUser._id;
-            console.log(JSON.stringify($scope.cycle_distribution));
+//            alert(JSON.stringify($scope.cycle_distribution));
+            //添加周期配送
+            $http({
+                url:'/cycle_distributions/add',
+                method:'POST',
+                data:$scope.cycle_distribution
+            }).success(function(cycle_distribution){
+                if(cycle_distribution){
+                    //清空商品
+                    $scope.cycle_distribution.wares =[];
+                    $('#cycle_distribution_modal').modal('hide');
+                    alert('添加周期配送成功');
+                }
+            });
         };
-
+        //删除周期配送商品
+        $scope.delete_cycle_distribution_ware =function(index){
+            $scope.cycle_distribution.wares.splice(index,1);
+            $scope.count_amount_price();
+        };
+        //展示商品详细信息
+        $scope.show_ware_detail =function(ware_id){
+            //按商品id查询商品
+            $http({
+                url:'/wares/findById',
+                method:'POST',
+                data:{
+                    id:ware_id
+                }
+            }).success(function(ware_detail){
+                $scope.ware_detail =ware_detail;
+                $('#ware_detail_modal').modal('show');
+            });
+        };
 //        //周期回收信息预填写
 //        $scope.cycle_recycle =function(id){
 //            $('#waste_sort_detail_modal').modal('hide');

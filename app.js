@@ -54,8 +54,8 @@ app.use('/wares', wares);
 app.use('/articles', articles);
 app.use('/bespeak_recycles', bespeak_recycles);
 app.use('/cycle_recycles', cycle_recycles);
-app.use('/orders', orders);
-app.use('/cycle_distributions', cycle_distributions);
+app.use('/orders',orders);
+app.use('/cycle_distributions',cycle_distributions);
 
 app.listen(3000);
 //

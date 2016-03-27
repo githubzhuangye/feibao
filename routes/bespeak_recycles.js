@@ -6,7 +6,7 @@ var router = express.Router();
 var mime = require('mime');
 var fs = require('fs');
 
-/*添加废品分类 */
+/*添加预约回收 */
 router.post('/add',parser,function(req, res) {
   var bespeak_recycle =req.body;
     new Bespeak_recycle(bespeak_recycle).save(function (err, bespeak_recycle) {
@@ -18,16 +18,17 @@ router.post('/add',parser,function(req, res) {
     });
 });
 
-////查找所有分类
-//router.get('/find', function (req, res) {
-//    Ware.find({},function(err,wares){
-//        if (err) {
-//            res.status(500).json({msg: err});
-//        } else {
-//            res.json(wares);
-//        }
-//    });
-//});
+//查找所有分类
+router.post('/findByUserId', function (req, res) {
+    var user_id =req.body.user_id;
+    Bespeak_recycle.find({user_id:user_id},function(err,bespeak_recycles){
+        if (err) {
+            res.status(500).json({msg: err});
+        } else {
+            res.json(bespeak_recycles);
+        }
+    });
+});
 ////分类下架
 //router.post('/pull', function (req, res) {
 //    var id =req.body.id;
