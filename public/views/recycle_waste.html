@@ -484,7 +484,7 @@
             }).success(function(bespeak_sort){
                 //预约回收分类名
                 $scope.bespeak_recycle_item.sort_name =bespeak_sort.name;
-                //预约回收状态0:表示未回收,1表示已回收,2表示日期过了失效,3表示取消
+                //预约回收状态0:表示未回收,1表示已回收,2表示取消,3表示日期过了失效
                 $scope.bespeak_recycle_item.state =0;
                 //预约回收用户信息
                 $scope.bespeak_recycle_item.user_id =$rootScope.activeUser._id;

@@ -9,26 +9,38 @@
 </head>
 <body>
 <div class="jumbotron">
-    <h1>废宝后台管理登录</h1>
+    <h1>废宝--后台登录</h1>
 </div>
 
 <div class="container" ng-controller="loginCtrl">
     <form class="form-horizontal" role="form" name="login_form" ng-submit="login()">
         <div class="form-group">
-            <label  class="col-sm-offset-2 col-sm-2 control-label">用户名:</label>
+            <label  class="col-md-offset-2 col-md-2 control-label">用户名:</label>
             <div class="col-sm-4">
                 <input type="text" class="form-control" name="name" ng-model="admin.name" placeholder="用户名" ng-required>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-offset-2 col-sm-2 control-label">密码:</label>
+            <label class="col-md-offset-2 col-md-2 control-label">密码:</label>
             <div class="col-sm-4">
                 <input type="password" class="form-control"  placeholder="密码" name="password" ng-model="admin.password" ng-required>
             </div>
         </div>
         <div class="form-group">
+            <div class="radio">
+                <label>
+                    <input type="radio" value="0" ng-model="admin.type">
+                    领取任务
+                </label>
+                <label>
+                    <input type="radio" value="1" ng-model="admin.type">
+                    录入管理
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
             <div class="col-sm-offset-4 col-sm-4">
-                <button type="submit" class="btn btn-success btn-block" style="font-size:18px;">登  录</button>
+                <button type="submit" class="btn btn-success btn-block" style="font-size:18px;" ng-disabled="login_form.$invalid">登  录</button>
             </div>
         </div>
     </form>
@@ -49,7 +61,7 @@
                 method:"POST",
                 data:$scope.admin
             }).success(function (admin) {
-                window.location="index.html";
+                window.location="clain_task.html";
             }).error(function(data){
                 alert('登录失败:'+data.msg);
             });
