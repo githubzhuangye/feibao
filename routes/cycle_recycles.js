@@ -17,17 +17,37 @@ router.post('/add',parser,function(req, res) {
           }
     });
 });
+//根据用户id查找周期回收
+router.post('/find_by_user_id', function (req, res) {
+    var user_id =req.body.user_id;
+    Cycle_recycle.find({user_id:user_id},function(err,cycle_recycles){
+        if (err) {
+            res.status(500).json({msg: err});
+        } else {
+            res.json(cycle_recycles);
+        }
+    });
+});
 
-////查找所有分类
-//router.get('/find', function (req, res) {
-//    Ware.find({},function(err,wares){
-//        if (err) {
-//            res.status(500).json({msg: err});
-//        } else {
-//            res.json(wares);
-//        }
-//    });
-//});
+//取消周期回收
+router.post('/cancel_cycle_recycle', function (req, res) {
+    var id =req.body.id;
+    var user_id =req.body.user_id;
+    Cycle_recycle.update({_id:id},{$set:{state:2}},function(err){
+        if (err) {
+            res.status(500).json({msg: err});
+        } else {
+            Cycle_recycle.find({user_id:user_id},function(err,cycle_recycles){
+                if (err) {
+                    res.status(500).json({msg: err});
+                } else {
+                    res.json(cycle_recycles);
+                }
+            });
+        }
+    });
+});
+
 ////分类下架
 //router.post('/pull', function (req, res) {
 //    var id =req.body.id;

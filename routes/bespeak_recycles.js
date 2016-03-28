@@ -19,7 +19,7 @@ router.post('/add',parser,function(req, res) {
 });
 
 //查找所有分类
-router.post('/findByUserId', function (req, res) {
+router.post('/find_by_user_id', function (req, res) {
     var user_id =req.body.user_id;
     Bespeak_recycle.find({user_id:user_id},function(err,bespeak_recycles){
         if (err) {
@@ -29,23 +29,24 @@ router.post('/findByUserId', function (req, res) {
         }
     });
 });
-////分类下架
-//router.post('/pull', function (req, res) {
-//    var id =req.body.id;
-//    Ware.update({_id:id},{$set:{state:0}},function(err){
-//        if (err) {
-//            res.status(500).json({msg: err});
-//        } else {
-//            Ware.find({},function(err,wares){
-//                if (err) {
-//                    res.status(500).json({msg: err});
-//                } else {
-//                    res.json(wares);
-//                }
-//            });
-//        }
-//    });
-//});
+//取消预约回收
+router.post('/cancel_bespeak_recycle', function (req, res) {
+    var id =req.body.id;
+    var user_id =req.body.user_id;
+    Bespeak_recycle.update({_id:id},{$set:{state:2}},function(err){
+        if (err) {
+            res.status(500).json({msg: err});
+        } else {
+            Bespeak_recycle.find({user_id:user_id},function(err,bespeak_recycles){
+                if (err) {
+                    res.status(500).json({msg: err});
+                } else {
+                    res.json(bespeak_recycles);
+                }
+            });
+        }
+    });
+});
 ////分类上架
 //router.post('/put', function (req, res) {
 //    var id =req.body.id;

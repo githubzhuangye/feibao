@@ -626,7 +626,7 @@
             $scope.order.contact_name =$rootScope.activeUser.name;
             $scope.order.contact_phone =$rootScope.activeUser.phone;
             $scope.order.contact_address =$rootScope.activeUser.address;
-            $scope.order.state =0;//0未付款，1付款，2未发货，3已发货
+            $scope.order.state =0;//0未付款,1付款,2取消,3已发货
             $scope.order.pay_mode =0;//0表示平台电子货币，1表示其他
             $scope.order.user_name =$rootScope.activeUser.name;
             $scope.order.user_id =$rootScope.activeUser._id;
@@ -705,36 +705,25 @@
             $scope.cycle_distribution.amount =total_amount;
             $scope.cycle_distribution.total_price =total_price;
         };
-        //日期加上天数得到新的日期
-        //dateTemp 需要参加计算的日期，days要添加的天数，返回新的日期，日期格式：YYYY-MM-DD
-//        var dateTemp = dateTemp.split("-");
-//        var nDate = new Date(dateTemp[1] + '-' + dateTemp[2] + '-' + dateTemp[0]); //转换为MM-DD-YYYY格式
-//        var millSeconds = Math.abs(nDate) + (days * 24 * 60 * 60 * 1000);
-//        var rDate = new Date(millSeconds);
-//        var year = rDate.getFullYear();
-//        var month = rDate.getMonth() + 1;
-//        if (month < 10) month = "0" + month;
-//        var date = rDate.getDate();
-//        if (date < 10) date = "0" + date;
-//        return (year + "-" + month + "-" + date);
-        $scope.getNewDay =function(dateTemp, days) {
-            var beginDate = dateTemp.split("-");
-            var millSeconds =  (new Date(beginDate[0] + '/' + beginDate[1] + '/' + beginDate[2])).getTime() + (days * 24 * 60 * 60 * 1000);
-            var rDate = new Date(millSeconds);
-            var year = rDate.getFullYear();
-            var month = rDate.getMonth() + 1;
-            if (month < 10) month = "0" + month;
-            var date = rDate.getDate();
-            if (date < 10) date = "0" + date;
-            return (year + "-" + month + "-" + date);
-        };
+//        //日期加上天数得到新的日期
+//        $scope.getNewDay =function(dateTemp, days) {
+//            var beginDate = dateTemp.split("-");
+//            var millSeconds =  (new Date(beginDate[0] + '/' + beginDate[1] + '/' + beginDate[2])).getTime() + (days * 24 * 60 * 60 * 1000);
+//            var rDate = new Date(millSeconds);
+//            var year = rDate.getFullYear();
+//            var month = rDate.getMonth() + 1;
+//            if (month < 10) month = "0" + month;
+//            var date = rDate.getDate();
+//            if (date < 10) date = "0" + date;
+//            return (year + "-" + month + "-" + date);
+//        };
         //确认周期配送
         $scope.confirm_cycle_distribution =function(){
-            var end_date =$scope.getNewDay($scope.cycle_distribution.begin_date,$scope.cycle_distribution.interval);
+//            var end_date =$scope.getNewDay($scope.cycle_distribution.begin_date,$scope.cycle_distribution.interval);
             //计算周期配送到期日期
-            $scope.cycle_distribution.state =0;//0未付款，1付款，2未发货，3已发货
-            $scope.cycle_distribution.end_date =end_date;
-            $scope.cycle_distribution.is_enabled =1;//1表示有效，0表示无效
+            $scope.cycle_distribution.state =0;//0未付款，1付款，2取消,3已发货
+            $scope.cycle_distribution.end_date ='';
+//            $scope.cycle_distribution.is_enabled =1;//1表示有效，0表示无效
             $scope.cycle_distribution.pay_mode =1;//0表示平台电子货币，1表示货到付款（现金）
             $scope.cycle_distribution.user_name =$rootScope.activeUser.name;
             $scope.cycle_distribution.user_id =$rootScope.activeUser._id;

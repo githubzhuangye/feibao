@@ -87,8 +87,12 @@
                         <td>{{bespeak_recycle.time}}</td>
                         <td>{{bespeak_recycle.sort_name}}</td>
                         <td>{{bespeak_recycle.weight}} kg</td>
-                        <td>{{bespeak_recycle.date | is_date_enabled | show_date_enabled}}</td>
-                        <td><button class="btn btn-default" ng-click="cancleBespeak_recycle()">取消</button></td>
+                        <td>
+                            <span ng-hide="bespeak_recycle.state ==2">{{bespeak_recycle.date | is_date_enabled | show_date_enabled}}</span>
+                            <span ng-show="bespeak_recycle.state ==2">已取消</span>
+                        </td>
+                        <!--//预约回收状态0:表示未回收,1表示日期过了失效,2表示取消,3表示已回收-->
+                        <td><button class="btn btn-default" ng-disabled="bespeak_recycle.state ==2" ng-click="cancel_bespeak_recycle(bespeak_recycle._id)">取消</button></td>
                     </tr>
                 </table>
             </div>
@@ -105,13 +109,49 @@
                         <td>是否有效</td>
                         <td>取消周期回收</td>
                     </thead>
-                    <tr ng-repeat="cycle_recycle in cycle_recycles">
+                    <tr ng-repeat="cycle_recycle in cycle_recycles | orderBy: '-begin_date'">
                         <td>{{cycle_recycle.begin_date}}</td>
                         <td>{{cycle_recycle.interval}}</td>
                         <td>{{cycle_recycle.time}}</td>
                         <td>{{cycle_recycle.sort_name}}</td>
-                        <td>有</td>
-                        <td><button class="btn btn-default" ng-click="cancleCycle_recycle()">取消</button></td>
+                        <td>
+                            <span ng-show="cycle_recycle.state ==2">已取消</span>
+                            <span ng-hide="cycle_recycle.state ==2">有效</span>
+                        </td>
+                        <!--//预约回收状态0:表示未回收,1表示日期过了失效,2表示取消,3表示已回收-->
+                        <td><button class="btn btn-default" ng-disabled="cycle_recycle.state ==2" ng-click="cancel_cycle_recycle(cycle_recycle._id)">取消</button></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="my_order">
+            <div class="table-responsive text-center container">
+                <table class="table table-bordered table-hover">
+                    <caption>我的订单</caption>
+                    <thead>
+                    <td>订单日期</td>
+                    <td>购买商品</td>
+                    <td>总数量</td>
+                    <td>总价格</td>
+                    <td>收货人</td>
+                    <td>手机</td>
+                    <td>地址</td>
+                    <td>订单状态</td>
+                    <td>物流信息</td>
+                    <td>操作</td>
+                    </thead>
+                    <tr ng-repeat="order in orders">
+                        <td>{{order.date}}</td>
+                        <td><div ng-repeat="ware in order.wares">{{ware.name}} ({{ware.quantity}}})</div></td>
+
+                        <td>2</td>
+                        <td>{{order.amount}}元</td>
+                        <td>{{order.total_price}}</td>
+                        <td>{{order.contact_name}}</td>
+                        <td>{{order.contact_phone}}</td>
+                        <td>{{order.contact_address}}</td>
+                        <td><a href="#">物流详情</a></td>
+                        <td><button class="btn btn-default" ng-disabled="cycle_distribution.state >1" ng-click="cancel_order(order._id)">取消</button></td>
                     </tr>
                 </table>
             </div>
@@ -125,101 +165,105 @@
                         <td>间隔</td>
                         <td>配送物品</td>
                         <td>配送数量</td>
+                        <td>总价格</td>
+                        <td>付款方式</td>
                         <td>收货人</td>
                         <td>手机</td>
                         <td>收货地址</td>
                         <td>是否有效</td>
-                        <td>取消周期回收</td>
+                        <td>取消配送</td>
                     </thead>
                     <tr ng-repeat="cycle_distribution in cycle_distributions">
                         <td>{{cycle_distribution.date}}</td>
                         <td>{{cycle_distribution.date}}</td>
-                        <td><div ng-repeat="ware in cycle_distributions">{{ware.name}}</div></td>
+                        <td><div ng-repeat="ware in cycle_distribution.wares">{{ware.name}} ({{ware.quantity}}})</div></td>
                         <td>{{cycle_distribution.amount}}</td>
+                        <td>{{cycle_distribution.total_price}}</td>
+                        <td>货到付款</td>
                         <td>{{cycle_distribution.contact_name}}</td>
                         <td>{{cycle_distribution.contact_phone}}</td>
                         <td>{{cycle_distribution.contact_address}}</td>
-                        <td>有</td>
-                        <td><button class="btn btn-success" ng-click="cancleCycle_distribution()">取消</button></td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-        <div role="tabpanel" class="tab-pane" id="my_order">
-            <div class="table-responsive text-center container">
-                <table class="table table-bordered table-hover">
-                    <caption>我的订单</caption>
-                    <thead>
-                        <td>时间</td>
-                        <td>商品</td>
-                        <td>总数量</td>
-                        <td>总价格</td>
-                        <td>收货人</td>
-                        <td>手机</td>
-                        <td>地址</td>
-                        <td>订单状态</td>
-                        <td>物流信息</td>
-                        <td>操作</td>
-                    </thead>
-                    <tr ng-repeat="order in orders">
-                        <td>{{order.date}}</td>
-                        <td>巧克力盒装500g【1】<br>
-                            金典牛奶6盒装【1】</td>
-
-                        <td>2</td>
-                        <td>{{order.amount}}元</td>
-                        <td>{{order.total_price}}</td>
-                        <td>{{order.contact_name}}</td>
-                        <td>{{order.contact_phone}}</td>
-                        <td>{{order.contact_address}}</td>
-                        <td><a href="#">物流详情</a></td>
-                        <td><button class="btn btn-default">去付款</button></td>
+                        <td>
+                            <span ng-show="cycle_distribution.state ==2">已取消</span>
+                            <span ng-hide="cycle_distribution.state ==2">有效</span>
+                        </td>
+                        <td><button class="btn btn-success" ng-disabled="cycle_distribution.state ==2" ng-click="cancel_cycle_distribution(cycle_distribution._id)">取消</button></td>
                     </tr>
                 </table>
             </div>
         </div>
         <div role="tabpanel" class="tab-pane" id="change_password">
             <div class="table-responsive text-center container">
-                <table class="table table-bordered table-hover">
-                    <caption>修改密码</caption>
-                    <tr>
-                        <td>原密码:</td>
-                        <td><input type="password" class="form-control"></td>
-                    </tr>
-                    <tr>
-                        <td>新密码:</td>
-                        <td><input type="password" class="form-control"></td>
-                    </tr>
-                    <tr>
-                        <td>确认密码:</td>
-                        <td><input type="password" class="form-control"></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2"><button class="btn btn-success" ng-click="editUserPassword()">确定</button></td>
-                    </tr>
-                </table>
+                <form name="change_password_form" novalidate ng-submit="change_password()">
+                    <div class="form-group row"  ng-class="{'has-error':change_password_form.old_password.$dirty && change_password_form.old_password.$invalid}">
+                        <label  class="col-sm-3 col-md-3 control-label">原密码:</label>
+                        <div class="col-sm-6 col-md-6">
+                            <input type="text" class="form-control" name="old_password" placeholder="6-20位数字字母" ng-model="user.old_password" ng-pattern="/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/" ng-required>
+                        </div>
+                        <div class="help-block col-sm-3 col-md-3" ng-show="change_password_form.old_password.$dirty && change_password_form.old_password.$invalid">
+                            <span class="text-danger" ng-show="change_password_form.old_password.$error.required">密码不能为空</span>
+                            <span class="text-danger" ng-show="change_password_form.old_password.$error.pattern">6-20位数字字母</span>
+                        </div>
+                    </div>
+                    <div class="form-group row"  ng-class="{'has-error':change_password_form.new_password.$dirty && change_password_form.new_password.$invalid}">
+                        <label  class="col-sm-3 col-md-3 control-label">新密码:</label>
+                        <div class="col-sm-6 col-md-6">
+                            <input type="text" class="form-control" name="new_password" placeholder="6-20位数字字母" ng-model="user.new_password" ng-pattern="/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/" ng-required>
+                        </div>
+                        <div class="help-block col-sm-3 col-md-3" ng-show="change_password_form.new_password.$dirty && change_password_form.new_password.$invalid">
+                            <span class="text-danger" ng-show="change_password_form.new_password.$error.required">密码不能为空</span>
+                            <span class="text-danger" ng-show="change_password_form.new_password.$error.pattern">6-20位数字字母</span>
+                        </div>
+                    </div>
+                    <div class="form-group row" ng-class="{'has-error':change_password_form.re_password.$dirty && change_password_form.re_password.$invalid}">
+                        <label  class="col-sm-3 col-md-3 control-label">确认密码:</label>
+                        <div class="col-sm-6 col-md-6">
+                            <input type="text" class="form-control" name="re_password" placeholder="请再输入一次密码" ng-model="user.re_password" ng-pattern="/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/" ng-required>
+                        </div>
+                        <div class="help-block col-sm-3 col-md-3" ng-show="change_password_form.re_password.$dirty && change_password_form.re_password.$invalid">
+                            <span class="text-danger" ng-show="change_password_form.re_password.$error.required">确认密码不能为空</span>
+                            <span class="text-danger" ng-show="change_password_form.re_password.$error.pattern">6-20位数字字母</span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <button type="submit" class="btn btn-success btn-block" style="font-size: 20px;" ng-disabled="change_password_form.$invalid || user.new_password != user.re_password" >确认修改</button>
+                    </div>
+                </form>
             </div>
         </div>
         <div role="tabpanel" class="tab-pane" id="personal_information">
-            <div class="table-responsive text-center container">
-                <table class="table table-bordered table-hover">
-                    <caption>个人信息</caption>
-                    <tr>
-                        <td>用户名:</td>
-                        <td><span>{{activeUser.name}}</span></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>手机号:</td>
-                        <td><span>{{activeUser.phone}}</span></td>
-                        <td><button class="btn btn-default" ng-click="editUserPhone()">修改</button></td>
-                    </tr>
-                    <tr>
-                        <td>详细地址:</td>
-                        <td><span>{{activeUser.address}}</span></td>
-                        <td><button class="btn btn-default" ng-click="editUserAddress()">修改</button></td>
-                    </tr>
-                </table>
+            <div class="text-center container">
+                <form name="user_information_form" ng-submit="change_information()">
+                    <div class="form-group row">
+                        <label class="col-md-3 control-label">用户名:</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control"  ng-model="activeUser.name" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group row" ng-class="{'has-error':user_information_form.phone.$dirty && user_information_form.phone.$invalid}">
+                        <label  class="col-sm-3 col-md-3 control-label">手机号:</label>
+                        <div class="col-sm-6 col-md-6">
+                            <input type="text" class="form-control" name="phone" id="phone" ng-model="activeUser.phone" ng-pattern="/^(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/" ng-required readonly>
+                        </div>
+                        <div class="help-block col-sm-3 col-md-3" ng-show="user_information_form.phone.$dirty && user_information_form.phone.$invalid">
+                            <span class="text-danger" ng-show="user_information_form.phone.$error.required">手机号不能为空</span>
+                            <span class="text-danger" ng-show="user_information_form.phone.$error.pattern">请填写正确手机号</span>
+                        </div>
+                    </div>
+                    <div class="form-group row" ng-class="{'has-error':user_information_form.address.$dirty && user_information_form.address.$invalid}">
+                        <label  class="col-sm-3 col-md-3 control-label">详细地址:</label>
+                        <div class="col-sm-6 col-md-6">
+                            <input type="text" class="form-control" name="address" id="address" ng-model="activeUser.address" ng-required readonly>
+                        </div>
+                        <div class="help-block col-sm-3 col-md-3" ng-show="user_information_form.phone.$dirty && user_information_form.phone.$invalid">
+                            <span class="text-danger" ng-show="user_information_form.phone.$error.required">详细地址不能为空</span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <button type="button" class="btn btn-default" ng-click="edit_information()">修改信息</button>
+                        <button type="submit" class="btn btn-default" ng-disabled="register_form.$invalid || user.password != user.repassword">确认修改</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -249,9 +293,9 @@
             method:"POST"
         }).success(function (user) {//成功之后获取该用户数据
             $rootScope.activeUser =user;
-            //获取所有预约回收
+            //根据用户id获取预约回收
             $http({
-                url:'/bespeak_recycles/findByUserId',
+                url:'/bespeak_recycles/find_by_user_id',
                 method:"POST",
                 data:{
                     user_id:$rootScope.activeUser._id
@@ -262,45 +306,147 @@
             }).error(function(){
                 alert('获取预约回收记录失败');
             });
-//            //获取所有周期回收
-//            $http({
-//                url:'/cycle_recycles/findByUserId',
-//                method:"POST",
-//                data:{
-//                    user_id:$rootScope.activeUser._id
-//                }
-//            }).success(function (cycle_recycles) {
-//                $scope.cycle_recycles =cycle_recycles;
-//            }).error(function(){
-//                alert('获取周期回收记录失败');
-//            });
-//            //获取所有订单
-//            $http({
-//                url:'/orders/findByUserId',
-//                method:"POST",
-//                data:{
-//                    user_id:$rootScope.activeUser._id
-//                }
-//            }).success(function (orders) {
-//                $scope.orders =orders;
-//            }).error(function(){
-//                alert('获取订单记录失败');
-//            });
-//            //获取所有周期配送
-//            $http({
-//                url:'/cycle_distributions/findByUserId',
-//                method:"POST",
-//                data:{
-//                    user_id:$rootScope.activeUser._id
-//                }
-//            }).success(function (cycle_distributions) {
-//                $scope.cycle_distributions =cycle_distributions;
-//            }).error(function(){
-//                alert('获取预约回收记录失败');
-//            });
+            //根据用户id获取周期回收
+            $http({
+                url:'/cycle_recycles/find_by_user_id',
+                method:"POST",
+                data:{
+                    user_id:$rootScope.activeUser._id
+                }
+            }).success(function (cycle_recycles) {
+                $scope.cycle_recycles =cycle_recycles;
+            }).error(function(){
+                alert('获取周期回收记录失败');
+            });
+            //根据用户id获取订单
+            $http({
+                url:'/orders/find_by_user_id',
+                method:"POST",
+                data:{
+                    user_id:$rootScope.activeUser._id
+                }
+            }).success(function (orders) {
+                $scope.orders =orders;
+            }).error(function(){
+                alert('获取订单记录失败');
+            });
+            //获取所有周期配送
+            $http({
+                url:'/cycle_distributions/find_by_user_id',
+                method:"POST",
+                data:{
+                    user_id:$rootScope.activeUser._id
+                }
+            }).success(function (cycle_distributions) {
+                $scope.cycle_distributions =cycle_distributions;
+            }).error(function(){
+                alert('获取周期配送记录失败');
+            });
         }).error(function(data){
             alert('您尚未登录，请先登录');
         });
+
+        //取消预约回收
+        $scope.cancel_bespeak_recycle =function(bespeak_recycle_id){
+            $http({
+                url:'/bespeak_recycles/cancel_bespeak_recycle',
+                method:"POST",
+                data:{
+                    id:bespeak_recycle_id,
+                    user_id:$rootScope.activeUser._id
+                }
+            }).success(function (bespeak_recycles) {
+                $scope.bespeak_recycles =bespeak_recycles;
+            }).error(function(){
+                alert('取消预约回收失败');
+            });
+        };
+        //取消周期回收
+        $scope.cancel_cycle_recycle =function(cycle_recycle_id){
+            $http({
+                url:'/cycle_recycles/cancel_cycle_recycle',
+                method:"POST",
+                data:{
+                    id:cycle_recycle_id,
+                    user_id:$rootScope.activeUser._id
+                }
+            }).success(function (cycle_recycles) {
+                $scope.cycle_recycles =cycle_recycles;
+            }).error(function(){
+                alert('取消周期回收失败');
+            });
+        };
+        //取消周期配送
+        $scope.cancel_cycle_distribution =function(cycle_distribution_id){
+            $http({
+                url:'/cycle_distributions/cancel_cycle_distribution',
+                method:"POST",
+                data:{
+                    id:cycle_distribution_id,
+                    user_id:$rootScope.activeUser._id
+                }
+            }).success(function (cycle_recycles) {
+                $scope.cycle_recycles =cycle_recycles;
+            }).error(function(){
+                alert('取消周期回收失败');
+            });
+        };
+
+        //取消订单
+        $scope.cancel_order =function(order_id){
+            $http({
+                url:'/orders/cancel_order',
+                method:"POST",
+                data:{
+                    id:order_id,
+                    user_id:$rootScope.activeUser._id
+                }
+            }).success(function (orders) {
+                $scope.orders =orders;
+            }).error(function(){
+                alert('取消订单失败');
+            });
+        };
+        //修改密码
+        $scope.change_password =function(){
+            $http({
+                url:'/users/change_password',
+                method:"POST",
+                data:{
+                    user_id:$rootScope.activeUser._id,
+                    user:$scope.user
+                }
+            }).success(function (user) {
+                if(user){
+                    alert('修改密码成功');
+                }
+            }).error(function(){
+                alert('修改密码失败');
+            });
+        };
+        //编辑用户信息
+        $scope.edit_information =function(){
+            $('#phone').removeAttr('readonly');
+            $('#address').removeAttr('readonly');
+        };
+        //确认修改信息
+        $scope.change_information =function(){
+            $http({
+                url:'/users/change_information',
+                method:"POST",
+                data:{
+                    user_id:$rootScope.activeUser._id,
+                    user_phone:$rootScope.activeUser.phone,
+                    user_address:$rootScope.activeUser.address
+                }
+            }).success(function (user) {
+                if(user){
+                    alert('修改信息成功');
+                }
+            }).error(function(){
+                alert('修改信息失败');
+            });
+        };
 
     });
     //判断用户是否的日期是否大于当前日期

@@ -6,7 +6,7 @@ module.exports =mongoose.model('Cycle_distribution',new mongoose.Schema({
         amount:Number,
         total_price:Number,
         state:Number,
-        is_enabled:Number,
+        //is_enabled:Number,
         end_date:String,
         pay_mode:Number,
         contact_name:String,
