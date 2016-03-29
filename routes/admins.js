@@ -6,12 +6,12 @@ var router = express.Router();
 //µÇÂ¼
 router.post('/login', function(req, res) {
   var admin =req.body;
-  Admin.findOne({name:admin.name,password:encrypto(admin.password)},function(err,admin){
+  Admin.findOne({name:admin.name,password:encrypto(admin.password),type:admin.type},function(err,admin){
     if(err){
       res.status(500).json({msg:err});
     }else{
       req.session.admin = admin;
-      console.log(admin);
+      //console.log(req.session.admin);
       res.json(admin);
     }
   });

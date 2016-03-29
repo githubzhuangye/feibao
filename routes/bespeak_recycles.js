@@ -47,24 +47,19 @@ router.post('/cancel_bespeak_recycle', function (req, res) {
         }
     });
 });
-////分类上架
-//router.post('/put', function (req, res) {
-//    var id =req.body.id;
-//    Ware.update({_id:id},{$set:{state:1}},function(err){
-//        if (err) {
-//            res.status(500).json({msg: err});
-//        } else {
-//            Ware.find({},function(err,wares){
-//                if (err) {
-//                    res.status(500).json({msg: err});
-//                } else {
-//                    res.json(wares);
-//                }
-//            });
-//        }
-//    });
-//});
-//
+//查找未处理的预约回收
+router.get('/find_unclaim', function (req, res) {
+    var today =new Date();
+    today =today.getFullYear()+'-'+today.getMonth()+'-'+today.getDate();
+    Bespeak_recycle.find({state:0,date:today},function(err,bespeak_recycles){
+        if (err) {
+            res.status(500).json({msg: err});
+        } else {
+            res.json(bespeak_recycles);
+        }
+    });
+});
+
 ////分类编辑
 //router.post('/edit', function (req, res) {
 //    var id =req.body.id;

@@ -5,8 +5,9 @@ module.exports =mongoose.model('Bespeak_recycle',new mongoose.Schema({
         sort_name:String,
         weight:Number,
         state:Number,
+        contact_name:String,
+        contact_phone:Number,
+        contact_address:String,
         user_name:String,
-        user_phone:Number,
-        user_address:String,
         user_id:String
 }));

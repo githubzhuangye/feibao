@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-cn" ng-app="feibao_admin">
+<html lang="zh-cn" ng-app="feibao_admin_login">
 <head>
     <meta charset="UTF-8">
     <title>废宝--后台管理登录</title>
@@ -29,11 +29,11 @@
         <div class="form-group">
             <div class="radio">
                 <label>
-                    <input type="radio" value="0" ng-model="admin.type">
+                    <input type="radio" value="0" ng-model="admin.type" ng-required>
                     领取任务
                 </label>
                 <label>
-                    <input type="radio" value="1" ng-model="admin.type">
+                    <input type="radio" value="1" ng-model="admin.type" ng-required>
                     录入管理
                 </label>
             </div>
@@ -52,16 +52,20 @@
 <script src="../../js/angular.js"></script>
 <script src="../../js/angular-route.js"></script>
 <script type="text/javascript">
-    var app =angular.module('feibao_admin',['ngRoute']);
+    var app =angular.module('feibao_admin_login',['ngRoute']);
     //登录
-    app.controller('loginCtrl',function($rootScope,$scope,$http,$location){
+    app.controller('loginCtrl',function($rootScope,$scope,$http,$window){
         $scope.login =function(){
             $http({
                 url:'/admins/login',
                 method:"POST",
                 data:$scope.admin
             }).success(function (admin) {
-                window.location="clain_task.html";
+                if(admin.type ==1){
+                    $window.location.href ='inter_admin.html';
+                }else{
+                    $window.location.href ='claim_work.html';
+                }
             }).error(function(data){
                 alert('登录失败:'+data.msg);
             });

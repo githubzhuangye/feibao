@@ -48,23 +48,17 @@ router.post('/cancel_cycle_recycle', function (req, res) {
     });
 });
 
-////分类下架
-//router.post('/pull', function (req, res) {
-//    var id =req.body.id;
-//    Ware.update({_id:id},{$set:{state:0}},function(err){
-//        if (err) {
-//            res.status(500).json({msg: err});
-//        } else {
-//            Ware.find({},function(err,wares){
-//                if (err) {
-//                    res.status(500).json({msg: err});
-//                } else {
-//                    res.json(wares);
-//                }
-//            });
-//        }
-//    });
-//});
+//查找所有未处理的周期回收state==0
+router.get('/find_all_unclaim', function (req, res) {
+    Cycle_recycle.find({state:0},function(err,cycle_recycles){
+        if (err) {
+            res.status(500).json({msg: err});
+        } else {
+            res.json(cycle_recycles);
+        }
+    });
+});
+
 ////分类上架
 //router.post('/put', function (req, res) {
 //    var id =req.body.id;
