@@ -1,24 +1,19 @@
 <!DOCTYPE html>
-<html lang="zh-cn" ng-app="feibao_article">
+<html lang="zh-cn" ng-app="feibao_worker">
 <head>
     <meta charset="UTF-8">
-    <title>废宝--环保文章管理</title>
+    <title>废宝--工作人员管理</title>
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1, user-scalable=no">
     <link rel="stylesheet" href="../../css/bootstrap.css" />
     <link rel="stylesheet" href="../../css/style.css" />
     <link rel="stylesheet" href="../../css/admin/style.css" />
     <link rel="stylesheet" href="../../summernote/summernote.css" />
     <style type="text/css">
-        #article_content{
-            resize: none;
-            width: 700px;
-            height: 350px;
-        }
     </style>
 </head>
 <body>
 <div class="jumbotron">
-    <h1>环保文章管理</h1>
+    <h1>废宝--工作人员管理</h1>
 </div>
 
 <nav class="navbar navbar-default">
@@ -32,183 +27,105 @@
         </div>
         <div class="collapse navbar-collapse" id="indexNavbar">
             <ul class="nav navbar-nav">
-                <li><a href="claim_work.html"><span class="glyphicon glyphicon-home"></span> 首页</a></li>
-                <li><a href="recycle_waste_manage.html"><span class="glyphicon glyphicon-refresh"></span> 废品回收管理</a></li>
-                <li><a href="mall_manage.html"><span class="glyphicon glyphicon-shopping-cart"></span> 网上商场管理</a></li>
-                <li class="active"><a href="article_manage.html"><span class="glyphicon glyphicon-book"></span> 环保文章管理</a></li>
+                <ul class="nav navbar-nav">
+                    <li><a href="inter_admin.html"><span class="glyphicon glyphicon-home"></span> 首页</a></li>
+                    <li><a href="recycle_waste_manage.html"><span class="glyphicon glyphicon-refresh"></span> 废品回收管理</a></li>
+                    <li><a href="mall_manage.html"><span class="glyphicon glyphicon-shopping-cart"></span> 网上商场管理</a></li>
+                    <li><a href="article_manage.html"><span class="glyphicon glyphicon-book"></span> 环保文章管理</a></li>
+                    <li class="active"><a href="worker_manage.html"><span class="glyphicon glyphicon-book"></span> 工作人员管理</a></li>
+                </ul>
             </ul>
         </div>
     </div>
 </nav>
 
-<div class="container">
+<div class="container" ng-controller="worker">
     <ul class="nav nav-tabs" role="tablist">
-        <li role="presentation"  class="active"><a href="#add_article" aria-controls="add_article" role="tab" data-toggle="tab">添加文章</a></li>
-        <li role="presentation"><a href="#show_article" aria-controls="show_article" role="tab" data-toggle="tab">已有文章</a></li>
+        <li role="presentation"  class="active"><a href="#add_worker" aria-controls="add_worker" role="tab" data-toggle="tab">添加工作人员</a></li>
+        <li role="presentation"><a href="#show_workers" aria-controls="show_workers" role="tab" data-toggle="tab">已有工作人员</a></li>
     </ul>
 
     <div class="tab-content">
-        <!--添加新文章-->
-        <div role="tabpanel" class="tab-pane active" id="add_article" ng-controller="add_article">
+        <!--添加新工作人员-->
+        <div role="tabpanel" class="tab-pane active" id="add_worker" >
             <div class="container">
-                <form class="form-horizontal">
+                <form class="form-horizontal" novalidate name="add_worker_form" ng-submit="add_worker()">
                     <div class="form-group">
-                        <label class="col-sm-2 col-md-2 control-label">文章标题:</label>
+                        <label class="col-sm-2 col-md-2 control-label">姓名:</label>
                         <div class="col-sm-4 col-md-4">
-                            <input type="text" class="form-control" name="name" placeholder="文章标题" ng-model="article.name">
+                            <input type="text" class="form-control" name="name" placeholder="工作人员姓名" ng-model="worker.name" ng-required ng-minlength="2">
+                        </div>
+                        <div class="help-block col-md-3" ng-show="add_worker_form.name.$dirty && add_worker_form.name.$invalid">
+                            <span class="text-danger" ng-show="add_worker_form.name.$error.required">用户名不能为空</span>
+                            <span class="text-danger" ng-show="add_worker_form.name.$error.pattern">中英文且大于4位</span>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">简介:</label>
+                        <label class="col-sm-2 control-label">后台登录密码:</label>
                         <div class="col-sm-4 col-md-4">
-                            <input type="text" class="form-control" name="summary"  placeholder="简介" ng-model="article.summary">
+                            <input type="text" class="form-control" placeholder="密码" name="password" ng-model="worker.password" ng-required>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label  class="col-sm-2 control-label">作者姓名:</label>
+                        <label  class="col-md-2 control-label">工号（用于登录）:</label>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" placeholder="点击右侧按钮生成工号" name="job_number" ng-model="worker.job_number"  readonly ng-required>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-default" ng-click="create_job_number()">生成工号</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label  class="col-sm-2 control-label">工号权限:</label>
                         <div class="col-sm-4 col-md-4">
-                            <input type="text" class="form-control" name="author"  placeholder="作者姓名" ng-model="article.author">
+                            <label>
+                                <input type="radio" value="0" ng-model="worker.type" ng-checked="true">
+                                领取任务
+                            </label>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">日期:</label>
-                        <div class="col-sm-4 col-md-4">
-                            <input type="text" class="form-control" name="date"  placeholder="编辑时间" ng-model="article.date">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">插图:</label>
-                        <div class="col-sm-4 col-md-4">
-                            <input type="file" name="photo" showimg-model>
-                            <img src="{{article.photo}}"  alt="图片预览" style="width:150px;height:150px;display:block;"/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">文章内容:</label>
-                        <div class="col-sm-8 col-md-8">
-                            <textarea name="content" id="content" title="文章内容"></textarea>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">是否上架:</label>
-                        <div class="col-sm-4 col-md-4">
-                            <select class="form-control" name="state" ng-model="article.state">
-                                <option value="1">上架</option>
-                                <option value="0">下架</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-offset-2 col-sm-4 col-md-4">
-                            <button type="reset" class="btn btn-default">重写</button>&nbsp;&nbsp;&nbsp;&nbsp;
-                            <button type="button" class="btn btn-success" ng-click="add_article()">保存</button>
+                        <div class="col-md-offset-2 col-md-4">
+                            <!--<button type="reset" class="btn btn-default">重写</button>&nbsp;&nbsp;&nbsp;&nbsp;-->
+                            <button type="submit" class="btn btn-default" ng-disabled="add_worker_form.$invalid">保存</button>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
-        <!--已有文章-->
-        <div role="tabpanel" class="tab-pane text-center" id="show_article" ng-controller="show_articles">
-            <div class="container">
-                <div class="form-inline">
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="请输入文章名称" ng-model="search">
-                    </div>
-                </div>
-                <table class="table table-hover">
-                    <caption>环保文章</caption>
-                    <tr>
-                        <td>标题</td>
-                        <td>简介</td>
-                        <td>作者</td>
-                        <td>时间</td>
-                        <td>操作</td>
-                    </tr>
-                    <tr ng-repeat="article in articles |filter:search">
-                        <td>{{article.name}}</td>
-                        <td>{{article.summary}}</td>
-                        <td>{{article.author}}</td>
-                        <td>{{article.date}}</td>
-                        <td>
-                            <button class="btn btn-default" data-toggle="modal" data-target="#edit_article_modal" ng-click="edit(article._id)">编辑/详情</button>&nbsp;&nbsp;&nbsp;&nbsp;
-                            <button type="button" class="btn btn-default"  ng-click="pull(article._id)" ng-show="article.state ==1">下架</button>
-                            <button type="button" class="btn btn-success"  ng-click="put(article._id)" ng-show="article.state ==0">上架</button>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-            <!--编辑模态框-->
-            <div class="modal fade" id="edit_article_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                <div class="modal-dialog modal-lg" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title">文章编辑/详情</h4>
-                        </div>
-                        <div class="modal-body">
-                            <div class="container">
-                                <div class="form-horizontal">
-                                    <div class="form-group">
-                                        <label class="col-sm-1 col-md-1 control-label">文章标题:</label>
-                                        <div class="col-sm-4 col-md-4">
-                                            <input type="text" class="form-control" name="name" placeholder="文章标题" ng-model="edit_article.name">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label class="col-sm-1 col-md-1 control-label">简介:</label>
-                                        <div class="col-sm-4 col-md-4">
-                                            <input type="text" class="form-control" name="summary"  placeholder="简介" ng-model="edit_article.summary">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label  class="col-sm-1 col-md-1 control-label">作者姓名:</label>
-                                        <div class="col-sm-4 col-md-4">
-                                            <input type="text" class="form-control" name="author"  placeholder="作者姓名" ng-model="edit_article.author">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-1 col-md-1 control-label">日期:</label>
-                                        <div class="col-sm-4 col-md-4">
-                                            <input type="text" class="form-control" name="date"  placeholder="编辑时间" ng-model="edit_article.date">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-1 col-md-1 control-label">插图:</label>
-                                        <div class="col-sm-4 col-md-4">
-                                            <input type="file" name="photo" showimg-model>
-                                            <img src="{{edit_article.photo}}"  alt="图片预览" style="width:150px;height:150px;display:block;"/>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-1 col-md-1 control-label">文章内容:</label>
-                                        <div class="col-sm-8 col-md-8">
-                                            <div name="content" id="edit_article_content" title="文章内容" style="width:400px;"></div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-1 col-md-1 control-label">是否上架:</label>
-                                        <div class="col-sm-4 col-md-4">
-                                            <select class="form-control" name="state" ng-model="edit_article.state">
-                                                <option value="1" ng-selected="edit_article.state ==1">上架</option>
-                                                <option value="0" ng-selected="edit_article.state ==0">下架</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                            <button type="button" class="btn btn-success" ng-click="save_edit()">保存</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <!--已有工作人员-->
+        <!--<div role="tabpanel" class="tab-pane text-center" id="show_workers">-->
+            <!--<div class="container">-->
+                <!--<div class="form-inline">-->
+                    <!--<div class="form-group">-->
+                        <!--<input type="text" class="form-control" placeholder="请输入文章名称" ng-model="search">-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<table class="table table-hover">-->
+                    <!--<caption>环保文章</caption>-->
+                    <!--<tr>-->
+                        <!--<td>标题</td>-->
+                        <!--<td>简介</td>-->
+                        <!--<td>作者</td>-->
+                        <!--<td>时间</td>-->
+                        <!--<td>操作</td>-->
+                    <!--</tr>-->
+                    <!--<tr ng-repeat="article in articles |filter:search">-->
+                        <!--<td>{{article.name}}</td>-->
+                        <!--<td>{{article.summary}}</td>-->
+                        <!--<td>{{article.author}}</td>-->
+                        <!--<td>{{article.date}}</td>-->
+                        <!--<td>-->
+                            <!--<button class="btn btn-default" data-toggle="modal" data-target="#edit_article_modal" ng-click="edit(article._id)">编辑/详情</button>&nbsp;&nbsp;&nbsp;&nbsp;-->
+                            <!--<button type="button" class="btn btn-default"  ng-click="pull(article._id)" ng-show="article.state ==1">下架</button>-->
+                            <!--<button type="button" class="btn btn-success"  ng-click="put(article._id)" ng-show="article.state ==0">上架</button>-->
+                        <!--</td>-->
+                    <!--</tr>-->
+                <!--</table>-->
+            <!--</div>-->
+        <!--</div>-->
     </div>
 </div>
 
@@ -219,169 +136,51 @@
 <script src="../../js/angular-route.js"></script>
 <script src="../../summernote/summernote.js"></script>
 <script type="text/javascript">
-
-    //初始化富文本编辑器、
-    $(document).ready(function(){
-        $('#content').summernote({
-            height:400,
-            minHeight:300
-        });
-        $('#content').summernote('code', ' ');
-    });
-    var app =angular.module('feibao_article',['ngRoute']);
+    var app =angular.module('feibao_worker',['ngRoute']);
     //添加文章
-    app.controller('add_article',function($rootScope,$scope,$location,$http,fileReader){
-        $scope.article ={};
-        $rootScope.articles =[];
-        $scope.getFile = function(){
-            var s = fileReader.readAsDataUrl($scope.file,$scope);
-            s.then(function(result){
-                $scope.article.photo = result;
-            })
-        };
-        $scope.add_article =function(){
-//            ng-model="article.content"
-            $scope.article.content =$('#content').val();
+    app.controller('worker',function($scope,$http){
+        $scope.worker ={};
+        $scope.worker.type =0;
+        $scope.add_worker =function(){
+            if($scope.worker.name ==undefined || $scope.worker.password ==undefined || $scope.worker.job_number ==undefined){
+                alert('请输入工作人员所有对应信息');
+                return;
+            }
             $http({
-                url:'/articles/add',
+                url:'/workers/add',
                 method:"POST",
-                data:$scope.article,
-            }).success(function (article) {
-                $rootScope.articles.push(article);
-                $scope.article ={};
-                $('#content').summernote('code', ' ');
-                alert('添加成功');
+                data:$scope.worker
+            }).success(function (worker) {
+               if(worker.type ==0){
+                   alert('添加成功');
+               }
             }).error(function(data){
                 alert('添加失败:'+data);
             });
-        }
-    });
-    //查看编辑文章
-    app.controller('show_articles',function($rootScope,$scope,$http,fileReader){
-        $scope.getFile = function(){
-            var s = fileReader.readAsDataUrl($scope.file,$scope);
-            s.then(function(result){
-                $scope.edit_ware.photo = result;
-            })
         };
-        $http({
-            url:'/articles/find',
-            method:'GET'
-        }).success(function(articles){
-            $rootScope.articles =articles;
-        });
-        //编辑文章
-        $scope.edit =function(id){
-            $('#edit_article_content').summernote({
-                height:400,
-                width:400,
-                minHeight:300,
-                maxHeight:500
-            });
-            //显示模态框之前查询出数据
-            $http({
-                url:'/articles/edit',
-                method:'POST',
-                data:{
-                    id:id
-                }
-            }).success(function(edit_article){
-                $scope.edit_article =edit_article;
-                $('#edit_article_content').summernote('code', edit_article.content);
-            });
-        };
-//        //保存编辑
-//        $scope.save_edit =function(){
-//            //显示模态框之前查询出数据
-//            $http({
-//                url:'/wares/save_edit',
-//                method:'POST',
-//                data:$scope.edit_ware
-//            }).success(function(wares){
-//                $('#edit_ware_modal').modal('hide');
-//                $rootScope.wares =wares;
-//                alert('修改成功');
-//            });
-//        };
-//
-        //文章下架
-        $scope.pull =function(id){
-            if(confirm('是否确定下架')){
-                $http({
-                    url:'/articles/pull',
-                    method:'POST',
-                    data:{
-                        id:id
-                    }
-                }).success(function(articles){
-                    $rootScope.articles =articles;
-                });
+
+        //生成工号
+        $scope.create_job_number =function(){
+            var string = "";
+            var characters = "0123456789abcdefghijkmnpqrstuvwxyz0123456789";
+            for (var i = 0; i < 8; i++){
+                string += characters.charAt(Math.floor(Math.random() * characters.length));
             }
+            $scope.worker.job_number =string;
         };
-        //文章上架
-        $scope.put =function(id){
-            if(confirm('是否确定上架')){
-                $http({
-                    url:'/articles/put',
-                    method:'POST',
-                    data:{
-                        id:id
-                    }
-                }).success(function(articles){
-                    $rootScope.articles =articles;
-                });
-            }
-        }
+
+        //查看所有工作人员
+//        $http({
+//            url:'/articles/find',
+//            method:'GET'
+//        }).success(function(articles){
+//            $rootScope.articles =articles;
+//        });
     });
 
 
-    //指令
-    app.directive('showimgModel',function(){
-        return {
-            link:function(scope,element,attrs){
-                element.bind('change',function(event){
-                    scope.file = element[0].files[0];
-                    scope.getFile();
-                });
-            }
-        }
-    });
 
-    app.factory('fileReader',function($q){
-        //读取文件成功后触发
-        var onLoad = function(reader,deferred,scope){
-            return function(){
-                scope.$apply(function(){
-                    deferred.resolve(reader.result);
-                });
-            }
-        }
-        //读取失败后触发
-        var onError = function(reader,deferred,scope){
-            return function(){
-                scope.$apply(function(){
-                    deferred.reject(reader.result);
-                });
-            }
-        }
-        //获取文件读取器
-        var getReader = function(deferred,scope){
-            var reader = new FileReader();
-            reader.onload = onLoad(reader,deferred,scope);
-            reader.onerror = onError(reader,deferred,scope);
-            return reader;
-        }
-        //读取为dataurl
-        var readAsDataURL = function(file,scope){
-            var deferred = $q.defer();
-            var reader = getReader(deferred,scope);
-            reader.readAsDataURL(file);
-            return deferred.promise;
-        }
-        return {
-            readAsDataUrl:readAsDataURL
-        }
-    })
+
 
 </script>
 

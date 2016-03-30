@@ -9,7 +9,7 @@ var session =require('express-session');
 var MongoStore =require('connect-mongo')(session);
 var bodyParser = require('body-parser');
 
-var admins = require('./routes/admins');
+var workers = require('./routes/workers');
 var users = require('./routes/users');
 var waste_sorts = require('./routes/waste_sorts');
 var wares = require('./routes/wares');
@@ -47,7 +47,7 @@ app.use(session({
     })
 }));
 
-app.use('/admins', admins);
+app.use('/workers', workers);
 app.use('/users', users);
 app.use('/waste_sorts', waste_sorts);
 app.use('/wares', wares);
