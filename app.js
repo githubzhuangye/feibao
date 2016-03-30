@@ -15,6 +15,7 @@ var waste_sorts = require('./routes/waste_sorts');
 var wares = require('./routes/wares');
 var articles = require('./routes/articles');
 var bespeak_recycles = require('./routes/bespeak_recycles');
+var bespeak_recycle_records = require('./routes/bespeak_recycle_records');
 var cycle_recycles = require('./routes/cycle_recycles');
 var orders = require('./routes/orders');
 var cycle_distributions = require('./routes/cycle_distributions');

@@ -60,17 +60,25 @@ router.get('/find_unclaim', function (req, res) {
     });
 });
 
-////分类编辑
-//router.post('/edit', function (req, res) {
-//    var id =req.body.id;
-//    Ware.findOne({_id:id},function(err,ware){
-//        if (err) {
-//            res.status(500).json({msg: err});
-//        } else {
-//            res.json(ware);
-//        }
-//    });
-//});
+//领取预约回收
+router.post('/claim', function (req, res) {
+    var id =req.body.id;
+    Bespeak_recycle.update({_id:id},{$set:{state:1}},function(err){
+        if (err) {
+            res.status(500).json({msg: err});
+        } else {
+            var today =new Date();
+            today =today.getFullYear()+'-'+today.getMonth()+'-'+today.getDate();
+            Bespeak_recycle.find({state:0,date:today},function(err,bespeak_recycles){
+                if (err) {
+                    res.status(500).json({msg: err});
+                } else {
+                    res.json(bespeak_recycles);
+                }
+            });
+        }
+    });
+});
 //
 ////保存分类编辑
 //router.post('/save_edit', function (req, res) {

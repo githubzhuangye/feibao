@@ -60,7 +60,7 @@
     </ul>
 
     <div class="tab-content">
-        <!--未处理预约回收-->
+        <!--今日需上门回收的预约-->
         <div role="tabpanel" class="tab-pane active" id="bespeak_recycle_waste">
             <table class="table table-bordered table-hover text-center">
                 <caption>今日需上门回收的预约</caption>
@@ -91,36 +91,36 @@
                 </tr>
             </table>
         </div>
-        <!--处理周期回收-->
+        <!--今日需上门的周期回收-->
         <div role="tabpanel" class="tab-pane text-center" id="cycle_recycle_waste">
             <table class="table table-bordered table-hover text-center">
                 <caption>今日需上门的周期回收</caption>
                 <thead>
-                    <td>日期</td>
+                    <td>开始日期</td>
                     <td>时间</td>
+                    <td>间隔</td>
                     <td>上次日期</td>
                     <td>废品类型</td>
                     <td>大致重量</td>
                     <td>联系人</td>
                     <td>手机</td>
                     <td>详细地址</td>
-                    <td>间隔时间</td>
-                    <td>回收状态</td>
-                    <td>回收者</td>
-                    <td>操作</td>
+                    <td>预约用户</td>
+                    <td>预约状态</td>
                 </thead>
-                <tr>
-                    <td>2016-1-26</td>
-                    <td>8:00-10:00</td>
-                    <td>手机平板,电脑家电</td>
-                    <td>20kg</td>
-                    <td>庄叶</td>
-                    <td>15652922740</td>
-                    <td>北京市朝阳区北四环东路97号</td>
-                    <td>4周</td>
-                    <td>未回收</td>
-                    <td><input class="form-control form-inline" placeholder="上门回收人姓名"></td>
-                    <td><button class="btn btn-default">派人上门</button></td>
+                <tr ng-repeat="bespeak_recycle in unclaim_bespeak_recycles">
+                    <td>{{bespeak_recycle.date}}</td>
+                    <td>{{bespeak_recycle.time}}</td>
+                    <td>{{bespeak_recycle.sort_name}}</td>
+                    <td>{{bespeak_recycle.weight}}</td>
+                    <td>{{bespeak_recycle.contact_name}}</td>
+                    <td>{{bespeak_recycle.contact_phone}}</td>
+                    <td>{{bespeak_recycle.contact_address}}</td>
+                    <td>{{bespeak_recycle.user_name}}</td>
+                    <td>
+                        <span ng-show="bespeak_recycle.state ==0">未回收</span>
+                        <span ng-show="bespeak_recycle.state !=0">已回收或取消</span>
+                    </td>
                 </tr>
             </table>
         </div>

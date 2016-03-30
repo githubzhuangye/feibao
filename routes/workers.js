@@ -3,6 +3,18 @@ var Worker =require('../models').Worker;
 var crypto =require('crypto');//进行加密用
 var router = express.Router();
 
+
+//查找所有商品
+router.get('/find', function (req, res) {
+  Worker.find({},function(err,workers){
+    if (err) {
+      res.status(500).json({msg: err});
+    } else {
+      res.json(workers);
+    }
+  });
+});
+
 /* 注册 */
 router.post('/add', function(req, res) {
   var worker =req.body;
@@ -33,9 +45,9 @@ router.post('/login', function(req, res) {
 
 //校验用户是否登录
 router.post('/is_login', function(req, res) {
-  var admin =req.session.admin;
-  if(admin){
-    res.status(200).json(admin);
+  var worker =req.session.worker;
+  if(worker){
+    res.status(200).json(worker);
   }else{
     res.status(401).json({msg:'please login'});
   }

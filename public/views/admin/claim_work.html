@@ -36,7 +36,7 @@
 
 <div class="container" ng-controller="claim_task">
     <ul class="nav nav-tabs" role="tablist">
-        <li role="presentation"  class="active"><a href="#bespeak_recycle_waste" aria-controls="bespeak_recycle_waste" role="tab" data-toggle="tab">今日预约回收</a></li>
+        <li role="presentation"  class="active"><a href="#bespeak_recycle_waste" aria-controls="bespeak_recycle_waste" role="tab" data-toggle="tab">预约回收</a></li>
         <li role="presentation"><a href="#cycle_recycle_waste" aria-controls="cycle_recycle_waste" role="tab" data-toggle="tab">今日周期回收</a></li>
         <li role="presentation"><a href="#mall_order" aria-controls="mall_order" role="tab" data-toggle="tab">未处理订单</a></li>
         <li role="presentation"><a href="#mall_distribution" aria-controls="mall_distribution" role="tab" data-toggle="tab">今日周期配送</a></li>
@@ -45,6 +45,14 @@
     <div class="tab-content">
         <!--今日预约回收-->
         <div role="tabpanel" class="tab-pane active" id="bespeak_recycle_waste">
+            <table class="table text-center sort_btn_table">
+                <tr>
+                    <td><button class="btn btn-default" ng-click="show_unclaim_bespeak_recycles()">今日上门</button></td>
+                    <td><button class="btn btn-default" ng-click="show_claim_unpay_bespeak_recycles()">已领取未付款</button></td>
+                    <td><button class="btn btn-success" ng-click="show_claim_paid_bespeak_recycles()">已完成</button></td>
+                </tr>
+            </table>
+            <br>
             <table class="table table-bordered table-hover text-center">
                 <caption>今日需上门回收的预约</caption>
                 <thead>
@@ -73,8 +81,43 @@
                         <span ng-show="bespeak_recycle.state ==0">未回收</span>
                         <span ng-show="bespeak_recycle.state !=0">已回收或取消</span>
                     </td>
-                    <td><input class="form-control form-inline" ng-model="bespeak_recycle.job_number" placeholder="输入工作号领取任务"></td>
-                    <td><button class="btn btn-default" ng-disabled="!bespeak_recycle.job_number" ng-click="claim_bespeak_recycle(bespeak_recycle._id,$index)">领取</button></td>
+                    <td><input class="form-control form-inline" ng-model="bespeak_recycle_record.job_number" placeholder="输入工作号领取任务"></td>
+                    <td><button class="btn btn-default" ng-disabled="!bespeak_recycle_record.job_number" ng-click="claim_bespeak_recycle(bespeak_recycle._id,$index)">领取</button></td>
+                </tr>
+            </table>
+
+            <!--已领取未付款-->
+            <table class="table table-bordered table-striped table-hover text-center sr-only">
+                <caption>未付款给用户</caption>
+                <thead>
+                    <td>日期</td>
+                    <td>时间</td>
+                    <td>废品类型</td>
+                    <td>重量</td>
+                    <td>联系人</td>
+                    <td>手机</td>
+                    <td>详细地址</td>
+                    <td>预约用户</td>
+                    <td>工号</td>
+                    <td>是否付款</td>
+                    <td>操作</td>
+                </thead>
+                <tr>
+                    <td>{{bespeak_recycle_record.date}}</td>
+                    <td>{{bespeak_recycle_record.time}}</td>
+                    <td>{{bespeak_recycle_record.sort_name}}</td>
+                    <td>{{bespeak_recycle_record.weight}}</td>
+                    <td>{{bespeak_recycle_record.contact_name}}</td>
+                    <td>{{bespeak_recycle_record.contact_phone}}</td>
+                    <td>{{bespeak_recycle_record.contact_address}}</td>
+                    <td>{{bespeak_recycle_record.user_name}}</td>
+                    <td>{{bespeak_recycle_record.job_number}}</td>
+                    <td>
+                        <span ng-show="bespeak_recycle_record.is_pay ==0">未付款</span>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-default" ng-click="pay_claim_bespeak_recycle(bespeak_recycle_record._id)">付款</button>
+                    </td>
                 </tr>
             </table>
         </div>
@@ -86,7 +129,7 @@
                     <td>开始日期</td>
                     <td>时间</td>
                     <td>间隔</td>
-                    <td>上次回收日期</td>
+                    <td>上回日期</td>
                     <td>废品类型</td>
                     <td>大致重量</td>
                     <td>联系人</td>
@@ -98,17 +141,22 @@
                     <td>操作</td>
                 </thead>
                 <tr ng-repeat="cycle_recycle in today_unclaim_cycle_recycles">
-                    <td>2016-1-26</td>
-                    <td>8:00-10:00</td>
-                    <td>手机平板,电脑家电</td>
-                    <td>20kg</td>
-                    <td>庄叶</td>
-                    <td>15652922740</td>
-                    <td>北京市朝阳区北四环东路97号</td>
-                    <td>4周</td>
-                    <td>未回收</td>
-                    <td><input class="form-control form-inline" placeholder="上门回收人姓名"></td>
-                    <td><button class="btn btn-default">派人上门</button></td>
+                    <td>{{cycle_recycle.begin_date}}</td>
+                    <td>{{cycle_recycle.time}}</td>
+                    <td>{{cycle_recycle.interval}}</td>
+                    <td>{{cycle_recycle.last_cycle_date}}</td>
+                    <td>{{cycle_recycle.sort_name}}</td>
+                    <td>{{cycle_recycle.weight}} kg</td>
+                    <td>{{cycle_recycle.contact_name}}</td>
+                    <td>{{cycle_recycle.contact_phone}}</td>
+                    <td>{{cycle_recycle.contact_address}}</td>
+                    <td>{{cycle_recycle.user_name}}</td>
+                    <td>
+                        <span ng-show="cycle_recycle.state ==0">未回收</span>
+                        <span ng-show="cycle_recycle.state !=0">已回收或取消</span>
+                    </td>
+                    <td><input class="form-control form-inline" ng-model="bespeak_recycle.job_number" placeholder="输入工作号领取任务"></td>
+                    <td><button class="btn btn-default" ng-disabled="!bespeak_recycle.job_number" ng-click="claim_bespeak_recycle(bespeak_recycle._id,$index)">领取</button></td>
                 </tr>
 
             </table>
@@ -224,6 +272,95 @@
             </table>
         </div>
     </div>
+
+    <!--预约回收付款模态框-->
+    <div class="modal fade" id="pay_claim_bespeak_recycle_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">预约回收付款</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-sm-4 col-md-4 control-label">预约日期:</label>
+                            <div class="col-sm-6 col-md-6">
+                                <input type="text" class="form-control" name="date" disabled="disabled"  ng-model="will_pay_bespeak_recycle_record.date">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 col-md-4 control-label">时间:</label>
+                            <div class="col-sm-6 col-md-6">
+                                <input type="text" class="form-control" name="date" disabled="disabled"  ng-model="will_pay_bespeak_recycle_record.date">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 col-md-4 control-label">废品类型(可添加完善):</label>
+                            <div class="col-sm-6 col-md-6">
+                                <input class="form-control form-inline" ng-model="will_pay_bespeak_recycle_record.sort_name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 col-md-4 control-label">重量（实际重量）:</label>
+                            <div class="col-sm-6 col-md-6">
+                                <input class="form-control form-inline" ng-model="will_pay_bespeak_recycle_record.weight">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 col-md-4 control-label">联系人:</label>
+                            <div class="col-sm-6 col-md-6">
+                                <input type="text" class="form-control" placeholder="收货人姓名" disabled="disabled" name="contact_name" ng-model="will_pay_bespeak_recycle_record.contact_name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label  class="col-sm-4 col-md-4 control-label">手机（联系方式）:</label>
+                            <div class="col-sm-6 col-md-6">
+                                <input type="text" class="form-control" name="contact_number" disabled="disabled" ng-model="will_pay_bespeak_recycle_record.contact_phone">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 col-md-4 control-label">详细地址:</label>
+                            <div class="col-sm-6 col-md-6">
+                                <input type="text" class="form-control" name="contact_address" disabled="disabled" ng-model="will_pay_bespeak_recycle_record.contact_address">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 col-md-4 control-label">预约用户:</label>
+                            <div class="col-sm-6 col-md-6">
+                                <input type="text" class="form-control" name="contact_address" disabled="disabled" ng-model="will_pay_bespeak_recycle_record.user_name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 col-md-4 control-label">工号:</label>
+                            <div class="col-sm-6 col-md-6">
+                                <input type="text" class="form-control" name="contact_address" disabled="disabled" ng-model="will_pay_bespeak_recycle_record.job_number">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 col-md-4 control-label">付款方式:</label>
+                            <div class="col-sm-6 col-md-6">
+                                <select name="pay_mode" ng-model="will_pay_bespeak_recycle_record.pay_mode">
+                                    <option value="0">平台电子货币</option>
+                                    <option value="1">现金支付</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 col-md-4 control-label">付款金额:</label>
+                            <div class="col-sm-6 col-md-6">
+                                <input type="text" class="form-control" name="contact_address" ng-model="will_pay_bespeak_recycle_record.pay_number"> 元
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-success" ng-click="confirm_pay_claim_bespeak_recycle(will_pay_bespeak_recycle_record._id)">确认付款</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 
@@ -235,10 +372,15 @@
 <script src="../../js/angular-route.js"></script>
 <script type="text/javascript">
     var app =angular.module('feibao_claim_task',['ngRoute']);
-    app.controller('claim_task',function($scope,$http){
+    app.controller('claim_task',function($rootScope,$scope,$http){
         $scope.unclaim_bespeak_recycles =[];//未处理预约回收
+        $scope.bespeak_recycle_record ={};//预约回收处理记录
+        $scope.will_pay_bespeak_recycle_record ={};//将要付款预约回收处理记录
         $scope.all_unclaim_cycle_recycles = [];//所有未处理周期回收
         $scope.today_unclaim_cycle_recycles = [];//今日未处理周期回收
+        //获取今天日期
+        var today =new Date();
+        today =today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate();
         //获取今天所有未处理的预约回收
         $http({
             url:'/bespeak_recycles/find_unclaim',
@@ -253,22 +395,22 @@
             method: 'GET'
         }).success(function (all_unclaim_cycle_recycles) {
             $scope.all_unclaim_cycle_recycles = all_unclaim_cycle_recycles;
-
+            //根据间隔计算今日需要上门的周期回收
+            angular.forEach($scope.all_unclaim_cycle_recycles,function(unclaim_cycle_recycle,key){
+                var is_today =$scope.getNextDate(unclaim_cycle_recycle.last_date,unclaim_cycle_recycle.interval);
+                if(is_today ==today){
+                    $scope.today_unclaim_cycle_recycles.push(unclaim_cycle_recycle);
+                }
+            });
         });
-        var today =new Date();
-        today =today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate();
-        //根据间隔计算今日需要上门的周期回收
-        angular.forEach($scope.all_unclaim_cycle_recycles,function(unclaim_cycle_recycle,key){
-            var is_today =$scope.getNextDate(unclaim_cycle_recycle.last_date,unclaim_cycle_recycle.interval);
-            if(is_today ==today){
-                $scope.today_unclaim_cycle_recycles.push(unclaim_cycle_recycle);
-            }
-        });
-
-
 
         //领取预约回收
         $scope.claim_bespeak_recycle =function(id,index){
+            $scope.bespeak_recycle_record =$scope.untreated_bespeak_recycles[index];
+            $scope.bespeak_recycle_record.worker_id =$rootScope.activeWorker._id;
+            $scope.bespeak_recycle_record.pay_mode =0;//0表示平台电子货币，1表示现金付款
+            $scope.bespeak_recycle_record.pay_number =0;//付款金额
+            $scope.bespeak_recycle_record.is_pay =0;//是否付款:0未付款给用户，1付款给用户。
             //将对应的预约回收的状态改为1已领取
             $http({
                 url:'/bespeak_recycles/claim',
@@ -277,10 +419,50 @@
                     id:id
                 }
             }).success(function(untreated_bespeak_recycles){
+                //领取成功之后，1更新未领取数据，2插入领取预约回收记录
                 $scope.untreated_bespeak_recycles =untreated_bespeak_recycles;
+                //插入领取预约回收记录
+                $http({
+                    url:'/bespeak_recycle_records/add',
+                    method:"POST",
+                    data:$scope.bespeak_recycle_record
+                }).success(function (bespeak_recycle_record) {
+                   if(bespeak_recycle_record){
+                       alert('生成领取记录成功');
+                   }
+                }).error(function(){
+                    alert('生成领取记录失败');
+                });
+            }).error(function(){
+                alert('领取失败');
             });
         };
-
+        //预约回收付款
+        $scope.pay_claim_bespeak_recycle =function(id){
+            $http({
+                url:'/bespeak_recycle_records/find_by_id',
+                method:"POST",
+                data:{
+                    id:id
+                }
+            }).success(function (bespeak_recycle_record) {
+                $scope.will_pay_bespeak_recycle_record =bespeak_recycle_record;
+            }).error(function(){
+                alert('获取领取记录失败');
+            });
+        };
+        //确认预约回收付款
+        $scope.confirm_pay_claim_bespeak_recycle =function(id){
+            $http({
+                url:'/bespeak_recycle_records/confirm_pay',
+                method:"POST",
+                data:$scope.will_pay_bespeak_recycle_record
+            }).success(function (bespeak_recycle_record) {
+                $scope.will_pay_bespeak_recycle_record =bespeak_recycle_record;
+            }).error(function(){
+                alert('获取领取记录失败');
+            });
+        };
         //日期加上天数得到新的日期
         $scope.getNextDate =function(dateTemp, days) {
             var beginDate = dateTemp.split("-");
@@ -295,15 +477,15 @@
         };
     });
     //页面刷新时检测是否登录
-    app.run(function($rootScope,$http,$location){
+    app.run(function($rootScope,$http,$window){
         $http({
-            url:'/admins/is_login',
+            url:'/workers/is_login',
             method:"POST",
-        }).success(function (admin) {
-            $rootScope.activeAdmin =admin;
+        }).success(function (worker) {
+            $rootScope.activeWorker =worker;
         }).error(function(data){
             alert('no login,'+data.msg);
-            window.location="login.html";
+            $window.location.href="login.html";
         });
     });
 </script>

@@ -96,36 +96,28 @@
             </div>
         </div>
         <!--已有工作人员-->
-        <!--<div role="tabpanel" class="tab-pane text-center" id="show_workers">-->
-            <!--<div class="container">-->
-                <!--<div class="form-inline">-->
-                    <!--<div class="form-group">-->
-                        <!--<input type="text" class="form-control" placeholder="请输入文章名称" ng-model="search">-->
-                    <!--</div>-->
-                <!--</div>-->
-                <!--<table class="table table-hover">-->
-                    <!--<caption>环保文章</caption>-->
-                    <!--<tr>-->
-                        <!--<td>标题</td>-->
-                        <!--<td>简介</td>-->
-                        <!--<td>作者</td>-->
-                        <!--<td>时间</td>-->
-                        <!--<td>操作</td>-->
-                    <!--</tr>-->
-                    <!--<tr ng-repeat="article in articles |filter:search">-->
-                        <!--<td>{{article.name}}</td>-->
-                        <!--<td>{{article.summary}}</td>-->
-                        <!--<td>{{article.author}}</td>-->
-                        <!--<td>{{article.date}}</td>-->
-                        <!--<td>-->
-                            <!--<button class="btn btn-default" data-toggle="modal" data-target="#edit_article_modal" ng-click="edit(article._id)">编辑/详情</button>&nbsp;&nbsp;&nbsp;&nbsp;-->
-                            <!--<button type="button" class="btn btn-default"  ng-click="pull(article._id)" ng-show="article.state ==1">下架</button>-->
-                            <!--<button type="button" class="btn btn-success"  ng-click="put(article._id)" ng-show="article.state ==0">上架</button>-->
-                        <!--</td>-->
-                    <!--</tr>-->
-                <!--</table>-->
-            <!--</div>-->
-        <!--</div>-->
+        <div role="tabpanel" class="tab-pane text-center" id="show_workers">
+            <div class="container">
+                <div class="form-inline">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="请输入工作人员姓名" ng-model="search">
+                    </div>
+                </div>
+                <table class="table table-hover table-striped">
+                    <caption>工作人员列表</caption>
+                    <tr>
+                        <td>姓名:</td>
+                        <td>工号:</td>
+                        <td>帐号类型:</td>
+                    </tr>
+                    <tr ng-repeat="worker in workers |filter:search">
+                        <td>{{worker.name}}</td>
+                        <td>{{worker.job_number}}</td>
+                        <td><span ng-show="worker.type ==0">领取任务</span></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -139,6 +131,7 @@
     var app =angular.module('feibao_worker',['ngRoute']);
     //添加文章
     app.controller('worker',function($scope,$http){
+        $scope.workers =[];
         $scope.worker ={};
         $scope.worker.type =0;
         $scope.add_worker =function(){
@@ -169,13 +162,13 @@
             $scope.worker.job_number =string;
         };
 
-        //查看所有工作人员
-//        $http({
-//            url:'/articles/find',
-//            method:'GET'
-//        }).success(function(articles){
-//            $rootScope.articles =articles;
-//        });
+//        查看所有工作人员
+        $http({
+            url:'/workers/find',
+            method:'GET'
+        }).success(function(workers){
+            $scope.workers =workers;
+        });
     });
 
 

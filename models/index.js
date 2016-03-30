@@ -4,6 +4,7 @@ exports.Waste_sort =require('./waste_sort');
 exports.Ware =require('./ware');
 exports.Article =require('./article');
 exports.Bespeak_recycle =require('./bespeak_recycle');
+exports.Bespeak_recycle_record =require('./bespeak_recycle_record');
 exports.Cycle_recycle =require('./cycle_recycle');
 exports.Order =require('./order');
 exports.Cycle_distribution =require('./cycle_distribution');
