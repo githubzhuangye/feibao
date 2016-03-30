@@ -80,8 +80,9 @@ router.post('/change_password', function(req, res) {
 //修改用户信息
 router.post('/change_information', function(req, res) {
   var user_id =req.body.user_id;
-  var user_phone =-req.body.user_phone;
-  var user_address =-req.body.user_address;
+  var user_phone =req.body.user_phone;
+  var user_address =req.body.user_address;
+  console.log(user_id+',,,'+user_phone+',,,'+user_address);
   User.update({_id:user_id},{$set:{phone:user_phone,address:user_address}}, function(err){
     if (err) {
       res.status(500).json({msg: err});

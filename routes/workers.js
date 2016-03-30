@@ -6,7 +6,7 @@ var router = express.Router();
 
 //查找所有商品
 router.get('/find', function (req, res) {
-  Worker.find({},function(err,workers){
+  Worker.find({type:0},function(err,workers){
     if (err) {
       res.status(500).json({msg: err});
     } else {
@@ -18,13 +18,11 @@ router.get('/find', function (req, res) {
 /* 注册 */
 router.post('/add', function(req, res) {
   var worker =req.body;
-  console.log(worker);
   worker.password =encrypto(worker.password);
   new Worker(worker).save(function(err,worker){
     if(err){
       res.status(500).json({msg:err});
     }else{
-      console.log(12345+',,,,,,,,,'+worker);
       res.json(worker);
     }
   });

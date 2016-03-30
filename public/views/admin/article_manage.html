@@ -23,21 +23,34 @@
 
 <nav class="navbar navbar-default">
     <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#indexNavbar">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-        </div>
-        <div class="collapse navbar-collapse" id="indexNavbar">
-            <ul class="nav navbar-nav">
-                <li><a href="inter_admin.html"><span class="glyphicon glyphicon-home"></span> 首页</a></li>
-                <li><a href="recycle_waste_manage.html"><span class="glyphicon glyphicon-refresh"></span> 废品回收管理</a></li>
-                <li><a href="mall_manage.html"><span class="glyphicon glyphicon-shopping-cart"></span> 网上商场管理</a></li>
-                <li class="active"><a href="article_manage.html"><span class="glyphicon glyphicon-book"></span> 环保文章管理</a></li>
-                <li><a href="worker_manage.html"><span class="glyphicon glyphicon-book"></span> 工作人员管理</a></li>
-            </ul>
+        <div class="row">
+            <!--导航栏-->
+            <div class="col-md-8">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#indexNavbar">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse" id="indexNavbar">
+                    <ul class="nav navbar-nav">
+                        <li><a href="inter_admin.html"><span class="glyphicon glyphicon-home"></span> 首页</a></li>
+                        <li><a href="recycle_waste_manage.html"><span class="glyphicon glyphicon-refresh"></span> 废品回收管理</a></li>
+                        <li><a href="mall_manage.html"><span class="glyphicon glyphicon-shopping-cart"></span> 网上商场管理</a></li>
+                        <li class="active"><a href="article_manage.html"><span class="glyphicon glyphicon-book"></span> 环保文章管理</a></li>
+                        <li><a href="worker_manage.html"><span class="glyphicon glyphicon-book"></span> 工作人员管理</a></li>
+                    </ul>
+                </div>
+            </div>
+            <!--显示当前用户-->
+            <div class="col-md-4 pull-right">
+                <!--显示当前用户-->
+                <div ng-show="activeWorker" style="padding-top:12px;">
+                    <span>你好:</span>
+                    <span class="text-success">{{activeWorker.name}}</span>
+                </div>
+            </div>
         </div>
     </div>
 </nav>
@@ -382,7 +395,18 @@
         return {
             readAsDataUrl:readAsDataURL
         }
-    })
+    });
+    //应用刷新检查是否登录
+    app.run(function($rootScope,$http,$window){
+        $http({
+            url:'/workers/is_login',
+            method:"POST",
+        }).success(function (worker) {
+            $rootScope.activeWorker =worker;
+        }).error(function(){
+            $window.location.href ='login.html';
+        });
+    });
 
 </script>
 

@@ -18,7 +18,7 @@
 </head>
 <body>
 <div class="jumbotron">
-    <h1>环保美文</h1>
+    <h1>废宝--我的废宝</h1>
 </div>
 <nav class="navbar navbar-default">
     <div class="container">
@@ -142,16 +142,15 @@
                     </thead>
                     <tr ng-repeat="order in orders">
                         <td>{{order.date}}</td>
-                        <td><div ng-repeat="ware in order.wares">{{ware.name}} ({{ware.quantity}}})</div></td>
-
-                        <td>2</td>
-                        <td>{{order.amount}}元</td>
-                        <td>{{order.total_price}}</td>
+                        <td><div ng-repeat="ware in order.wares">{{ware.ware_name}} ({{ware.quantity}})</div></td>
+                        <td>{{order.amount}}</td>
+                        <td>{{order.total_price}}元</td>
                         <td>{{order.contact_name}}</td>
                         <td>{{order.contact_phone}}</td>
                         <td>{{order.contact_address}}</td>
+                        <td>{{order.state}}</td>
                         <td><a href="#">物流详情</a></td>
-                        <td><button class="btn btn-default" ng-disabled="cycle_distribution.state >1" ng-click="cancel_order(order._id)">取消</button></td>
+                        <td><button class="btn btn-default" ng-disabled="order.state >1" ng-click="cancel_order(order._id)">取消</button></td>
                     </tr>
                 </table>
             </div>
@@ -174,8 +173,8 @@
                         <td>取消配送</td>
                     </thead>
                     <tr ng-repeat="cycle_distribution in cycle_distributions">
-                        <td>{{cycle_distribution.date}}</td>
-                        <td>{{cycle_distribution.date}}</td>
+                        <td>{{cycle_distribution.begin_date}}</td>
+                        <td>{{cycle_distribution.interval}}</td>
                         <td><div ng-repeat="ware in cycle_distribution.wares">{{ware.name}} ({{ware.quantity}}})</div></td>
                         <td>{{cycle_distribution.amount}}</td>
                         <td>{{cycle_distribution.total_price}}</td>
@@ -187,13 +186,14 @@
                             <span ng-show="cycle_distribution.state ==2">已取消</span>
                             <span ng-hide="cycle_distribution.state ==2">有效</span>
                         </td>
-                        <td><button class="btn btn-success" ng-disabled="cycle_distribution.state ==2" ng-click="cancel_cycle_distribution(cycle_distribution._id)">取消</button></td>
+                        <td><button class="btn btn-default" ng-disabled="cycle_distribution.state ==2" ng-click="cancel_cycle_distribution(cycle_distribution._id)">取消</button></td>
                     </tr>
                 </table>
             </div>
         </div>
         <div role="tabpanel" class="tab-pane" id="change_password">
             <div class="table-responsive text-center container">
+                <br/>
                 <form name="change_password_form" novalidate ng-submit="change_password()">
                     <div class="form-group row"  ng-class="{'has-error':change_password_form.old_password.$dirty && change_password_form.old_password.$invalid}">
                         <label  class="col-sm-3 col-md-3 control-label">原密码:</label>
@@ -233,6 +233,7 @@
         </div>
         <div role="tabpanel" class="tab-pane" id="personal_information">
             <div class="text-center container">
+                <br/>
                 <form name="user_information_form" ng-submit="change_information()">
                     <div class="form-group row">
                         <label class="col-md-3 control-label">用户名:</label>
@@ -385,8 +386,8 @@
                     id:cycle_distribution_id,
                     user_id:$rootScope.activeUser._id
                 }
-            }).success(function (cycle_recycles) {
-                $scope.cycle_recycles =cycle_recycles;
+            }).success(function (cycle_distributions) {
+                $scope.cycle_distributions =cycle_distributions;
             }).error(function(){
                 alert('取消周期回收失败');
             });
@@ -431,6 +432,7 @@
         };
         //确认修改信息
         $scope.change_information =function(){
+//            alert($rootScope.activeUser.address);
             $http({
                 url:'/users/change_information',
                 method:"POST",
@@ -441,6 +443,8 @@
                 }
             }).success(function (user) {
                 if(user){
+                    $rootScope.activeUser.phone =user.phone;
+                    $rootScope.activeUser.address =user.address;
                     alert('修改信息成功');
                 }
             }).error(function(){

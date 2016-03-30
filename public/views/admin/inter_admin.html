@@ -39,9 +39,9 @@
             </div>
             <!--显示当前用户-->
             <div class="col-md-4 pull-right">
-                <div ng-show="activeAdmin" style="padding-top:4px;">
+                <div ng-show="activeWorker" style="padding-top:12px;">
                     <span>你好:</span>
-                    <span class="text-success">{{activeAdmin.name}}</span>
+                    <span class="text-success">{{activeWorker.name}}</span>
                 </div>
             </div>
         </div>
@@ -276,12 +276,11 @@
     //页面刷新时检测是否登录
     app.run(function($rootScope,$http,$window){
         $http({
-            url:'/admins/is_login',
+            url:'/workers/is_login',
             method:"POST",
-        }).success(function (admin) {
-            $rootScope.activeAdmin =admin;
+        }).success(function (worker) {
+            $rootScope.activeWorker =worker;
         }).error(function(data){
-            alert('no login,'+data.msg);
             $window.location.href="login.html";
         });
     });
