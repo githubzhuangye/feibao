@@ -46,19 +46,18 @@ router.post('/confirm_pay', function (req, res) {
         }
     });
 });
-////查找未处理的预约回收
-//router.get('/find_unclaim', function (req, res) {
-//    var today =new Date();
-//    today =today.getFullYear()+'-'+today.getMonth()+'-'+today.getDate();
-//    Bespeak_recycle.find({state:0,date:today},function(err,bespeak_recycles){
-//        if (err) {
-//            res.status(500).json({msg: err});
-//        } else {
-//            res.json(bespeak_recycles);
-//        }
-//    });
-//});
-//
+//根据工号查找未付款的的预约回收记录
+router.post('/find_by_job_number', function (req, res) {
+    var job_number =req.body.job_number;
+    Bespeak_recycle_record.find({job_number:job_number,is_pay:0},function(err,bespeak_recycle_record){
+        if (err) {
+            res.status(500).json({msg: err});
+        } else {
+            res.json(bespeak_recycle_record);
+        }
+    });
+});
+
 ////领取预约回收
 //router.post('/claim', function (req, res) {
 //    var id =req.body.id;

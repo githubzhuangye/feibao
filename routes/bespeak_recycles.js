@@ -50,7 +50,7 @@ router.post('/cancel_bespeak_recycle', function (req, res) {
 //查找未处理的预约回收
 router.get('/find_unclaim', function (req, res) {
     var today =new Date();
-    today =today.getFullYear()+'-'+today.getMonth()+'-'+today.getDate();
+    today =today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
     Bespeak_recycle.find({state:0,date:today},function(err,bespeak_recycles){
         if (err) {
             res.status(500).json({msg: err});
@@ -68,7 +68,7 @@ router.post('/claim', function (req, res) {
             res.status(500).json({msg: err});
         } else {
             var today =new Date();
-            today =today.getFullYear()+'-'+today.getMonth()+'-'+today.getDate();
+            today =today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
             Bespeak_recycle.find({state:0,date:today},function(err,bespeak_recycles){
                 if (err) {
                     res.status(500).json({msg: err});

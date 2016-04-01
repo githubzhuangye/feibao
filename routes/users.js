@@ -36,7 +36,7 @@ router.post('/is_login', function(req, res) {
   if(user){
     res.status(200).json(user);
   }else{
-    res.status(401).json({msg:'ÄúÎ´µÇÂ½'});
+    res.status(401).json({msg:'ÄúÎ´µÇÂ¼'});
   }
 });
 

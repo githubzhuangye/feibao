@@ -18,7 +18,7 @@ router.get('/find', function (req, res) {
 /* ×¢²á */
 router.post('/add', function(req, res) {
   var worker =req.body;
-  worker.password =encrypto(worker.password);
+  //worker.password =encrypto(worker.password);
   new Worker(worker).save(function(err,worker){
     if(err){
       res.status(500).json({msg:err});
@@ -31,10 +31,12 @@ router.post('/add', function(req, res) {
 //µÇÂ¼
 router.post('/login', function(req, res) {
   var worker =req.body;
-  Worker.findOne({job_number:worker.job_number,password:encrypto(worker.password),type:worker.type},function(err,worker){
+  //encrypto()
+  Worker.findOne({job_number:worker.job_number,password:worker.password,type:worker.type},function(err,worker){
     if(err){
       res.status(500).json({msg:err});
     }else{
+      //console.log(worker);
       req.session.worker = worker;
       res.json(worker);
     }

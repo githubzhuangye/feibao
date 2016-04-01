@@ -57,7 +57,7 @@
     app.controller('loginCtrl',function($rootScope,$scope,$http,$window){
         //登录
         $scope.login =function(){
-            alert(JSON.stringify($scope.worker));
+//            alert(JSON.stringify($scope.worker));
             $http({
                 url:'/workers/login',
                 method:"POST",

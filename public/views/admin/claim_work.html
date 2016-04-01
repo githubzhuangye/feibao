@@ -47,13 +47,14 @@
         <div role="tabpanel" class="tab-pane active" id="bespeak_recycle_waste">
             <table class="table text-center sort_btn_table">
                 <tr>
-                    <td><button class="btn btn-default" ng-click="show_unclaim_bespeak_recycles()">今日上门</button></td>
-                    <td><button class="btn btn-default" ng-click="show_claim_unpay_bespeak_recycles()">已领取未付款</button></td>
-                    <td><button class="btn btn-success" ng-click="show_claim_paid_bespeak_recycles()">已完成</button></td>
+                    <td><button class="btn btn-default" ng-class="{true: 'btn-success', false: 'btn-default'}[is_show_unclaim_bespeak_recycles_table]" ng-click="show_unclaim_bespeak_recycles()">今日上门</button></td>
+                    <td><button class="btn btn-default" ng-class="{true: 'btn-success', false: 'btn-default'}[is_show_claim_unpay_bespeak_recycle_records_table]" ng-click="show_claim_unpay_bespeak_recycle_records(activeWorker.job_number)">已领取未付款</button></td>
+                    <td><button class="btn btn-default" ng-class="{true: 'btn-success', false: 'btn-default'}" ng-click="show_claim_pay_bespeak_recycle_records()">已完成</button></td>
                 </tr>
             </table>
             <br>
-            <table class="table table-bordered table-hover text-center">
+            <!--今日需上门回收的预约-->
+            <table class="table table-bordered table-hover text-center" ng-show="is_show_unclaim_bespeak_recycles_table">
                 <caption>今日需上门回收的预约</caption>
                 <thead>
                     <td>日期</td>
@@ -81,13 +82,13 @@
                         <span ng-show="bespeak_recycle.state ==0">未回收</span>
                         <span ng-show="bespeak_recycle.state !=0">已回收或取消</span>
                     </td>
-                    <td><input class="form-control form-inline" ng-model="bespeak_recycle_record.job_number" placeholder="输入工作号领取任务"></td>
-                    <td><button class="btn btn-default" ng-disabled="!bespeak_recycle_record.job_number" ng-click="claim_bespeak_recycle(bespeak_recycle._id,$index)">领取</button></td>
+                    <td><input class="form-control form-inline" ng-model="bespeak_recycle.job_number" placeholder="输入工作号领取任务"></td>
+                    <td><button class="btn btn-default" ng-disabled="!bespeak_recycle.job_number" ng-click="claim_bespeak_recycle(bespeak_recycle._id,$index)">领取</button></td>
                 </tr>
             </table>
 
-            <!--已领取未付款-->
-            <table class="table table-bordered table-striped table-hover text-center sr-only">
+            <!--已领取未付款预约回收记录-->
+            <table class="table table-bordered table-striped table-hover text-center" ng-show="is_show_claim_unpay_bespeak_recycle_records_table">
                 <caption>未付款给用户</caption>
                 <thead>
                     <td>日期</td>
@@ -102,11 +103,11 @@
                     <td>是否付款</td>
                     <td>操作</td>
                 </thead>
-                <tr>
+                <tr ng-repeat="bespeak_recycle_record in claim_unpay_bespeak_recycle_records">
                     <td>{{bespeak_recycle_record.date}}</td>
                     <td>{{bespeak_recycle_record.time}}</td>
                     <td>{{bespeak_recycle_record.sort_name}}</td>
-                    <td>{{bespeak_recycle_record.weight}}</td>
+                    <td>{{bespeak_recycle_record.weight}} kg</td>
                     <td>{{bespeak_recycle_record.contact_name}}</td>
                     <td>{{bespeak_recycle_record.contact_phone}}</td>
                     <td>{{bespeak_recycle_record.contact_address}}</td>
@@ -116,7 +117,7 @@
                         <span ng-show="bespeak_recycle_record.is_pay ==0">未付款</span>
                     </td>
                     <td>
-                        <button type="button" class="btn btn-default" ng-click="pay_claim_bespeak_recycle(bespeak_recycle_record._id)">付款</button>
+                        <button type="button" class="btn btn-default" ng-click="pay_claim_bespeak_recycle_record(bespeak_recycle_record._id)">付款</button>
                     </td>
                 </tr>
             </table>
@@ -373,21 +374,60 @@
 <script type="text/javascript">
     var app =angular.module('feibao_claim_task',['ngRoute']);
     app.controller('claim_task',function($rootScope,$scope,$http){
-        $scope.unclaim_bespeak_recycles =[];//未处理预约回收
+//        $scope.unclaim_bespeak_recycles =[];//未处理预约回收
         $scope.bespeak_recycle_record ={};//预约回收处理记录
         $scope.will_pay_bespeak_recycle_record ={};//将要付款预约回收处理记录
         $scope.all_unclaim_cycle_recycles = [];//所有未处理周期回收
         $scope.today_unclaim_cycle_recycles = [];//今日未处理周期回收
+
+        $scope.is_show_unclaim_bespeak_recycles_table =true;
+        $scope.is_show_claim_unpay_bespeak_recycle_records_table =false;
+        $scope.is_show_claim_pay_bespeak_recycle_records_table =false;
         //获取今天日期
         var today =new Date();
         today =today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate();
-        //获取今天所有未处理的预约回收
+        //显示今日未回收预约回收
         $http({
             url:'/bespeak_recycles/find_unclaim',
             method:'GET'
         }).success(function(unclaim_bespeak_recycles){
             $scope.unclaim_bespeak_recycles =unclaim_bespeak_recycles;
         });
+        $scope.show_unclaim_bespeak_recycles =function(){
+            $scope.is_show_unclaim_bespeak_recycles_table =true;
+            $scope.is_show_claim_unpay_bespeak_recycle_records_table =false;
+            $scope.is_show_claim_pay_bespeak_recycle_records_table =false;
+            if($scope.unclaim_bespeak_recycles ==undefined){
+                //获取今天所有未处理的预约回收
+                $http({
+                    url:'/bespeak_recycles/find_unclaim',
+                    method:'GET'
+                }).success(function(unclaim_bespeak_recycles){
+                    $scope.unclaim_bespeak_recycles =unclaim_bespeak_recycles;
+                });
+            }
+        };
+
+        //获取所有已领取未付款的预约记录
+        $scope.show_claim_unpay_bespeak_recycle_records =function(worker_job_number){
+            $scope.is_show_unclaim_bespeak_recycles_table =false;
+            $scope.is_show_claim_unpay_bespeak_recycle_records_table =true;
+            $scope.is_show_claim_pay_bespeak_recycle_records_table =false;
+            if($scope.claim_unpay_bespeak_recycle_records ==undefined){
+                //获取今天所有未处理的预约回收
+                $http({
+                    url:'/bespeak_recycle_records/find_by_job_number',
+                    method:'POST',
+                    data:{
+                        job_number:worker_job_number
+                    }
+                }).success(function(claim_unpay_bespeak_recycle_records){
+//                    console.log(JSON.stringify(claim_unpay_bespeak_recycles));
+                    $scope.claim_unpay_bespeak_recycle_records =claim_unpay_bespeak_recycle_records;
+                });
+            }
+        };
+
 
         //获取所有未处理的周期回收state==0
         $http({
@@ -404,13 +444,16 @@
             });
         });
 
+
+
         //领取预约回收
         $scope.claim_bespeak_recycle =function(id,index){
-            $scope.bespeak_recycle_record =$scope.untreated_bespeak_recycles[index];
+            $scope.bespeak_recycle_record =$scope.unclaim_bespeak_recycles[index];
             $scope.bespeak_recycle_record.worker_id =$rootScope.activeWorker._id;
             $scope.bespeak_recycle_record.pay_mode =0;//0表示平台电子货币，1表示现金付款
             $scope.bespeak_recycle_record.pay_number =0;//付款金额
             $scope.bespeak_recycle_record.is_pay =0;//是否付款:0未付款给用户，1付款给用户。
+            alert(JSON.stringify($scope.bespeak_recycle_record));
             //将对应的预约回收的状态改为1已领取
             $http({
                 url:'/bespeak_recycles/claim',
@@ -418,9 +461,9 @@
                 data:{
                     id:id
                 }
-            }).success(function(untreated_bespeak_recycles){
+            }).success(function(unclaim_bespeak_recycles){
                 //领取成功之后，1更新未领取数据，2插入领取预约回收记录
-                $scope.untreated_bespeak_recycles =untreated_bespeak_recycles;
+                $scope.unclaim_bespeak_recycles =unclaim_bespeak_recycles;
                 //插入领取预约回收记录
                 $http({
                     url:'/bespeak_recycle_records/add',
@@ -438,18 +481,19 @@
             });
         };
         //预约回收付款
-        $scope.pay_claim_bespeak_recycle =function(id){
-            $http({
-                url:'/bespeak_recycle_records/find_by_id',
-                method:"POST",
-                data:{
-                    id:id
-                }
-            }).success(function (bespeak_recycle_record) {
-                $scope.will_pay_bespeak_recycle_record =bespeak_recycle_record;
-            }).error(function(){
-                alert('获取领取记录失败');
-            });
+        $scope.pay_claim_bespeak_recycle_record =function(id){
+            alert(id);
+//            $http({
+//                url:'/bespeak_recycle_records/find_by_id',
+//                method:"POST",
+//                data:{
+//                    id:id
+//                }
+//            }).success(function (bespeak_recycle_record) {
+//                $scope.will_pay_bespeak_recycle_record =bespeak_recycle_record;
+//            }).error(function(){
+//                alert('获取领取记录失败');
+//            });
         };
         //确认预约回收付款
         $scope.confirm_pay_claim_bespeak_recycle =function(id){
