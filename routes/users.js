@@ -40,13 +40,33 @@ router.post('/is_login', function(req, res) {
   }
 });
 
-//付款
+//购买物品付款
 router.post('/pay', function(req, res) {
   var user_id =req.body.user_id;
   var price =-req.body.price;
   User.update({_id:user_id},{$inc:{balance:price}}, function(err){
     if (err) {
       console.log(err);
+      res.status(500).json({msg: err});
+    } else {
+      User.findOne({_id:user_id},function(err,user){
+        if (err) {
+          res.status(500).json({msg: err});
+        } else {
+          res.json(user);
+        }
+      });
+    }
+  })
+});
+
+//回收物品付款
+router.post('/get_pay', function(req, res) {
+  var user_id =req.body.user_id;
+  var pay_number =req.body.pay_number;
+  User.update({_id:user_id},{$inc:{balance:pay_number}}, function(err){
+    if (err) {
+      //console.log(err);
       res.status(500).json({msg: err});
     } else {
       User.findOne({_id:user_id},function(err,user){

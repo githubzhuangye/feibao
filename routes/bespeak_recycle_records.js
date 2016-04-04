@@ -36,27 +36,40 @@ router.post('/confirm_pay', function (req, res) {
         if (err) {
             res.status(500).json({msg: err});
         } else {
-            //Bespeak_recycle_record.find({},function(err,wares){
-            //    if (err) {
-            //        res.status(500).json({msg: err});
-            //    } else {
-            //        res.json(wares);
-            //    }
-            //});
+            Bespeak_recycle_record.find({job_number:bespeak_recycle_record.job_number,is_pay:0},function(err,bespeak_recycle_records){
+                if (err) {
+                    res.status(500).json({msg: err});
+                } else {
+                    res.json(bespeak_recycle_records);
+                }
+            });
         }
     });
 });
 //根据工号查找未付款的的预约回收记录
 router.post('/find_by_job_number', function (req, res) {
     var job_number =req.body.job_number;
-    Bespeak_recycle_record.find({job_number:job_number,is_pay:0},function(err,bespeak_recycle_record){
+    Bespeak_recycle_record.find({job_number:job_number,is_pay:0},function(err,bespeak_recycle_records){
         if (err) {
             res.status(500).json({msg: err});
         } else {
-            res.json(bespeak_recycle_record);
+            res.json(bespeak_recycle_records);
         }
     });
 });
+
+//查找所有已完成的预约回收记录
+router.post('/find_claim_pay', function (req, res) {
+    var job_number =req.body.job_number;
+    Bespeak_recycle_record.find({job_number:job_number,is_pay:1,state:4},function(err,bespeak_recycle_records){
+        if (err) {
+            res.status(500).json({msg: err});
+        } else {
+            res.json(bespeak_recycle_records);
+        }
+    });
+});
+
 
 ////领取预约回收
 //router.post('/claim', function (req, res) {
