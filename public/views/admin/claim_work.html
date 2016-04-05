@@ -169,7 +169,7 @@
                 <tr>
                     <td><button class="btn btn-default" ng-class="{true: 'btn-success', false: 'btn-default'}[is_show_today_unclaim_cycle_recycles_table]" ng-click="show_today_unclaim_cycle_recycles()">今日上门</button></td>
                     <td><button class="btn btn-default" ng-class="{true: 'btn-success', false: 'btn-default'}[is_show_all_unclaim_cycle_recycles_table]" ng-click="show_all_unclaim_cycle_recycles()">有效周期回收</button></td>
-                    <td><button class="btn btn-default" ng-class="{true: 'btn-success', false: 'btn-default'}[is_show_claim_unpay_cycle_recycle_records_table]" ng-click="show_today_claim_unpay_cycle_recycle_records(activeWorker.job_number)">已领取未付款</button></td>
+                    <td><button class="btn btn-default" ng-class="{true: 'btn-success', false: 'btn-default'}[is_show_claim_unpay_cycle_recycle_records_table]" ng-click="show_claim_unpay_cycle_recycle_records(activeWorker.job_number)">已领取未付款</button></td>
                     <td><button class="btn btn-default" ng-class="{true: 'btn-success', false: 'btn-default'}[is_show_claim_pay_cycle_recycle_records_table]" ng-click="show_claim_pay_cycle_recycle_records(activeWorker.job_number)">已完成</button></td>
                 </tr>
             </table>
@@ -206,8 +206,8 @@
                         <!--<span ng-show="cycle_recycle.state ==0">未回收</span>-->
                         <!--<span ng-show="cycle_recycle.state !=0">已回收或取消</span>-->
                     <!--</td>-->
-                    <td><input class="form-control form-inline" ng-model="bespeak_recycle.job_number" placeholder="输入工作号领取任务"></td>
-                    <td><button class="btn btn-default" ng-disabled="!bespeak_recycle.job_number" ng-click="claim_bespeak_recycle(bespeak_recycle._id,$index)">领取</button></td>
+                    <td><input class="form-control form-inline" ng-model="cycle_recycle.job_number" placeholder="输入工作号领取任务"></td>
+                    <td><button class="btn btn-default" ng-disabled="!bespeak_recycle.job_number" ng-click="claim_cycle_recycle(cycle_recycle._id,$index)">领取</button></td>
                 </tr>
             </table>
 
@@ -244,68 +244,205 @@
                     </td>
                 </tr>
             </table>
-        </div>
-        <!--未发货订单-->
-        <div role="tabpanel" class="tab-pane text-center" id="mall_order">
-            <table class="table table-bordered table-hover">
-                <caption>未发货订单</caption>
+
+            <!--已领取未付款的周期回收记录-->
+            <table class="table table-bordered table-hover text-center" ng-show="is_show_claim_unpay_cycle_recycle_records_table">
+                <caption>已领取未付款的周期回收记录</caption>
                 <thead>
-                <td>时间</td>
-                <td>订单号</td>
-                <td>商品</td>
-                <td>数量</td>
-                <td>总价格</td>
-                <td>收货人</td>
-                <td>手机</td>
-                <td>地址</td>
-                <td>订单状态</td>
-                <td>操作</td>
+                    <td>开始日期</td>
+                    <td>时间</td>
+                    <td>间隔</td>
+                    <td>回收日期</td>
+                    <td>废品类型</td>
+                    <td>大致重量</td>
+                    <td>联系人</td>
+                    <td>手机</td>
+                    <td>详细地址</td>
+                    <td>用户</td>
+                    <td>工号</td>
+                    <td>是否付款</td>
+                    <td>操作</td>
                 </thead>
-                <tr>
-                    <td>2016-1-2</td>
-                    <td>2345876599</td>
-                    <td>巧克力盒装500g</td>
-                    <td>2</td>
-                    <td>200元</td>
-                    <td>庄叶</td>
-                    <td>15652922740</td>
-                    <td>北京市朝阳区北四环东路97号</td>
-                    <td>未发货已付款</td>
-                    <td><button class="btn btn-default">发货</button></td>
+                <tr ng-repeat="cycle_recycle_record in claim_unpay_cycle_recycle_records">
+                    <td>{{cycle_recycle_record.begin_date}}</td>
+                    <td>{{cycle_recycle_record.time}}</td>
+                    <td>{{cycle_recycle_record.interval | translate_number_interval}}</td>
+                    <td>{{cycle_recycle_record.last_cycle_date}}</td>
+                    <td>{{cycle_recycle_record.sort_name}}</td>
+                    <td>{{cycle_recycle_record.weight}} kg</td>
+                    <td>{{cycle_recycle_record.contact_name}}</td>
+                    <td>{{cycle_recycle_record.contact_phone}}</td>
+                    <td>{{cycle_recycle_record.contact_address}}</td>
+                    <td>{{cycle_recycle_record.user_name}}</td>
+                    <td>{{cycle_recycle_record.job_number}}</td>
+                    <td>
+                        <span ng-show="cycle_recycle_record.is_pay ==0">未付款</span>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-default" ng-click="pay_claim_cycle_recycle_record(cycle_recycle_record._id)">付款</button>
+                    </td>
                 </tr>
-                <tr>
-                    <td>2016-1-2</td>
-                    <td>2345876599</td>
-                    <td>清风纸巾9包装200抽</td>
-                    <td>1</td>
-                    <td>20元</td>
-                    <td>庄叶</td>
-                    <td>15652922740</td>
-                    <td>北京市朝阳区北四环东路97号</td>
-                    <td>未发货已付款</td>
-                    <td><button class="btn btn-default">发货</button></td>
-                </tr>
-                <tr>
-                    <td>2016-1-2</td>
-                    <td>2345876599</td>
-                    <td>中粮大米50kg</td>
-                    <td>1</td>
-                    <td>300元</td>
-                    <td>庄叶</td>
-                    <td>15652922740</td>
-                    <td>北京市朝阳区北四环东路97号</td>
-                    <td>未发货已付款</td>
-                    <td><button class="btn btn-default">发货</button></td>
+            </table>
+
+            <!--已完成周期回收记录-->
+            <table class="table table-bordered table-hover text-center" ng-show="is_show_claim_pay_cycle_recycle_records_table">
+                <caption>已领取未付款的周期回收记录</caption>
+                <thead>
+                    <td>开始日期</td>
+                    <td>时间</td>
+                    <td>间隔</td>
+                    <td>回收日期</td>
+                    <td>废品类型</td>
+                    <td>大致重量</td>
+                    <td>联系人</td>
+                    <td>手机</td>
+                    <td>详细地址</td>
+                    <td>用户</td>
+                    <td>工号</td>
+                    <td>是否付款</td>
+                    <td>付款方式</td>
+                    <td>付款金额</td>
+                </thead>
+                <tr ng-repeat="cycle_recycle_record in claim_unpay_cycle_recycle_records">
+                    <td>{{cycle_recycle_record.begin_date}}</td>
+                    <td>{{cycle_recycle_record.time}}</td>
+                    <td>{{cycle_recycle_record.interval | translate_number_interval}}</td>
+                    <td>{{cycle_recycle_record.last_cycle_date}}</td>
+                    <td>{{cycle_recycle_record.sort_name}}</td>
+                    <td>{{cycle_recycle_record.weight}} kg</td>
+                    <td>{{cycle_recycle_record.contact_name}}</td>
+                    <td>{{cycle_recycle_record.contact_phone}}</td>
+                    <td>{{cycle_recycle_record.contact_address}}</td>
+                    <td>{{cycle_recycle_record.user_name}}</td>
+                    <td>{{cycle_recycle_record.job_number}}</td>
+                    <td>
+                        <span ng-show="cycle_recycle_record.is_pay ==1">已付款</span>
+                    </td>
+                    <td>
+                        <span ng-show="cycle_recycle_record.pay_mode ==0">电子货币付款</span>
+                        <span ng-show="cycle_recycle_record.pay_mode ==1">现金付款</span>
+                    </td>
+                    <td>
+                        {{cycle_recycle_record.pay_number}}
+                    </td>
                 </tr>
             </table>
         </div>
-        <!--未处理周期配送-->
+
+        <!--订单-->
+        <div role="tabpanel" class="tab-pane text-center" id="mall_order">
+            <table class="table text-center sort_btn_table">
+                <tr>
+                    <td><button class="btn btn-default" ng-class="{true: 'btn-success', false: 'btn-default'}[is_show_undeliver_orders_table]" ng-click="show_undeliver_orders()">未发货</button></td>
+                    <td><button class="btn btn-default" ng-class="{true: 'btn-success', false: 'btn-default'}[is_show_deliver_order_records_table]" ng-click="show_deliver_order_records(activeWorker.job_number)">已完成</button></td>
+                </tr>
+            </table>
+            <!--未发货订单   $scope.order.state =0;//0未付款,1付款,2取消,3已发货-->
+            <table class="table table-bordered table-hover" ng-show="is_show_undeliver_orders_table">
+                <caption>未发货订单</caption>
+                <thead>
+                    <td>日期</td>
+                    <td>商品</td>
+                    <td>总数量</td>
+                    <td>总价格</td>
+                    <td>收货人</td>
+                    <td>手机</td>
+                    <td>地址</td>
+                    <td>下单用户</td>
+                    <td>订单状态</td>
+                    <td>付款方式</td>
+                    <td>送货员</td>
+                    <td>操作</td>
+                </thead>
+                <tr ng-repeat="order in undeliver_orders">
+                    <td>{{order.date}}</td>
+                    <td>
+                        <div ng-repeat="ware in order.wares">
+                            <span>{{ware.ware_name}}</span>
+                            <span>{{ware.quantity}}</span>
+                        </div>
+                    </td>
+                    <td>{{order.amount}}</td>
+                    <td>{{order.total_price}}</td>
+                    <td>{{order.contact_name}}</td>
+                    <td>{{order.contact_phone}}</td>
+                    <td>{{order.contact_address}}</td>
+                    <td>{{order.user_name}}</td>
+                    <td>
+                        <span ng-show="order.state ==1">已付款未发货</span>
+                    </td>
+                    <td>
+                        <span ng-show="order.pay_mode ==0">平台电子货币</span>
+                    </td>
+                    <td>
+                        <input class="form-control form-inline" ng-model="order.job_number" placeholder="输入工作号领取发货任务">
+                    </td>
+                    <td><button class="btn btn-default" ng-disabled="!order.job_number" ng-click="order_deliver(order._id,$index)">发货</button></td>
+                </tr>
+
+            </table>
+
+            <!--已完成订单记录   $scope.order.state =0;//0未付款,1付款,2取消,3已发货-->
+            <table class="table table-bordered table-hover" ng-show="is_show_deliver_order_records_table">
+                <caption>未发货订单</caption>
+                <thead>
+                    <td>下单日期</td>
+                    <td>商品</td>
+                    <td>总数量</td>
+                    <td>总价格</td>
+                    <td>收货人</td>
+                    <td>手机</td>
+                    <td>地址</td>
+                    <td>下单用户</td>
+                    <td>订单状态</td>
+                    <td>付款方式</td>
+                    <td>发货日期</td>
+                    <td>送货员</td>
+                </thead>
+                <tr ng-repeat="order_record in deliver_order_records">
+                    <td>{{order_record.date}}</td>
+                    <td>
+                        <div ng-repeat="ware in order_record.wares">
+                            <span>{{ware.ware_name}}</span>
+                            <span>{{ware.quantity}}</span>
+                        </div>
+                    </td>
+                    <td>{{order_record.amount}}</td>
+                    <td>{{order_record.total_price}}</td>
+                    <td>{{order_record.contact_name}}</td>
+                    <td>{{order_record.contact_phone}}</td>
+                    <td>{{order_record.contact_address}}</td>
+                    <td>{{order_record.user_name}}</td>
+                    <td>
+                        <span ng-show="order_record.state ==4">已发货</span>
+                    </td>
+                    <td>
+                        <span ng-show="order_record.pay_mode ==0">平台电子货币</span>
+                    </td>
+                    <td>{{order_record.deliver_date}}</td>
+                    <td>{{order_record.job_number}}</td>
+                </tr>
+
+            </table>
+        </div>
+
+        <!--周期配送-->
         <div role="tabpanel" class="tab-pane text-center" id="mall_distribution">
+            <table class="table text-center sort_btn_table">
+                <tr>
+                    <td><button class="btn btn-default" ng-class="{true: 'btn-success', false: 'btn-default'}[is_show_today_undeliver_cycle_distributions_table]" ng-click="show_today_undeliver_cycle_distributions()">今日配送</button></td>
+                    <td><button class="btn btn-default" ng-class="{true: 'btn-success', false: 'btn-default'}[is_show_all_undeliver_cycle_distributions_table]" ng-click="show_all_undeliver_cycle_distributions()">有效周期配送</button></td>
+                    <td><button class="btn btn-default" ng-class="{true: 'btn-success', false: 'btn-default'}[is_show_deliver_cycle_distribution_records_table]" ng-click="show_deliver_cycle_distribution_records(activeWorker.job_number)">已完成</button></td>
+                </tr>
+            </table>
+            <br>
+            <!--今日未处理周期配送-->
             <table class="table table-bordered table-hover">
                 <caption>今日周期配送</caption>
                 <thead>
-                <td>时间</td>
-                <td>配送单号</td>
+                <td>开始日期</td>
+                <td>间隔</td>
+                <td>上回日期</td>
                 <td>商品</td>
                 <td>总数量</td>
                 <td>总价格</td>
@@ -329,30 +466,7 @@
                     <td>未配送</td>
                     <td><button class="btn btn-default">配送</button></td>
                 </tr>
-                <tr>
-                    <td>2016-1-26</td>
-                    <td>2345876599</td>
-                    <td>清风纸巾9包装200抽【1】</td>
-                    <td>1</td>
-                    <td>20元</td>
-                    <td>庄叶</td>
-                    <td>15652922740</td>
-                    <td>北京市朝阳区北四环东路97号</td>
-                    <td>未配送</td>
-                    <td><button class="btn btn-default">配送</button></td>
-                </tr>
-                <tr>
-                    <td>2016-1-26</td>
-                    <td>2345876599</td>
-                    <td>中粮大米50kg【1】</td>
-                    <td>1</td>
-                    <td>300元</td>
-                    <td>庄叶</td>
-                    <td>15652922740</td>
-                    <td>北京市朝阳区北四环东路97号</td>
-                    <td>未配送</td>
-                    <td><button class="btn btn-default">配送</button></td>
-                </tr>
+
             </table>
         </div>
     </div>
@@ -445,6 +559,101 @@
             </div>
         </div>
     </div>
+
+    <!--周期回收付款模态框-->
+    <div class="modal fade" id="pay_cycle_recycle_record_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">周期回收付款</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-sm-4 col-md-4 control-label">开始日期:</label>
+                            <div class="col-sm-6 col-md-6">
+                                <input type="text" class="form-control" name="date" disabled="disabled"  ng-model="will_pay_cycle_recycle_record.begin_date">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 col-md-4 control-label">时间:</label>
+                            <div class="col-sm-6 col-md-6">
+                                <input type="text" class="form-control" name="time" disabled="disabled"  ng-model="will_pay_cycle_recycle_record.time">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 col-md-4 control-label">间隔:</label>
+                            <div class="col-sm-6 col-md-6">
+                                <input type="text" class="form-control" name="interval" disabled="disabled"  ng-model="will_pay_cycle_recycle_record.interval">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 col-md-4 control-label">废品类型(可添加完善):</label>
+                            <div class="col-sm-6 col-md-6">
+                                <input class="form-control form-inline" ng-model="will_pay_cycle_recycle_record.sort_name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 col-md-4 control-label">重量kg（实际重量）:</label>
+                            <div class="col-sm-6 col-md-6">
+                                <input class="form-control form-inline" ng-model="will_pay_cycle_recycle_record.weight">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 col-md-4 control-label">联系人:</label>
+                            <div class="col-sm-6 col-md-6">
+                                <input type="text" class="form-control" placeholder="收货人姓名" disabled="disabled" name="contact_name" ng-model="will_pay_cycle_recycle_record.contact_name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label  class="col-sm-4 col-md-4 control-label">手机（联系方式）:</label>
+                            <div class="col-sm-6 col-md-6">
+                                <input type="text" class="form-control" name="contact_number" disabled="disabled" ng-model="will_pay_cycle_recycle_record.contact_phone">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 col-md-4 control-label">详细地址:</label>
+                            <div class="col-sm-6 col-md-6">
+                                <input type="text" class="form-control" name="contact_address" disabled="disabled" ng-model="will_pay_cycle_recycle_record.contact_address">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 col-md-4 control-label">用户:</label>
+                            <div class="col-sm-6 col-md-6">
+                                <input type="text" class="form-control" name="contact_address" disabled="disabled" ng-model="will_pay_cycle_recycle_record.user_name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 col-md-4 control-label">工号:</label>
+                            <div class="col-sm-6 col-md-6">
+                                <input type="text" class="form-control" name="contact_address" disabled="disabled" ng-model="will_pay_cycle_recycle_record.job_number">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 col-md-4 control-label">付款方式:</label>
+                            <div class="col-sm-6 col-md-6">
+                                <select name="pay_mode" ng-model="will_pay_cycle_recycle_record.pay_mode">
+                                    <option value="0">平台电子货币</option>
+                                    <option value="1">现金支付</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 col-md-4 control-label">付款金额:</label>
+                            <div class="col-sm-6 col-md-6">
+                                <input type="text" class="form-control" name="contact_address" ng-model="will_pay_cycle_recycle_record.pay_number">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-success" ng-click="confirm_pay_claim_cycle_recycle_record(will_pay_cycle_recycle_record._id)">确认付款</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 
@@ -460,20 +669,39 @@
 //        $scope.unclaim_bespeak_recycles =[];//未处理预约回收
         $scope.bespeak_recycle_record ={};//预约回收处理记录
         $scope.cycle_recycle_record ={};//周期回收处理记录
+        $scope.order_record ={};//订单记录
         $scope.will_pay_bespeak_recycle_record ={};//将要付款预约回收记录
+        $scope.will_pay_cycle_recycle_record ={};//将要付款周期回收记录
         $scope.all_unclaim_cycle_recycles = [];//所有未处理周期回收
         $scope.today_unclaim_cycle_recycles = [];//今日未处理周期回收
+        $scope.all_undeliver_cycle_distributions = [];//所有未处理周期配送
+        $scope.today_undeliver_cycle_distributions = [];//今日未处理周期配送
+        //是否有新的预约回收记录
         $scope.has_new_claim_pay_bespeak_recycle_record = false;//是否有新完成预约回收
         $scope.has_new_claim_unpay_bespeak_recycle_record = false;//是否有领取的预约回收记录
-        //预约回收
+        //是否有新的周期回收记录
+        $scope.has_new_claim_pay_cycle_recycle_record = false;//是否有新完成周期回收
+        $scope.has_new_claim_unpay_cycle_recycle_record = false;//是否有领取的周期回收记录
+        //是否有新的订单记录
+        $scope.has_new_deliver_order_record = false;//是否有新发货订单记录
+        //是否有新的周期配送记录
+        $scope.has_new_deliver_cycle_distribution_record = false;//是否有新周期配送记录
+        //预约回收table之间显示隐藏
         $scope.is_show_unclaim_bespeak_recycles_table =true;
         $scope.is_show_claim_unpay_bespeak_recycle_records_table =false;
         $scope.is_show_claim_pay_bespeak_recycle_records_table =false;
-        //周期回收
+        //周期回收table之间显示隐藏
         $scope.is_show_today_unclaim_cycle_recycles_table =true;
         $scope.is_show_all_unclaim_cycle_recycles_table =false;
         $scope.is_show_claim_unpay_cycle_recycle_records_table =false;
         $scope.is_show_claim_pay_cycle_recycle_records_table =false;
+        //订单table之间显示隐藏
+        $scope.is_show_undeliver_orders_table =true;
+        $scope.is_show_deliver_order_records_table =false;
+        //周期配送table之间显示隐藏
+        $scope.is_show_today_undeliver_cycle_distributions_table =true;
+        $scope.is_show_all_undeliver_cycle_distributions_table =false;
+        $scope.is_show_deliver_cycle_distribution_records_table =false;
         //获取今天日期
         var today =new Date();
         today =today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate();
@@ -544,6 +772,75 @@
             });
         };
 
+
+        //获取未发货的订单
+        $http({
+            url:'/orders/find_undeliver',
+            method:'GET'
+        }).success(function(undeliver_orders){
+            $scope.undeliver_orders =undeliver_orders;
+        });
+        $scope.show_undeliver_orders =function(){
+            $scope.is_show_undeliver_orders_table =true;
+            $scope.is_show_deliver_order_records_table =false;
+            if($scope.undeliver_orders ==undefined){
+                //获取今天所有未处理的预约回收
+                $http({
+                    url:'/orders/find_undeliver',
+                    method:'GET'
+                }).success(function(undeliver_orders){
+                    $scope.undeliver_orders =undeliver_orders;
+                });
+            }
+        };
+
+        //获取所有未处理的周期配送state==0
+        $http({
+            url: '/cycle_distributions/find_all_undeliver',
+            method: 'GET'
+        }).success(function (all_undeliver_cycle_distributions) {
+            $scope.all_undeliver_cycle_distributions = all_undeliver_cycle_distributions;
+            //根据间隔计算今日需要上门的周期配送
+            angular.forEach($scope.all_undeliver_cycle_distributions,function(undeliver_cycle_distribution,key){
+                var is_today =$scope.getNextDate(undeliver_cycle_distribution.last_distribution_date,undeliver_cycle_distribution.interval);
+                if(is_today ==today){
+                    $scope.today_undeliver_cycle_distributions.push(undeliver_cycle_distribution);
+                }
+            });
+        });
+        $scope.show_all_undeliver_cycle_distributions =function(){
+            $scope.is_show_today_undeliver_cycle_distributions_table =false;
+            $scope.is_show_all_undeliver_cycle_distributions_table =true;
+            $scope.is_show_deliver_cycle_distribution_records_table =false;
+            if($scope.all_undeliver_cycle_distributions.length <1){
+                $http({
+                    url: '/cycle_distributions/find_all_undeliver',
+                    method: 'GET'
+                }).success(function (all_undeliver_cycle_distributions) {
+                    $scope.all_undeliver_cycle_distributions = all_undeliver_cycle_distributions;
+                });
+            }
+
+        };
+
+        //获取今日需配送周期配送
+        $scope.show_today_undeliver_cycle_distributions =function(){
+            //清空记录
+            $scope.today_undeliver_cycle_distributions =[];
+            $scope.is_show_today_undeliver_cycle_distributions_table =true;
+            $scope.is_show_all_undeliver_cycle_distributions_table =false;
+            $scope.is_show_deliver_cycle_distribution_records_table =false;
+            if($scope.today_undeliver_cycle_distributions.length <1){
+                angular.forEach($scope.all_undeliver_cycle_distributions,function(undeliver_cycle_distribution,key){
+                    var is_today =$scope.getNextDate(undeliver_cycle_distribution.last_distribution_date,undeliver_cycle_distribution.interval);
+                    if(is_today ==today){
+                        $scope.today_undeliver_cycle_distributions.push(undeliver_cycle_distribution);
+                    }
+                });
+            }
+
+        };
+
         //领取预约回收
         $scope.claim_bespeak_recycle =function(id,index){
             $scope.bespeak_recycle_record =$scope.unclaim_bespeak_recycles[index];
@@ -584,6 +881,7 @@
         //领取周期回收
         $scope.claim_cycle_recycle =function(id,index){
             $scope.cycle_recycle_record =$scope.today_unclaim_cycle_recycles[index];
+            $scope.cycle_recycle_record.last_cycle_date =today;
             $scope.cycle_recycle_record.worker_id =$rootScope.activeWorker._id;
             $scope.cycle_recycle_record.state =1;//0:表示未回收,1表示领取,2表示取消,3表示日期过了失效,4已完成
             $scope.cycle_recycle_record.pay_mode =0;//0表示平台电子货币，1表示现金付款
@@ -595,26 +893,70 @@
                 url:'/cycle_recycles/claim',
                 method:'POST',
                 data:{
-                    id:id
+                    id:id,
+                    last_cycle_date:today
                 }
-            }).success(function(unclaim_bespeak_recycles){
+            }).success(function(all_unclaim_cycle_recycles){
                 //领取成功之后，1更新未领取数据，2插入领取预约回收记录
-                $scope.unclaim_bespeak_recycles =unclaim_bespeak_recycles;
+                $scope.all_unclaim_cycle_recycles = all_unclaim_cycle_recycles;
+                //根据间隔计算今日需要上门的周期回收
+                angular.forEach($scope.all_unclaim_cycle_recycles,function(unclaim_cycle_recycle,key){
+                    var is_today =$scope.getNextDate(unclaim_cycle_recycle.last_cycle_date,unclaim_cycle_recycle.interval);
+                    if(is_today ==today){
+                        $scope.today_unclaim_cycle_recycles.push(unclaim_cycle_recycle);
+                    }
+                });
                 //插入领取预约回收记录
                 $http({
-                    url:'/bespeak_recycle_records/add',
+                    url:'/cycle_recycle_records/add',
                     method:"POST",
-                    data:$scope.bespeak_recycle_record
-                }).success(function (bespeak_recycle_record) {
-                    if(bespeak_recycle_record){
-                        $scope.has_new_claim_unpay_bespeak_recycle_record =true;
-                        alert('生成领取记录成功');
+                    data:$scope.cycle_recycle_record
+                }).success(function (cycle_recycle_record) {
+                    if(cycle_recycle_record){
+                        $scope.has_new_claim_unpay_cycle_recycle_record =true;
+                        alert('生成(周期回收)领取记录成功');
                     }
                 }).error(function(){
                     alert('生成领取记录失败');
                 });
             }).error(function(){
                 alert('领取失败');
+            });
+        };
+
+
+        //领取订单发货
+        $scope.order_deliver =function(id,index){
+            $scope.order_record =$scope.undeliver_orders[index];
+            $scope.order_record.worker_id =$rootScope.activeWorker._id;
+            $scope.order_record.state =4;//0:表示未回收,1表示领取,2表示取消,3表示日期过了失效,4已完成
+            $scope.order_record.deliver_date =today;//发货日期
+//            alert(JSON.stringify($scope.bespeak_recycle_record));
+            //将对应的预约回收的状态改为1已领取
+            $http({
+                url:'/orders/deliver',
+                method:'POST',
+                data:{
+                    id:id
+                }
+            }).success(function(undeliver_orders){
+                //发货成功之后，1更新未发货数据，2插入发货订单记录
+                $scope.undeliver_orders =undeliver_orders;
+                //插入领取预约回收记录
+                $http({
+                    url:'/order_records/add',
+                    method:"POST",
+                    data:$scope.order_record
+                }).success(function (order_record) {
+                    if(order_record){
+                        $scope.has_new_deliver_order_record =true;
+                        alert('生成发货订单记录成功');
+                    }
+                }).error(function(){
+                    alert('生成发货订单记录失败');
+                });
+            }).error(function(){
+                alert('发货失败');
             });
         };
 
@@ -647,10 +989,44 @@
                 }).success(function(claim_unpay_bespeak_recycle_records){
 //                    console.log(JSON.stringify(claim_unpay_bespeak_recycles));
                     $scope.claim_unpay_bespeak_recycle_records =claim_unpay_bespeak_recycle_records;
+                    $scope.has_new_claim_unpay_bespeak_recycle_record =false;
                 });
             }
         };
 
+        //获取所有已领取未付款的周期回收记录
+        $scope.show_claim_unpay_cycle_recycle_records =function(worker_job_number){
+            $scope.is_show_today_unclaim_cycle_recycles_table =false;
+            $scope.is_show_all_unclaim_cycle_recycles_table =false;
+            $scope.is_show_claim_unpay_cycle_recycle_records_table =true;
+            $scope.is_show_claim_pay_cycle_recycle_records_table =false;
+            if($scope.claim_unpay_cycle_recycle_records ==undefined){
+                //获取所有未付款的周期回收记录
+                $http({
+                    url:'/cycle_recycle_records/find_by_job_number_unpay',
+                    method:'POST',
+                    data:{
+                        job_number:worker_job_number
+                    }
+                }).success(function(claim_unpay_cycle_recycle_records){
+//                    console.log(JSON.stringify(claim_unpay_bespeak_recycles));
+                    $scope.claim_unpay_cycle_recycle_records =claim_unpay_cycle_recycle_records;
+                });
+            }
+            if($scope.has_new_claim_unpay_cycle_recycle_record){
+                //获取所有未付款的周期回收记录
+                $http({
+                    url:'/cycle_recycle_records/find_by_job_number_unpay',
+                    method:'POST',
+                    data:{
+                        job_number:worker_job_number
+                    }
+                }).success(function(claim_unpay_cycle_recycle_records){
+//                    console.log(JSON.stringify(claim_unpay_bespeak_recycles));
+                    $scope.claim_unpay_cycle_recycle_records =claim_unpay_cycle_recycle_records;
+                });
+            }
+        };
 
         //预约回收付款
         $scope.pay_claim_bespeak_recycle_record =function(id){
@@ -667,6 +1043,23 @@
                 alert('获取领取记录失败');
             });
         };
+
+        //周期回收付款
+        $scope.pay_claim_cycle_recycle_record =function(id){
+            $http({
+                url:'/cycle_recycle_records/find_by_id',
+                method:"POST",
+                data:{
+                    id:id
+                }
+            }).success(function (cycle_recycle_record) {
+                $scope.will_pay_cycle_recycle_record =cycle_recycle_record;
+                $('#pay_cycle_recycle_record_modal').modal('show');
+            }).error(function(){
+                alert('获取领取记录失败');
+            });
+        };
+
         //确认预约回收付款
         $scope.confirm_pay_claim_bespeak_recycle =function(){
             $scope.will_pay_bespeak_recycle_record.state =4;//已完成
@@ -689,6 +1082,35 @@
                         alert('付款成功');
                         $scope.claim_unpay_bespeak_recycle_records =bespeak_recycle_records;
                         $scope.has_new_claim_pay_bespeak_recycle_record =true;
+                    }
+                });
+            }).error(function(){
+                alert('付款失败');
+            });
+        };
+
+        //确认周期回收记录付款
+        $scope.confirm_pay_claim_cycle_recycle_record =function(){
+            $scope.will_pay_cycle_recycle_record.state =4;//已完成
+            $scope.will_pay_cycle_recycle_record.is_pay =1;//已付款
+            $http({
+                url:'/cycle_recycle_records/confirm_pay',
+                method:"POST",
+                data:$scope.will_pay_cycle_recycle_record
+            }).success(function (cycle_recycle_records) {
+                $http({
+                    url:'/users/get_pay',
+                    method:"POST",
+                    data:{
+                        user_id:$scope.will_pay_cycle_recycle_record.user_id,
+                        pay_number:$scope.will_pay_cycle_recycle_record.pay_number
+                    }
+                }).success(function (user) {
+                    if(user){
+                        $('#pay_cycle_recycle_record_modal').modal('hide');
+                        alert('付款成功');
+                        $scope.claim_unpay_cycle_recycle_records =cycle_recycle_records;
+                        $scope.has_new_claim_pay_cycle_recycle_record =true;
                     }
                 });
             }).error(function(){
@@ -725,7 +1147,75 @@
                 }).success(function(claim_pay_bespeak_recycle_records){
 //                    console.log(JSON.stringify(claim_unpay_bespeak_recycles));
                     $scope.claim_pay_bespeak_recycle_records =claim_pay_bespeak_recycle_records;
-                    $scope.has_new_claim_pay =false;
+                    $scope.has_new_claim_pay_bespeak_recycle_record =false;
+                });
+            }
+        };
+
+        //显示所有已完成的周期回收记录
+        $scope.show_claim_pay_cycle_recycle_records =function(worker_job_number){
+            $scope.is_show_today_unclaim_cycle_recycles_table =false;
+            $scope.is_show_all_unclaim_cycle_recycles_table =false;
+            $scope.is_show_claim_unpay_cycle_recycle_records_table =false;
+            $scope.is_show_claim_pay_cycle_recycle_records_table =true;
+            if($scope.claim_pay_cycle_recycle_records ==undefined){
+                //获取所有已完成的周期回收记录
+                $http({
+                    url:'/cycle_recycle_records/find_claim_pay',
+                    method:'POST',
+                    data:{
+                        job_number:worker_job_number
+                    }
+                }).success(function(claim_pay_cycle_recycle_records){
+//                    console.log(JSON.stringify(claim_unpay_bespeak_recycles));
+                    $scope.claim_pay_cycle_recycle_records =claim_pay_cycle_recycle_records;
+                });
+            }
+            if($scope.has_new_claim_pay_cycle_recycle_record){
+                //获取所有已完成的周期回收记录
+                $http({
+                    url:'/cycle_recycle_records/find_claim_pay',
+                    method:'POST',
+                    data:{
+                        job_number:worker_job_number
+                    }
+                }).success(function(claim_pay_cycle_recycle_records){
+//                    console.log(JSON.stringify(claim_unpay_bespeak_recycles));
+                    $scope.claim_pay_cycle_recycle_records =claim_pay_cycle_recycle_records;
+                    $scope.has_new_claim_pay_cycle_recycle_record =false;
+                });
+            }
+        };
+
+        //显示所有已完成的订单发货记录
+        $scope.show_deliver_order_records =function(worker_job_number){
+            $scope.is_show_undeliver_orders_table =false;
+            $scope.is_show_deliver_order_records_table =true;
+            if($scope.deliver_order_records ==undefined){
+                //获取所有已完成的订单发货记录
+                $http({
+                    url:'/order_records/find_deliver',
+                    method:'POST',
+                    data:{
+                        job_number:worker_job_number
+                    }
+                }).success(function(deliver_order_records){
+//                    console.log(JSON.stringify(claim_unpay_bespeak_recycles));
+                    $scope.deliver_order_records =deliver_order_records;
+                });
+            }
+            if($scope.has_new_deliver_order_record){
+                //获取所有已完成的订单发货记录
+                $http({
+                    url:'/order_records/find_deliver',
+                    method:'POST',
+                    data:{
+                        job_number:worker_job_number
+                    }
+                }).success(function(deliver_order_records){
+//                    console.log(JSON.stringify(claim_unpay_bespeak_recycles));
+                    $scope.deliver_order_records =deliver_order_records;
+                    $scope.has_new_deliver_order_record =false;
                 });
             }
         };

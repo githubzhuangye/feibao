@@ -59,6 +59,25 @@ router.get('/find_all_unclaim', function (req, res) {
     });
 });
 
+//领取周期回收
+router.post('/claim', function (req, res) {
+    var id =req.body.id;
+    var last_cycle_date =req.body.last_cycle_date;//最后更新时间
+    Cycle_recycle.update({_id:id},{$set:{state:1,last_cycle_date:last_cycle_date}},function(err){
+        if (err) {
+            res.status(500).json({msg: err});
+        } else {
+            Cycle_recycle.find({state:0},function(err,cycle_recycles){
+                if (err) {
+                    res.status(500).json({msg: err});
+                } else {
+                    res.json(cycle_recycles);
+                }
+            });
+        }
+    });
+});
+
 ////分类上架
 //router.post('/put', function (req, res) {
 //    var id =req.body.id;

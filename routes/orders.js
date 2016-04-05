@@ -45,4 +45,33 @@ router.post('/cancel_order', function (req, res) {
         }
     });
 });
+
+//查找未发货订单
+router.get('/find_undeliver', function (req, res) {
+    Order.find({state:1},function(err,orders){
+        if (err) {
+            res.status(500).json({msg: err});
+        } else {
+            res.json(orders);
+        }
+    });
+});
+
+//订单发货
+router.post('/deliver', function (req, res) {
+    var id =req.body.id;
+    Order.update({_id:id},{$set:{state:4}},function(err){
+        if (err) {
+            res.status(500).json({msg: err});
+        } else {
+            Order.find({state:1},function(err,orders){
+                if (err) {
+                    res.status(500).json({msg: err});
+                } else {
+                    res.json(orders);
+                }
+            });
+        }
+    });
+});
 module.exports = router;
