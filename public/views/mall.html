@@ -722,7 +722,7 @@
         $scope.confirm_cycle_distribution =function(){
 //            var end_date =$scope.getNewDay($scope.cycle_distribution.begin_date,$scope.cycle_distribution.interval);
             //计算周期配送到期日期
-            $scope.cycle_distribution.state =0;//0未付款，1付款，2取消,3已发货
+            $scope.cycle_distribution.state =0;//0:表示未付款,1表示发货,2表示取消,3表示日期过了失效,4已完成
             $scope.cycle_distribution.end_date ='';
 //            $scope.cycle_distribution.is_enabled =1;//1表示有效，0表示无效
             $scope.cycle_distribution.pay_mode =1;//0表示平台电子货币，1表示货到付款（现金）
