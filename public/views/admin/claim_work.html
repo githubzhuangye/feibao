@@ -477,6 +477,91 @@
                 </tr>
 
             </table>
+
+            <!--所有有效周期配送-->
+            <table class="table table-bordered table-hover">
+                <caption>有效周期配送</caption>
+                <thead>
+                    <td>开始日期</td>
+                    <td>间隔</td>
+                    <td>上回日期</td>
+                    <td>商品</td>
+                    <td>总数量</td>
+                    <td>总价格</td>
+                    <td>收货人</td>
+                    <td>手机</td>
+                    <td>地址</td>
+                    <td>下单用户</td>
+                    <td>状态</td>
+                    <td>付款方式</td>
+                </thead>
+                <tr ng-repeat="cycle_distribution in all_undeliver_cycle_distributions">
+                    <td>{{cycle_distribution.begin_date}}</td>
+                    <td>{{cycle_distribution.interval | translate_number_interval}}</td>
+                    <td>{{cycle_distribution.last_distribution_date}}</td>
+                    <td>
+                        <div ng-repeat="ware in cycle_distribution.wares">
+                            {{ware.name}} 【{{ware.quantity}}】
+                        </div>
+                    </td>
+                    <td>{{cycle_distribution.amount}}</td>
+                    <td>{{cycle_distribution.total_price}}元</td>
+                    <td>{{cycle_distribution.contact_name}}</td>
+                    <td>{{cycle_distribution.contact_phone}}</td>
+                    <td>{{cycle_distribution.contact_address}}</td>
+                    <td>{{cycle_distribution.user_name}}</td>
+                    <td><span ng-show="cycle_distribution.state ==0">未付款</span></td>
+                    <td><span ng-show="cycle_distribution.pay_mode ==1">货到付款</span></td>
+                </tr>
+            </table>
+
+            <!--所有已完成周期配送-->
+            <table class="table table-bordered table-hover text-center" ng-show="is_show_claim_pay_cycle_recycle_records_table">
+                <caption>已完成周期配送</caption>
+                <thead>
+                    <td>开始日期</td>
+                    <td>间隔</td>
+                    <td>上配日期</td>
+                    <td>商品</td>
+                    <td>总数量</td>
+                    <td>总价格</td>
+                    <td>收货人</td>
+                    <td>手机</td>
+                    <td>地址</td>
+                    <td>下单用户</td>
+                    <td>付款方式</td>
+                    <td>取得付款</td>
+                    <td>工号</td>
+                    <td>状态</td>
+                </thead>
+                <tr ng-repeat="cycle_distribution_record in deliver_cycle_distribution_records">
+                    <td>{{cycle_distribution_record.begin_date}}</td>
+                    <td>{{cycle_distribution_record.interval | translate_number_interval}}</td>
+                    <td>{{cycle_distribution_record.last_distribution_date}}</td>
+                    <td>
+                        <div ng-repeat="ware in cycle_distribution_record.wares">
+                        {{ware.name}} 【{{ware.quantity}}】
+                        </div>
+                    </td>
+                    <td>{{cycle_distribution_record.amount}}</td>
+                    <td>{{cycle_distribution_record.total_price}}</td>
+                    <td>{{cycle_distribution_record.contact_name}}</td>
+                    <td>{{cycle_distribution_record.contact_phone}}</td>
+                    <td>{{cycle_distribution_record.contact_address}}</td>
+                    <td>{{cycle_distribution_record.user_name}}</td>
+                    <td>
+                        <span ng-show="cycle_distribution_record.pay_mode ==0">电子货币付款</span>
+                        <span ng-show="cycle_distribution_record.pay_mode ==1">货到付款</span>
+                    </td>
+                    <td>
+                        <span ng-show="cycle_distribution_record.is_get_pay ==1">已取得付款</span>
+                    </td>
+                    <td>{{cycle_distribution_record.job_number}}</td>
+                    <td>
+                        <span ng-show="cycle_distribution_record.state ==4">已完成</span>
+                    </td>
+                </tr>
+            </table>
         </div>
     </div>
 
@@ -969,48 +1054,47 @@
             });
         };
 
-        //领取周期配送发货
+        //领取周期配送配送
         $scope.deliver_cycle_distribution =function(id,index){
             $scope.cycle_distribution_record =$scope.today_undeliver_cycle_distributions[index];
             $scope.cycle_distribution_record.last_distribution_date =today;
             $scope.cycle_distribution_record.worker_id =$rootScope.activeWorker._id;
-            $scope.cycle_distribution_record.state =4;//0:表示未回收,1表示领取,2表示取消,3表示日期过了失效,4已完成
+            $scope.cycle_distribution_record.state =4;//0:表示未回收,1表示配送,2表示取消,3表示日期过了失效,4已完成
             $scope.cycle_distribution_record.is_get_pay =1;//是否付款:0用户未付款，1用户已付款。
-////            alert(JSON.stringify($scope.bespeak_recycle_record));
-//            //将对应的周期回收的状态改为1已领取
-//            $http({
-//                url:'/cycle_recycles/claim',
-//                method:'POST',
-//                data:{
-//                    id:id,
-//                    last_cycle_date:today
-//                }
-//            }).success(function(all_unclaim_cycle_recycles){
-//                //领取成功之后，1更新未领取数据，2插入领取预约回收记录
-//                $scope.all_unclaim_cycle_recycles = all_unclaim_cycle_recycles;
-//                //根据间隔计算今日需要上门的周期回收
-//                angular.forEach($scope.all_unclaim_cycle_recycles,function(unclaim_cycle_recycle,key){
-//                    var is_today =$scope.getNextDate(unclaim_cycle_recycle.last_cycle_date,unclaim_cycle_recycle.interval);
-//                    if(is_today ==today){
-//                        $scope.today_unclaim_cycle_recycles.push(unclaim_cycle_recycle);
-//                    }
-//                });
-//                //插入领取预约回收记录
-//                $http({
-//                    url:'/cycle_recycle_records/add',
-//                    method:"POST",
-//                    data:$scope.cycle_recycle_record
-//                }).success(function (cycle_recycle_record) {
-//                    if(cycle_recycle_record){
-//                        $scope.has_new_claim_unpay_cycle_recycle_record =true;
-//                        alert('生成(周期回收)领取记录成功');
-//                    }
-//                }).error(function(){
-//                    alert('生成领取记录失败');
-//                });
-//            }).error(function(){
-//                alert('领取失败');
-//            });
+            //将对应的周期配送的状态改为1已领取
+            $http({
+                url:'/cycle_distributions/deliver',
+                method:'POST',
+                data:{
+                    id:id,
+                    last_distribution_date:today
+                }
+            }).success(function(all_undeliver_cycle_distributions){
+                //领取成功之后，1更新未配送数据，2插入配送周期配送记录
+                $scope.all_undeliver_cycle_distributions = all_undeliver_cycle_distributions;
+                //根据间隔计算今日需要上门的周期配送
+                angular.forEach($scope.all_undeliver_cycle_distributions,function(undeliver_cycle_distribution,key){
+                    var is_today =$scope.getNextDate(undeliver_cycle_distribution.last_distribution_date,undeliver_cycle_distribution.interval);
+                    if(is_today ==today){
+                        $scope.today_undeliver_cycle_distributions.push(undeliver_cycle_distribution);
+                    }
+                });
+                //插入领取预约回收记录
+                $http({
+                    url:'/cycle_recycle_records/add',
+                    method:"POST",
+                    data:$scope.cycle_distribution_record
+                }).success(function (cycle_distribution_record) {
+                    if(cycle_distribution_record){
+                        $scope.has_new_deliver_cycle_distribution_record =true;
+                        alert('生成(周期配送)领取记录成功');
+                    }
+                }).error(function(){
+                    alert('生成配送记录失败');
+                });
+            }).error(function(){
+                alert('配送失败');
+            });
         };
 
         //获取所有已领取未付款的预约记录
@@ -1269,6 +1353,41 @@
 //                    console.log(JSON.stringify(claim_unpay_bespeak_recycles));
                     $scope.deliver_order_records =deliver_order_records;
                     $scope.has_new_deliver_order_record =false;
+                });
+            }
+        };
+
+        //显示所有已完成的周期配送记录
+        $scope.show_deliver_cycle_distribution_records =function(worker_job_number){
+            $scope.is_show_today_undeliver_cycle_distributions_table =false;
+            $scope.is_show_all_undeliver_cycle_distributions_table =false;
+            $scope.is_show_deliver_cycle_distribution_records_table =true;
+            if($scope.deliver_cycle_distribution_records ==undefined){
+                //获取所有已完成的订单发货记录
+                $http({
+                    url:'/cycle_distribution_records/find_deliver',
+                    method:'POST',
+                    data:{
+                        job_number:worker_job_number
+                    }
+                }).success(function(deliver_cycle_distribution_records){
+//                    console.log(JSON.stringify(claim_unpay_bespeak_recycles));
+                    $scope.deliver_cycle_distribution_records =deliver_cycle_distribution_records;
+                });
+            }
+            if($scope.has_new_deliver_cycle_distribution_record){
+                //获取所有已完成的订单发货记录
+                $http({
+                    url:'/cycle_distribution_records/find_deliver',
+                    method:'POST',
+                    data:{
+                        job_number:worker_job_number
+                    }
+                }).success(function(deliver_cycle_distribution_records){
+//                    console.log(JSON.stringify(claim_unpay_bespeak_recycles));
+                    $scope.deliver_cycle_distribution_records =deliver_cycle_distribution_records;
+                    $scope.has_new_deliver_cycle_distribution_record =false;
+
                 });
             }
         };

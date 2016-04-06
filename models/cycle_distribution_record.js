@@ -1,5 +1,5 @@
 var mongoose =require('mongoose');
-module.exports =mongoose.model('Cycle_distribution',new mongoose.Schema({
+module.exports =mongoose.model('Cycle_distribution_record',new mongoose.Schema({
         begin_date:String,
         interval:Number,
         last_distribution_date:String,

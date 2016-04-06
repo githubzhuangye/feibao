@@ -20,6 +20,7 @@ var cycle_recycles = require('./routes/cycle_recycles');
 var orders = require('./routes/orders');
 var order_records = require('./routes/order_records');
 var cycle_distributions = require('./routes/cycle_distributions');
+var cycle_distribution_records = require('./routes/cycle_distribution_records');
 
 var app = express();
 
@@ -60,6 +61,7 @@ app.use('/cycle_recycles', cycle_recycles);
 app.use('/orders',orders);
 app.use('/order_records',order_records);
 app.use('/cycle_distributions',cycle_distributions);
+app.use('/cycle_distributions',cycle_distribution_records);
 
 app.listen(3000);
 //

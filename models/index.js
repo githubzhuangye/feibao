@@ -10,3 +10,4 @@ exports.Cycle_recycle_record =require('./cycle_recycle_record');
 exports.Order =require('./order');
 exports.Order_record =require('./order_record');
 exports.Cycle_distribution =require('./cycle_distribution');
+exports.Cycle_distribution_record =require('./cycle_distribution_record');
