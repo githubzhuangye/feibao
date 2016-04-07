@@ -207,7 +207,7 @@
                         <!--<span ng-show="cycle_recycle.state !=0">已回收或取消</span>-->
                     <!--</td>-->
                     <td><input class="form-control form-inline" ng-model="cycle_recycle.job_number" placeholder="输入工作号领取任务"></td>
-                    <td><button class="btn btn-default" ng-disabled="!bespeak_recycle.job_number" ng-click="claim_cycle_recycle(cycle_recycle._id,$index)">领取</button></td>
+                    <td><button class="btn btn-default" ng-disabled="!cycle_recycle.job_number" ng-click="claim_cycle_recycle(cycle_recycle._id,$index)">领取</button></td>
                 </tr>
             </table>
 
@@ -227,7 +227,7 @@
                     <td>用户</td>
                     <td>状态</td>
                 </thead>
-                <tr ng-repeat="cycle_recycle in all_unclaim_cycle_recycles">
+                <tr ng-repeat="cycle_recycle in all_unclaim_cycle_recycles | orderBy:'begin_date'">
                     <td>{{cycle_recycle.begin_date}}</td>
                     <td>{{cycle_recycle.time}}</td>
                     <td>{{cycle_recycle.interval | translate_number_interval}}</td>
@@ -973,7 +973,7 @@
             });
         };
 
-        //领取周期回收
+        //领取周期回收应该改为先领取记录成功再更新周期回收
         $scope.claim_cycle_recycle =function(id,index){
             $scope.cycle_recycle_record =$scope.today_unclaim_cycle_recycles[index];
             $scope.cycle_recycle_record.last_cycle_date =today;
@@ -1001,6 +1001,8 @@
                         $scope.today_unclaim_cycle_recycles.push(unclaim_cycle_recycle);
                     }
                 });
+                //新领取周期回收记录
+//                $scope.has_new_claim_unpay_cycle_recycle_record = true;
                 //插入领取预约回收记录
                 $http({
                     url:'/cycle_recycle_records/add',
