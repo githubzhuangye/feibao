@@ -1027,33 +1027,32 @@
             $scope.order_record.worker_id =$rootScope.activeWorker._id;
             $scope.order_record.state =4;//0:表示未回收,1表示领取,2表示取消,3表示日期过了失效,4已完成
             $scope.order_record.deliver_date =today;//发货日期
-//            alert(JSON.stringify($scope.bespeak_recycle_record));
-            //将对应的预约回收的状态改为1已领取
+            //插入领取订单记录
             $http({
-                url:'/orders/deliver',
-                method:'POST',
-                data:{
-                    id:id
+                url:'/order_records/add',
+                method:"POST",
+                data:$scope.order_record
+            }).success(function (order_record) {
+                if(order_record){
+                    $scope.has_new_deliver_order_record =true;
+                    //将对应的预约回收的状态改为1已领取
+                    $http({
+                        url:'/orders/deliver',
+                        method:'POST',
+                        data:{
+                            id:id
+                        }
+                    }).success(function(undeliver_orders){
+                        //发货成功之后，1更新未发货数据，2插入发货订单记录
+                        $scope.undeliver_orders =undeliver_orders;
+                    }).error(function(){
+                        alert('发货失败');
+                    });
                 }
-            }).success(function(undeliver_orders){
-                //发货成功之后，1更新未发货数据，2插入发货订单记录
-                $scope.undeliver_orders =undeliver_orders;
-                //插入领取预约回收记录
-                $http({
-                    url:'/order_records/add',
-                    method:"POST",
-                    data:$scope.order_record
-                }).success(function (order_record) {
-                    if(order_record){
-                        $scope.has_new_deliver_order_record =true;
-                        alert('生成发货订单记录成功');
-                    }
-                }).error(function(){
-                    alert('生成发货订单记录失败');
-                });
             }).error(function(){
-                alert('发货失败');
+                alert('生成发货订单记录失败');
             });
+
         };
 
         //领取周期配送配送
@@ -1063,40 +1062,40 @@
             $scope.cycle_distribution_record.worker_id =$rootScope.activeWorker._id;
             $scope.cycle_distribution_record.state =4;//0:表示未回收,1表示配送,2表示取消,3表示日期过了失效,4已完成
             $scope.cycle_distribution_record.is_get_pay =1;//是否付款:0用户未付款，1用户已付款。
-            //将对应的周期配送的状态改为1已领取
+            //插入领取预约回收记录
             $http({
-                url:'/cycle_distributions/deliver',
-                method:'POST',
-                data:{
-                    id:id,
-                    last_distribution_date:today
+                url:'/cycle_recycle_records/add',
+                method:"POST",
+                data:$scope.cycle_distribution_record
+            }).success(function (cycle_distribution_record) {
+                if(cycle_distribution_record){
+                    $scope.has_new_deliver_cycle_distribution_record =true;
+                    //将对应的周期配送的状态改为1已领取
+                    $http({
+                        url:'/cycle_distributions/deliver',
+                        method:'POST',
+                        data:{
+                            id:id,
+                            last_distribution_date:today
+                        }
+                    }).success(function(all_undeliver_cycle_distributions){
+                        //领取成功之后，1更新未配送数据，2插入配送周期配送记录
+                        $scope.all_undeliver_cycle_distributions = all_undeliver_cycle_distributions;
+                        //根据间隔计算今日需要上门的周期配送
+                        angular.forEach($scope.all_undeliver_cycle_distributions,function(undeliver_cycle_distribution,key){
+                            var is_today =$scope.getNextDate(undeliver_cycle_distribution.last_distribution_date,undeliver_cycle_distribution.interval);
+                            if(is_today ==today){
+                                $scope.today_undeliver_cycle_distributions.push(undeliver_cycle_distribution);
+                            }
+                        });
+                    }).error(function(){
+                        alert('配送失败');
+                    });
                 }
-            }).success(function(all_undeliver_cycle_distributions){
-                //领取成功之后，1更新未配送数据，2插入配送周期配送记录
-                $scope.all_undeliver_cycle_distributions = all_undeliver_cycle_distributions;
-                //根据间隔计算今日需要上门的周期配送
-                angular.forEach($scope.all_undeliver_cycle_distributions,function(undeliver_cycle_distribution,key){
-                    var is_today =$scope.getNextDate(undeliver_cycle_distribution.last_distribution_date,undeliver_cycle_distribution.interval);
-                    if(is_today ==today){
-                        $scope.today_undeliver_cycle_distributions.push(undeliver_cycle_distribution);
-                    }
-                });
-                //插入领取预约回收记录
-                $http({
-                    url:'/cycle_recycle_records/add',
-                    method:"POST",
-                    data:$scope.cycle_distribution_record
-                }).success(function (cycle_distribution_record) {
-                    if(cycle_distribution_record){
-                        $scope.has_new_deliver_cycle_distribution_record =true;
-                        alert('生成(周期配送)领取记录成功');
-                    }
-                }).error(function(){
-                    alert('生成配送记录失败');
-                });
             }).error(function(){
-                alert('配送失败');
+                alert('生成配送记录失败');
             });
+
         };
 
         //获取所有已领取未付款的预约记录
