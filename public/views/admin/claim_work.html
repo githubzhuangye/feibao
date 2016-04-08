@@ -945,31 +945,31 @@
             $scope.bespeak_recycle_record.pay_number =0;//付款金额
             $scope.bespeak_recycle_record.is_pay =0;//是否付款:0未付款给用户，1付款给用户。
 //            alert(JSON.stringify($scope.bespeak_recycle_record));
-            //将对应的预约回收的状态改为1已领取
+            //插入领取预约回收记录
             $http({
-                url:'/bespeak_recycles/claim',
-                method:'POST',
-                data:{
-                    id:id
+                url:'/bespeak_recycle_records/add',
+                method:"POST",
+                data:$scope.bespeak_recycle_record
+            }).success(function (bespeak_recycle_record) {
+                if(bespeak_recycle_record){
+                    $scope.has_new_claim_unpay_bespeak_recycle_record =true;
+                    //将对应的预约回收的状态改为1已领取
+                    $http({
+                        url:'/bespeak_recycles/claim',
+                        method:'POST',
+                        data:{
+                            id:id
+                        }
+                    }).success(function(unclaim_bespeak_recycles){
+                        //领取成功之后，1更新未领取数据，2插入领取预约回收记录
+                        $scope.unclaim_bespeak_recycles =unclaim_bespeak_recycles;
+                    }).error(function(){
+                        alert('领取失败');
+                    });
+                    alert('领取成功');
                 }
-            }).success(function(unclaim_bespeak_recycles){
-                //领取成功之后，1更新未领取数据，2插入领取预约回收记录
-                $scope.unclaim_bespeak_recycles =unclaim_bespeak_recycles;
-                //插入领取预约回收记录
-                $http({
-                    url:'/bespeak_recycle_records/add',
-                    method:"POST",
-                    data:$scope.bespeak_recycle_record
-                }).success(function (bespeak_recycle_record) {
-                    if(bespeak_recycle_record){
-                        $scope.has_new_claim_unpay_bespeak_recycle_record =true;
-                        alert('生成领取记录成功');
-                    }
-                }).error(function(){
-                    alert('生成领取记录失败');
-                });
             }).error(function(){
-                alert('领取失败');
+                alert('生成领取记录失败');
             });
         };
 
@@ -983,42 +983,42 @@
             $scope.cycle_recycle_record.pay_number =0;//付款金额
             $scope.cycle_recycle_record.is_pay =0;//是否付款:0未付款给用户，1付款给用户。
 //            alert(JSON.stringify($scope.bespeak_recycle_record));
-            //将对应的周期回收的状态改为1已领取
+            //插入领取预约回收记录
             $http({
-                url:'/cycle_recycles/claim',
-                method:'POST',
-                data:{
-                    id:id,
-                    last_cycle_date:today
+                url:'/cycle_recycle_records/add',
+                method:"POST",
+                data:$scope.cycle_recycle_record
+            }).success(function (cycle_recycle_record) {
+                if(cycle_recycle_record){
+                    //新领取周期回收记录
+                    $scope.has_new_claim_unpay_cycle_recycle_record =true;
+                    //将对应的周期回收的状态改为1已领取
+                    $http({
+                        url:'/cycle_recycles/claim',
+                        method:'POST',
+                        data:{
+                            id:id,
+                            last_cycle_date:today
+                        }
+                    }).success(function(all_unclaim_cycle_recycles){
+                        //领取成功之后，1更新未领取数据，2插入领取预约回收记录
+                        $scope.all_unclaim_cycle_recycles = all_unclaim_cycle_recycles;
+                        //根据间隔计算今日需要上门的周期回收
+                        angular.forEach($scope.all_unclaim_cycle_recycles,function(unclaim_cycle_recycle,key){
+                            var is_today =$scope.getNextDate(unclaim_cycle_recycle.last_cycle_date,unclaim_cycle_recycle.interval);
+                            if(is_today ==today){
+                                $scope.today_unclaim_cycle_recycles.push(unclaim_cycle_recycle);
+                            }
+                        });
+                    }).error(function(){
+                        alert('领取失败');
+                    });
+                    alert('领取成功');
                 }
-            }).success(function(all_unclaim_cycle_recycles){
-                //领取成功之后，1更新未领取数据，2插入领取预约回收记录
-                $scope.all_unclaim_cycle_recycles = all_unclaim_cycle_recycles;
-                //根据间隔计算今日需要上门的周期回收
-                angular.forEach($scope.all_unclaim_cycle_recycles,function(unclaim_cycle_recycle,key){
-                    var is_today =$scope.getNextDate(unclaim_cycle_recycle.last_cycle_date,unclaim_cycle_recycle.interval);
-                    if(is_today ==today){
-                        $scope.today_unclaim_cycle_recycles.push(unclaim_cycle_recycle);
-                    }
-                });
-                //新领取周期回收记录
-//                $scope.has_new_claim_unpay_cycle_recycle_record = true;
-                //插入领取预约回收记录
-                $http({
-                    url:'/cycle_recycle_records/add',
-                    method:"POST",
-                    data:$scope.cycle_recycle_record
-                }).success(function (cycle_recycle_record) {
-                    if(cycle_recycle_record){
-                        $scope.has_new_claim_unpay_cycle_recycle_record =true;
-                        alert('生成(周期回收)领取记录成功');
-                    }
-                }).error(function(){
-                    alert('生成领取记录失败');
-                });
             }).error(function(){
-                alert('领取失败');
+                alert('生成领取记录失败');
             });
+
         };
 
         //领取订单发货
