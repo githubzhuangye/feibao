@@ -47,7 +47,7 @@ router.post('/cancel_cycle_distribution', function (req, res) {
 
 //查找所有未处理的周期配送state==0
 router.get('/find_all_undeliver', function (req, res) {
-    Cycle_distribution.find({state:0},function(err,cycle_distributions){
+    Cycle_distribution.find({state:{$ne:2}},function(err,cycle_distributions){
         if (err) {
             res.status(500).json({msg: err});
         } else {
@@ -64,7 +64,7 @@ router.post('/deliver', function (req, res) {
         if (err) {
             res.status(500).json({msg: err});
         } else {
-            Cycle_distribution.find({state:0},function(err,cycle_distributions){
+            Cycle_distribution.find({state:{$ne:2}},function(err,cycle_distributions){
                 if (err) {
                     res.status(500).json({msg: err});
                 } else {

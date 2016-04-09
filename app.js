@@ -63,7 +63,7 @@ app.use('/cycle_recycle_records', cycle_recycle_records);
 app.use('/orders',orders);
 app.use('/order_records',order_records);
 app.use('/cycle_distributions',cycle_distributions);
-app.use('/cycle_distributions',cycle_distribution_records);
+app.use('/cycle_distribution_records',cycle_distribution_records);
 
 app.listen(3000);
 //

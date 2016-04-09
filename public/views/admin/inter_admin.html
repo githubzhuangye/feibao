@@ -49,7 +49,7 @@
 </nav>
 
 
-<div class="container">
+<div class="container" ng-controller="inter_admin">
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation"  class="active"><a href="#bespeak_recycle_waste" aria-controls="bespeak_recycle_waste" role="tab" data-toggle="tab">今日预约回收</a></li>
         <li role="presentation"><a href="#cycle_recycle_waste" aria-controls="cycle_recycle_waste" role="tab" data-toggle="tab">今日周期回收</a></li>
@@ -218,7 +218,7 @@
 <script src="../../js/angular-route.js"></script>
 <script type="text/javascript">
     var app =angular.module('feibao_admin',['ngRoute']);
-    app.controller('claim_task',function($scope,$http) {
+    app.controller('inter_admin',function($scope,$http) {
         $scope.unclaim_bespeak_recycles = [];//未处理预约回收
         $scope.all_unclaim_cycle_recycles = [];//所有未处理周期回收
         $scope.today_unclaim_cycle_recycles = [];//今日未处理周期回收
@@ -275,6 +275,37 @@
             });
         });
 
+        //日期加上天数得到新的日期
+        $scope.getNextDate =function(dateTemp, days) {
+            var beginDate = dateTemp.split("-");
+            var millSeconds =  (new Date(beginDate[0] + '/' + beginDate[1] + '/' + beginDate[2])).getTime() + (days * 24 * 60 * 60 * 1000);
+            var rDate = new Date(millSeconds);
+            var year = rDate.getFullYear();
+            var month = rDate.getMonth() + 1;
+//            if (month < 10) month = "0" + month;
+            var date = rDate.getDate();
+//            if (date < 10) date = "0" + date;
+            return (year + "-" + month + "-" + date);
+        };
+    });
+    app.filter('translate_number_interval', function() {
+        return function(number) {
+            if(number ==7){
+                return '一周';
+            }else if(number ==14){
+                return '两周';
+            }else if(number ==21){
+                return '三周';
+            }else if(number ==30){
+                return '四周';
+            }else if(number ==60){
+                return '两个月';
+            }else if(number ==75){
+                return '两个半月';
+            }else if(number ==90){
+                return '三个月';
+            }
+        }
     });
     //页面刷新时检测是否登录
     app.run(function($rootScope,$http,$window){

@@ -338,7 +338,7 @@
                 </tr>
             </table>
             <!--未发货订单   $scope.order.state =0;//0未付款,1付款,2取消,3已发货-->
-            <table class="table table-bordered table-hover" ng-show="is_show_undeliver_orders_table">
+            <table class="table table-bordered table-hover" is_show_today_undeliver_cycle_distributions_table>
                 <caption>未发货订单</caption>
                 <thead>
                     <td>日期</td>
@@ -349,18 +349,24 @@
                     <td>手机</td>
                     <td>地址</td>
                     <td>下单用户</td>
-                    <td>订单状态</td>
-                    <td>付款方式</td>
+                    <!--<td>订单状态</td>-->
+                    <!--<td>付款方式</td>-->
                     <td>送货员</td>
                     <td>操作</td>
                 </thead>
                 <tr ng-repeat="order in undeliver_orders">
                     <td>{{order.date}}</td>
                     <td>
-                        <div ng-repeat="ware in order.wares">
-                            <span>{{ware.ware_name}}</span>
-                            <span>{{ware.quantity}}</span>
-                        </div>
+                        <table>
+                            <tr>
+                                <td>名称</td>
+                                <td>数量</td>
+                            </tr>
+                            <tr ng-repeat="ware in order.wares">
+                                <td>{{ware.ware_name}}</td>
+                                <td>【{{ware.quantity}}】</td>
+                            </tr>
+                        </table>
                     </td>
                     <td>{{order.amount}}</td>
                     <td>{{order.total_price}}</td>
@@ -368,12 +374,12 @@
                     <td>{{order.contact_phone}}</td>
                     <td>{{order.contact_address}}</td>
                     <td>{{order.user_name}}</td>
-                    <td>
-                        <span ng-show="order.state ==1">已付款未发货</span>
-                    </td>
-                    <td>
-                        <span ng-show="order.pay_mode ==0">平台电子货币</span>
-                    </td>
+                    <!--<td>-->
+                        <!--<span ng-show="order.state ==1">已付款未发货</span>-->
+                    <!--</td>-->
+                    <!--<td>-->
+                        <!--<span ng-show="order.pay_mode ==0">平台电子货币</span>-->
+                    <!--</td>-->
                     <td>
                         <input class="form-control form-inline" ng-model="order.job_number" placeholder="输入工作号领取发货任务">
                     </td>
@@ -437,7 +443,7 @@
             </table>
             <br>
             <!--今日未处理周期配送-->
-            <table class="table table-bordered table-hover">
+            <table class="table table-bordered table-hover" ng-show="is_show_today_undeliver_cycle_distributions_table">
                 <caption>今日周期配送</caption>
                 <thead>
                     <td>开始日期</td>
@@ -479,7 +485,7 @@
             </table>
 
             <!--所有有效周期配送-->
-            <table class="table table-bordered table-hover">
+            <table class="table table-bordered table-hover" ng-show="is_show_all_undeliver_cycle_distributions_table">
                 <caption>有效周期配送</caption>
                 <thead>
                     <td>开始日期</td>
@@ -510,13 +516,16 @@
                     <td>{{cycle_distribution.contact_phone}}</td>
                     <td>{{cycle_distribution.contact_address}}</td>
                     <td>{{cycle_distribution.user_name}}</td>
-                    <td><span ng-show="cycle_distribution.state ==0">未付款</span></td>
+                    <td>
+                        <span ng-show="cycle_distribution.state ==0">未配送</span>
+                        <span ng-show="cycle_distribution.state ==1">已配送</span>
+                    </td>
                     <td><span ng-show="cycle_distribution.pay_mode ==1">货到付款</span></td>
                 </tr>
             </table>
 
             <!--所有已完成周期配送-->
-            <table class="table table-bordered table-hover text-center" ng-show="is_show_claim_pay_cycle_recycle_records_table">
+            <table class="table table-bordered table-hover text-center" ng-show="is_show_deliver_cycle_distribution_records_table">
                 <caption>已完成周期配送</caption>
                 <thead>
                     <td>开始日期</td>
@@ -1046,7 +1055,9 @@
                         }
                     }).success(function(undeliver_orders){
                         //发货成功之后，1更新未发货数据，2插入发货订单记录
+                        alert('领取订单成功');
                         $scope.undeliver_orders =undeliver_orders;
+//                        $scope.has_new_deliver_order_record = true;
                     }).error(function(){
                         alert('发货失败');
                     });
@@ -1064,14 +1075,16 @@
             $scope.cycle_distribution_record.worker_id =$rootScope.activeWorker._id;
             $scope.cycle_distribution_record.state =4;//0:表示未回收,1表示配送,2表示取消,3表示日期过了失效,4已完成
             $scope.cycle_distribution_record.is_get_pay =1;//是否付款:0用户未付款，1用户已付款。
-            //插入领取预约回收记录
+            //插入周期配送记录
             $http({
-                url:'/cycle_recycle_records/add',
+                url:'/cycle_distribution_records/add',
                 method:"POST",
                 data:$scope.cycle_distribution_record
             }).success(function (cycle_distribution_record) {
                 if(cycle_distribution_record){
                     $scope.has_new_deliver_cycle_distribution_record =true;
+                    //清空
+                    $scope.today_undeliver_cycle_distributions =[];
                     //将对应的周期配送的状态改为1已领取
                     $http({
                         url:'/cycle_distributions/deliver',
@@ -1083,6 +1096,7 @@
                     }).success(function(all_undeliver_cycle_distributions){
                         //领取成功之后，1更新未配送数据，2插入配送周期配送记录
                         $scope.all_undeliver_cycle_distributions = all_undeliver_cycle_distributions;
+
                         //根据间隔计算今日需要上门的周期配送
                         angular.forEach($scope.all_undeliver_cycle_distributions,function(undeliver_cycle_distribution,key){
                             var is_today =$scope.getNextDate(undeliver_cycle_distribution.last_distribution_date,undeliver_cycle_distribution.interval);
@@ -1090,6 +1104,7 @@
                                 $scope.today_undeliver_cycle_distributions.push(undeliver_cycle_distribution);
                             }
                         });
+                        alert('领取成功');
                     }).error(function(){
                         alert('配送失败');
                     });
