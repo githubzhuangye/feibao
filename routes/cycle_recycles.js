@@ -80,7 +80,7 @@ router.post('/claim', function (req, res) {
 
 //4天之后自动将state为1的改为0
 setTimeout(function(){
-    Cycle_recycle.update({state:1},{$set:{state:0}},function(err){
+    Cycle_recycle.update({state:{$ne:2}},{$set:{state:0}},function(err){
         //if (err) {
         //    res.status(500).json({msg: err});
         //}

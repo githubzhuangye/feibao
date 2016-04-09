@@ -285,8 +285,8 @@
             </table>
 
             <!--已完成周期回收记录-->
-            <table class="table table-bordered table-hover text-center" ng-show="is_show_claim_pay_cycle_recycle_records_table">
-                <caption>已领取未付款的周期回收记录</caption>
+            <table class="table table-bordered table-hover table-striped text-center" ng-show="is_show_claim_pay_cycle_recycle_records_table">
+                <caption>已完成周期回收记录</caption>
                 <thead>
                     <td>开始日期</td>
                     <td>时间</td>
@@ -303,7 +303,7 @@
                     <td>付款方式</td>
                     <td>付款金额</td>
                 </thead>
-                <tr ng-repeat="cycle_recycle_record in claim_unpay_cycle_recycle_records">
+                <tr ng-repeat="cycle_recycle_record in claim_pay_cycle_recycle_records">
                     <td>{{cycle_recycle_record.begin_date}}</td>
                     <td>{{cycle_recycle_record.time}}</td>
                     <td>{{cycle_recycle_record.interval | translate_number_interval}}</td>
@@ -1001,6 +1001,8 @@
                             last_cycle_date:today
                         }
                     }).success(function(all_unclaim_cycle_recycles){
+                        //清空原有数据
+                        $scope.today_unclaim_cycle_recycles =[];
                         //领取成功之后，1更新未领取数据，2插入领取预约回收记录
                         $scope.all_unclaim_cycle_recycles = all_unclaim_cycle_recycles;
                         //根据间隔计算今日需要上门的周期回收
@@ -1207,21 +1209,29 @@
                 method:"POST",
                 data:$scope.will_pay_bespeak_recycle_record
             }).success(function (bespeak_recycle_records) {
-                $http({
-                    url:'/users/get_pay',
-                    method:"POST",
-                    data:{
-                        user_id:$scope.will_pay_bespeak_recycle_record.user_id,
-                        pay_number:$scope.will_pay_bespeak_recycle_record.pay_number
-                    }
-                }).success(function (user) {
-                    if(user){
-                        $('#pay_bespeak_recycle_record_modal').modal('hide');
-                        alert('付款成功');
-                        $scope.claim_unpay_bespeak_recycle_records =bespeak_recycle_records;
-                        $scope.has_new_claim_pay_bespeak_recycle_record =true;
-                    }
-                });
+                if($scope.will_pay_bespeak_recycle_record.pay_mode ==0){
+                    $http({
+                        url:'/users/get_pay',
+                        method:"POST",
+                        data:{
+                            user_id:$scope.will_pay_bespeak_recycle_record.user_id,
+                            pay_number:$scope.will_pay_bespeak_recycle_record.pay_number
+                        }
+                    }).success(function (user) {
+                        if(user){
+                            $('#pay_bespeak_recycle_record_modal').modal('hide');
+                            alert('付款成功');
+                            $scope.claim_unpay_bespeak_recycle_records =bespeak_recycle_records;
+                            $scope.has_new_claim_pay_bespeak_recycle_record =true;
+                        }
+                    });
+                }else{
+                    $('#pay_bespeak_recycle_record_modal').modal('hide');
+                    alert('付款成功');
+                    $scope.claim_unpay_bespeak_recycle_records =bespeak_recycle_records;
+                    $scope.has_new_claim_pay_bespeak_recycle_record =true;
+                }
+
             }).error(function(){
                 alert('付款失败');
             });
@@ -1236,21 +1246,29 @@
                 method:"POST",
                 data:$scope.will_pay_cycle_recycle_record
             }).success(function (cycle_recycle_records) {
-                $http({
-                    url:'/users/get_pay',
-                    method:"POST",
-                    data:{
-                        user_id:$scope.will_pay_cycle_recycle_record.user_id,
-                        pay_number:$scope.will_pay_cycle_recycle_record.pay_number
-                    }
-                }).success(function (user) {
-                    if(user){
-                        $('#pay_cycle_recycle_record_modal').modal('hide');
-                        alert('付款成功');
-                        $scope.claim_unpay_cycle_recycle_records =cycle_recycle_records;
-                        $scope.has_new_claim_pay_cycle_recycle_record =true;
-                    }
-                });
+                if($scope.will_pay_cycle_recycle_record.pay_mode ==0){
+                    $http({
+                        url:'/users/get_pay',
+                        method:"POST",
+                        data:{
+                            user_id:$scope.will_pay_cycle_recycle_record.user_id,
+                            pay_number:$scope.will_pay_cycle_recycle_record.pay_number
+                        }
+                    }).success(function (user) {
+                        if(user){
+                            $('#pay_cycle_recycle_record_modal').modal('hide');
+                            alert('付款成功');
+                            $scope.claim_unpay_cycle_recycle_records =cycle_recycle_records;
+                            $scope.has_new_claim_pay_cycle_recycle_record =true;
+                        }
+                    });
+                }else{
+                    $('#pay_cycle_recycle_record_modal').modal('hide');
+                    alert('付款成功');
+                    $scope.claim_unpay_cycle_recycle_records =cycle_recycle_records;
+                    $scope.has_new_claim_pay_cycle_recycle_record =true;
+                }
+
             }).error(function(){
                 alert('付款失败');
             });
