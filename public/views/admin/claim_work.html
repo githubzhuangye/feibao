@@ -338,7 +338,7 @@
                 </tr>
             </table>
             <!--未发货订单   $scope.order.state =0;//0未付款,1付款,2取消,3已发货-->
-            <table class="table table-bordered table-hover" is_show_today_undeliver_cycle_distributions_table>
+            <table class="table table-bordered table-hover" ng-show="is_show_undeliver_orders_table" >
                 <caption>未发货订单</caption>
                 <thead>
                     <td>日期</td>
@@ -405,7 +405,7 @@
                     <td>发货日期</td>
                     <td>送货员</td>
                 </thead>
-                <tr ng-repeat="order_record in deliver_order_records">
+                <tr ng-repeat="order_record in deliver_order_records |orderBy:'-date'">
                     <td>{{order_record.date}}</td>
                     <td>
                         <div ng-repeat="ware in order_record.wares">
@@ -650,7 +650,7 @@
                         <div class="form-group">
                             <label class="col-sm-4 col-md-4 control-label">付款金额:</label>
                             <div class="col-sm-6 col-md-6">
-                                <input type="text" class="form-control" name="contact_address" ng-model="will_pay_bespeak_recycle_record.pay_number"> 元
+                                <input type="text" class="form-control" name="contact_address" ng-model="will_pay_bespeak_recycle_record.pay_number">
                             </div>
                         </div>
                     </form>

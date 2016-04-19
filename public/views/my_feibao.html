@@ -111,7 +111,7 @@
                     </thead>
                     <tr ng-repeat="cycle_recycle in cycle_recycles | orderBy: '-begin_date'">
                         <td>{{cycle_recycle.begin_date}}</td>
-                        <td>{{cycle_recycle.interval}}</td>
+                        <td>{{cycle_recycle.interval  | translate_number_interval}}</td>
                         <td>{{cycle_recycle.time}}</td>
                         <td>{{cycle_recycle.sort_name}}</td>
                         <td>
@@ -174,7 +174,7 @@
                     </thead>
                     <tr ng-repeat="cycle_distribution in cycle_distributions">
                         <td>{{cycle_distribution.begin_date}}</td>
-                        <td>{{cycle_distribution.interval}}</td>
+                        <td>{{cycle_distribution.interval | translate_number_interval}}</td>
                         <td><div ng-repeat="ware in cycle_distribution.wares">{{ware.name}} ({{ware.quantity}}})</div></td>
                         <td>{{cycle_distribution.amount}}</td>
                         <td>{{cycle_distribution.total_price}}</td>
@@ -225,8 +225,8 @@
                             <span class="text-danger" ng-show="change_password_form.re_password.$error.pattern">6-20位数字字母</span>
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <button type="submit" class="btn btn-success btn-block" style="font-size: 20px;" ng-disabled="change_password_form.$invalid || user.new_password != user.re_password" >确认修改</button>
+                    <div class="form-group col-md-offset-3">
+                        <button type="submit" class="btn btn-success btn-block" style="font-size: 20px; width:50%;" ng-disabled="change_password_form.$invalid || user.new_password != user.re_password" >确认修改</button>
                     </div>
                 </form>
             </div>
@@ -349,64 +349,73 @@
 
         //取消预约回收
         $scope.cancel_bespeak_recycle =function(bespeak_recycle_id){
-            $http({
-                url:'/bespeak_recycles/cancel_bespeak_recycle',
-                method:"POST",
-                data:{
-                    id:bespeak_recycle_id,
-                    user_id:$rootScope.activeUser._id
-                }
-            }).success(function (bespeak_recycles) {
-                $scope.bespeak_recycles =bespeak_recycles;
-            }).error(function(){
-                alert('取消预约回收失败');
-            });
+            if(confirm('您确定取消该预约回收吗？')){
+                $http({
+                    url:'/bespeak_recycles/cancel_bespeak_recycle',
+                    method:"POST",
+                    data:{
+                        id:bespeak_recycle_id,
+                        user_id:$rootScope.activeUser._id
+                    }
+                }).success(function (bespeak_recycles) {
+                    $scope.bespeak_recycles =bespeak_recycles;
+                }).error(function(){
+                    alert('取消预约回收失败');
+                });
+            }
+
         };
         //取消周期回收
         $scope.cancel_cycle_recycle =function(cycle_recycle_id){
-            $http({
-                url:'/cycle_recycles/cancel_cycle_recycle',
-                method:"POST",
-                data:{
-                    id:cycle_recycle_id,
-                    user_id:$rootScope.activeUser._id
-                }
-            }).success(function (cycle_recycles) {
-                $scope.cycle_recycles =cycle_recycles;
-            }).error(function(){
-                alert('取消周期回收失败');
-            });
+            if(confirm('您确定取消该周期回收吗？')) {
+                $http({
+                    url: '/cycle_recycles/cancel_cycle_recycle',
+                    method: "POST",
+                    data: {
+                        id: cycle_recycle_id,
+                        user_id: $rootScope.activeUser._id
+                    }
+                }).success(function (cycle_recycles) {
+                    $scope.cycle_recycles = cycle_recycles;
+                }).error(function () {
+                    alert('取消周期回收失败');
+                });
+            }
         };
         //取消周期配送
         $scope.cancel_cycle_distribution =function(cycle_distribution_id){
-            $http({
-                url:'/cycle_distributions/cancel_cycle_distribution',
-                method:"POST",
-                data:{
-                    id:cycle_distribution_id,
-                    user_id:$rootScope.activeUser._id
-                }
-            }).success(function (cycle_distributions) {
-                $scope.cycle_distributions =cycle_distributions;
-            }).error(function(){
-                alert('取消周期回收失败');
-            });
+            if(confirm('您确定取消该周期配送吗？')) {
+                $http({
+                    url: '/cycle_distributions/cancel_cycle_distribution',
+                    method: "POST",
+                    data: {
+                        id: cycle_distribution_id,
+                        user_id: $rootScope.activeUser._id
+                    }
+                }).success(function (cycle_distributions) {
+                    $scope.cycle_distributions = cycle_distributions;
+                }).error(function () {
+                    alert('取消周期回收失败');
+                });
+            }
         };
 
         //取消订单
         $scope.cancel_order =function(order_id){
-            $http({
-                url:'/orders/cancel_order',
-                method:"POST",
-                data:{
-                    id:order_id,
-                    user_id:$rootScope.activeUser._id
-                }
-            }).success(function (orders) {
-                $scope.orders =orders;
-            }).error(function(){
-                alert('取消订单失败');
-            });
+            if(confirm('您确定取消该订单吗？')) {
+                $http({
+                    url: '/orders/cancel_order',
+                    method: "POST",
+                    data: {
+                        id: order_id,
+                        user_id: $rootScope.activeUser._id
+                    }
+                }).success(function (orders) {
+                    $scope.orders = orders;
+                }).error(function () {
+                    alert('取消订单失败');
+                });
+            }
         };
         //修改密码
         $scope.change_password =function(){
@@ -474,6 +483,26 @@
                 return '有效';//有效
             }else{
                 return '无效';//无效
+            }
+        }
+    });
+    //根据不同的时间显示不同的间隔
+    app.filter('translate_number_interval', function() {
+        return function(number) {
+            if(number ==7){
+                return '一周';
+            }else if(number ==14){
+                return '两周';
+            }else if(number ==21){
+                return '三周';
+            }else if(number ==30){
+                return '四周';
+            }else if(number ==60){
+                return '两个月';
+            }else if(number ==75){
+                return '两个半月';
+            }else if(number ==90){
+                return '三个月';
             }
         }
     });

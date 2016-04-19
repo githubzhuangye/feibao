@@ -121,11 +121,13 @@
                     <tr>
                         <td>姓名:</td>
                         <td>工号:</td>
+                        <td>登录密码:</td>
                         <td>帐号类型:</td>
                     </tr>
                     <tr ng-repeat="worker in workers |filter:search">
                         <td>{{worker.name}}</td>
                         <td>{{worker.job_number}}</td>
+                        <td>{{worker.password}}</td>
                         <td><span ng-show="worker.type ==0">领取任务</span></td>
                     </tr>
                 </table>

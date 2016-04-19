@@ -658,6 +658,7 @@
                                 $rootScope.activeUser.balance =user.balance;
                                 //清空数据
                                 $scope.order.wares =[];
+                                $scope.shop_cart.wares =[];
                                 $('#count_shop_cart_modal').modal('hide');
                                 alert('支付成功');
                             }).error(function(){

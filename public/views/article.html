@@ -10,7 +10,7 @@
 </head>
 <body>
 <div class="jumbotron">
-    <h1>环保美文</h1>
+    <h1>废宝——环保美文</h1>
 </div>
 <nav class="navbar navbar-default">
     <div class="container">
@@ -85,7 +85,7 @@
         <div class="col-sm-4 col-md-3  text-center" ng-repeat="article in articles|filter:search">
             <div class="thumbnail">
                 <button type="button" class="btn btn-default" ng-click="show_article_detail(article._id)">
-                    <img class="media-object" src="{{article.photo}}" alt="{{article.name}}" width="150" height="150">
+                    <img class="media-object" src="{{article.photo}}" alt="{{article.name}}" style="width:220px;height:200px;display:block;">
                 </button>
                 <div class="caption text-center">
                     <h4 class="media-heading">{{article.name}}</h4>
@@ -106,7 +106,7 @@
                     <h2>{{article_detail.name}}</h2>
                     <p>{{article_detail.summary}}</p>
                     <time>{{article_detail.date}}</time>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>{{article_detail.author}}</span><br>
-                    <img src="{{article_detail.photo}}" width="250" height="250"><br><br>
+                    <img src="{{article_detail.photo}}" width="350" height="250"><br><br>
                     <textarea id="article_detail_content" class="text-left" title="文章内容" style="width: 800px;"></textarea>
                     <button class="btn btn-default">点赞</button>
                 </div>
